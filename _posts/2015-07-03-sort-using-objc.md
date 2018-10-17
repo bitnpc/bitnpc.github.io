@@ -1,8 +1,12 @@
 ---
 layout: post
 title: "iOS基础--排序"
+subtitle: "排序API"
 date: 2015-07-03
-categories:: iOS
+author: "bitnpc"
+header-img: "img/post-bg-kuaidi.jpg"
+tags:
+    - iOS
 ---
 
 Objective-C 有排序的API，省了我们很多事。
