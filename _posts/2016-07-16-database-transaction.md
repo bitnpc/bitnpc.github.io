@@ -3,6 +3,8 @@ layout: post
 title: "数据库的隔离级别"
 date: 2016-07-16
 categories:: C && iOS
+tags:
+    - 数据库
 ---
 
 |隔离级别                   |脏读（Dirty Read）|不可重复读（NonRepeatable Read）|幻读（Phantom Read）|
