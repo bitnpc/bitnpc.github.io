@@ -41,13 +41,14 @@ public:
 ```
 
 但是这道题要求空间复杂度是 O(1), 那么我们就需要使用位运算来实现。考虑到异或操作的真值表如下: 
+ 
 |   A   |   B   |   A^B   |
 |-------|-------|---------|
 |   0   |   0   |    0    |
 |   0   |   1   |    1    |
 |   1   |   0   |    1    |
 |   1   |   1   |    0    |
-
+ 
 可以看出，相同的数字，异或后为 0。也能达到两两抵消的效果。实现代码如下: 
 ```
 class Solution {
@@ -63,7 +64,8 @@ public:
 ```
 
 ## 变形题 1
-如果数组中重复数字的个数不是 2，而是 3，那么该如何找出那个只出现一次的数呢？[leetcode 第137题](https://leetcode.com/problems/single-number-ii/)。
+如果数组中重复数字的个数不是 2，而是 3，那么该如何找出那个只出现一次的数呢？ 
+[leetcode 第137题](https://leetcode.com/problems/single-number-ii/)。
 
 考虑到如果一个数字出现了 n 次，那么该数字二进制的每一位都出现了 n 次，那么我们可以把所有数字每一个二进制上的 1 的个数相加，并对 3 取余，再把剩下二进制位为 1 的数转换成十进制数即可。如果把 3 次，改成 4、5 次，只需要把代码中 cnt 改成相应的数字即可。代码如下: 
 ```
@@ -108,13 +110,13 @@ public:
 ### 变形题 1 推广
 [寻找单独数字的推广](https://leetcode.com/problems/single-number-ii/discuss/43295/Detailed-explanation-and-generalization-of-the-bitwise-operation-method-for-single-numbers)
  
-Given an array of integers, every element appears k (k > 1) times except for one, which appears p times (p >= 1, p % k != 0). Find that single one.
+Given an array of integers, every element appears k (k > 1) times except for one, which appears p times (p >= 1, p % k != 0). Find that single one. 
 
-数组中，除了一个元素出现了 p 次，其他每个元素都出现了 k 次，求出现 p 次的数。
-
-用 x1, x2, x3...xm 分别表示二进制每一位上出现的次数，初始状态，xm = 0, ..., x1 = 0, 当遇到 1 时，x1 需要变成 1, 则 x1 = x1 | i, 在第二次遇到 i 中的 1 时，x1 需要置 0, 所以 x1 = x1 ^ i，此时 x2需要置 1，则 x2 = x2 ^ (x1 & i), 类似的 xm, xm - 1...
-
-当数字出现次数为 k 次时，二进制位标记的状态的十进制数也是 k，此时，需要把其他标记位清空。我们用mask来表示。如 k = 5 时，也就是二进制的 11. x1 = 1, x2 = 1, mask = ~(x1 & x2), 然后 x1, x2 分别 &mask, 最后返回 x1, 即是只出现一次的数。
+数组中，除了一个元素出现了 p 次，其他每个元素都出现了 k 次，求出现 p 次的数。 
+ 
+用 x1, x2, x3...xm 分别表示二进制每一位上出现的次数，初始状态，xm = 0, ..., x1 = 0, 当遇到 1 时，x1 需要变成 1, 则 x1 = x1 | i, 在第二次遇到 i 中的 1 时，x1 需要置 0, 所以 x1 = x1 ^ i，此时 x2需要置 1，则 x2 = x2 ^ (x1 & i), 类似的 xm, xm - 1... 
+ 
+当数字出现次数为 k 次时，二进制位标记的状态的十进制数也是 k，此时，需要把其他标记位清空。我们用mask来表示。如 k = 5 时，也就是二进制的 11. x1 = 1, x2 = 1, mask = ~(x1 & x2), 然后 x1, x2 分别 &mask, 最后返回 x1, 即是只出现一次的数。 
 
 则本题的代码实现如下: 
 ```
@@ -152,7 +154,7 @@ public:
 ```
 
 ## 变形题 2 
-如果只出现一次的数字有两个，其他数字都出现了两次，该如何找出那两个数字呢？
+如果只出现一次的数字有两个，其他数字都出现了两次，该如何找出那两个数字呢？ 
  
 [Single Number III](https://leetcode.com/problems/single-number-iii/)
 Given an array of numbers nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once.
@@ -190,5 +192,5 @@ public:
 
 参考资料
 - [Detailed explanation and generalization of the bitwise operation method for single numbers](https://leetcode.com/problems/single-number-ii/discuss/43295/Detailed-explanation-and-generalization-of-the-bitwise-operation-method-for-single-numbers)
-- [leetcode-137-Single Number II-第二种解法](https://cloud.tencent.com/developer/article/)1131945
+- [leetcode-137-Single Number II-第二种解法](https://cloud.tencent.com/developer/article/1131945)
 - [Accepted C++/Java O(n)-time O(1)-space Easy Solution with Detail Explanations](https://leetcode.com/problems/single-number-iii/discuss/68900/Accepted-C%2B%2BJava-O(n)-time-O(1)-space-Easy-Solution-with-Detail-Explanations)
