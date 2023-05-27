@@ -26,7 +26,7 @@ description: >- # used by seo meta and the atom feed
   非典型程序员，热爱技术、音乐和美食
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: ""
+url: "https://bitnpc.github.io"
 
 github:
   username: bitnpc # change to your github username
