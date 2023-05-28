@@ -10,15 +10,15 @@ tags:
 
 # Xcode
 iOS/macOS App 开发必备，最新版本可从 [App Store](https://apps.apple.com/cn/app/xcode/id497799835?mt=12) 下载，历史版本在 [开发者中心](https://developer.apple.com/download/applications/) 下载
+> 如果不是开发 iOS/macOS App 就没有必要安装 Xcode，但需要安装 Xcode 命令行工具，因为很多环境和软件都会使用到和依赖它
+{: .prompt-tip }
 ## 使用
 ```bash
 // 打出当前系统使用的默认 Xcode
 xcode-select --print-path
 // Xcode 多版本切换
 sudo xcode-select -switch /Applications/Xcode8.3/Xcode.app/Contents/Developer
-```
-如果不是开发 iOS/macOS App 就没有必要安装 Xcode，但需要安装 Xcode 命令行工具，因为很多环境和软件都会使用到和依赖它
-```bash
+// 仅安装 Xcode 命令行工具
 xcode-select --install
 ```
 
