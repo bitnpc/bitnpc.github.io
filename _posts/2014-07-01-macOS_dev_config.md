@@ -8,11 +8,11 @@ tags:
     - macOS
 ---
 
-# Xcode
+## Xcode
 iOS/macOS App 开发必备，最新版本可从 [App Store](https://apps.apple.com/cn/app/xcode/id497799835?mt=12) 下载，历史版本在 [开发者中心](https://developer.apple.com/download/applications/) 下载
 > 如果不是开发 iOS/macOS App 就没有必要安装 Xcode，但需要安装 Xcode 命令行工具，因为很多环境和软件都会使用到和依赖它
 {: .prompt-tip }
-## 使用
+### 使用
 ```bash
 // 打出当前系统使用的默认 Xcode
 xcode-select --print-path
@@ -22,10 +22,10 @@ sudo xcode-select -switch /Applications/Xcode8.3/Xcode.app/Contents/Developer
 xcode-select --install
 ```
 
-# Homebrew
+## Homebrew
 [Homebrew](https://brew.sh/) 是一款 macOS 平台下的软件包管理工具，拥有安装、卸载、更新、查看、搜索等很多实用的功能。简单的一条指令，就可以实现包管理，而不用你关心各种依赖和文件路径的情况，十分方便快捷。  
 
-## 安装与卸载
+### 安装与卸载
 ```bash
 // 安装
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -35,7 +35,7 @@ xcode-select --install
 - /bin/bash: 使用 bash 环境运行
 - curl -fsSL: 使用 curl 命令下载
 
-## 基本使用
+### 基本使用
 ```bash
 brew install <packageName>      #安装任意包
 brew uninstall <packageName>    #卸载任意包
@@ -45,7 +45,7 @@ brew upgrade <packageName>      #更新指定包
 brew upgrade                    #更新所有包
 ```
 
-### 系统权限问题
+#### 系统权限问题
 在 Mac OS X 10.11 系统之后，/usr/local/ 等系统目录下的文件读写是需要系统 root 权限的，以往的 Homebrew 安装如果没有指定安装路径，会默认安装在这些需要系统 root 用户读写权限的目录下，导致有些指令需要添加 sudo 前缀来执行，比如升级 Homebrew 需要：
 ```bash
 sudo brew update
@@ -70,13 +70,13 @@ sudo chown -R $USER /usr/local
 - [Homebrew Cask 源使用帮助](http://mirrors.ustc.edu.cn/help/homebrew-cask.git.html)
 - [Homebrew Core 源使用帮助](http://mirrors.ustc.edu.cn/help/homebrew-core.git.html)
 
-# 终端工具
+## 终端工具
 macOS 自带的终端，用起来虽然有些不太方便，界面也不够友好。iTerm2 是一款相对比较好用的终端工具。
 iTerm2 常用操作包括主题选择、声明高亮、自动填充建议、隐藏用户名和主机名、分屏效果等.
 ```bash
 brew cask install iterm2
 ```
-## 配置 Oh My Zsh
+### 配置 Oh My Zsh
 Oh My Zsh 是对主题的进一步扩展
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -91,9 +91,9 @@ vim ~/.zshrc
 ```
 
 
-# RVM
+## RVM
 [RVM](https://rvm.io/) 是一个便捷的多版本 ruby 环境的管理和切换工具。
-## 安装
+### 安装
 安装目录位于 ~/.rvm
 ```bash
 curl -sSL https://get.rvm.io | bash -s stable
@@ -107,7 +107,7 @@ source ~/.bash_profile
 echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db
 ```
 
-## 使用
+### 使用
 查看版本
 ```bash
 rvm list known              #查看可安装的版本
@@ -137,13 +137,13 @@ rvm use 3.0.0 --default     #使用3.0.0版本，并设置该版本为默认版�
 rvm remove 3.0.0            #卸载一个已安装版本
 ```
 
-## 更新RVM
+### 更新RVM
 ```bash
 rvm get stable
 ```
 
-# Git
-## 安装
+## Git
+### 安装
 macOS 自带 Git，其版本取决于 macOS 版本
 
 ### 配置
