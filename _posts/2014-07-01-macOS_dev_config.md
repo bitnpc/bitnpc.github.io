@@ -2,7 +2,7 @@
 layout: post
 title: "macOS开发环境配置"
 date: 2014-07-01
-categories:: macOS
+categories: [技术, macOS]
 tags:
     - 环境配置
     - macOS

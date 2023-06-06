@@ -2,7 +2,7 @@
 layout: post
 title: "iOS中的Crash探究"
 date: 2018-11-28
-categories:: iOS
+categories: [技术, iOS]
 tags: 
     - Crash
     - iOS
