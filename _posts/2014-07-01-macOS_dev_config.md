@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "macOS开发环境配置"
+title: "macOS 开发环境配置"
 date: 2014-07-01
 categories: [技术, macOS]
 tags:
@@ -46,18 +46,18 @@ brew upgrade                    #更新所有包
 ```
 
 #### 系统权限问题
-在 Mac OS X 10.11 系统之后，/usr/local/ 等系统目录下的文件读写是需要系统 root 权限的，以往的 Homebrew 安装如果没有指定安装路径，会默认安装在这些需要系统 root 用户读写权限的目录下，导致有些指令需要添加 sudo 前缀来执行，比如升级 Homebrew 需要：
+在 Mac OS X 10.11 系统之后，`/usr/local/` 等系统目录下的文件读写是需要系统 `root` 权限的，以往的 Homebrew 安装如果没有指定安装路径，会默认安装在这些需要系统 `root` 用户读写权限的目录下，导致有些指令需要添加 `sudo` 前缀来执行，比如升级 Homebrew 需要：
 ```bash
 sudo brew update
 ```
 
-如果你不想每次都使用 sudo 指令，你有两种方法可以选择:
-* 对/usr/local 目录下的文件读写进行root用户授权
+如果你不想每次都使用 `sudo` 指令，你有两种方法可以选择:
+* 对 `/usr/local` 目录下的文件读写进行 `root` 用户授权
 ```bash
 sudo chown -R $USER /usr/local
 ```
 
-* （推荐）安装Homebrew时对安装路径进行指定，直接安装在不需要系统root用户授权就可以自由读写的目录下
+* （推荐）安装 Homebrew 时对安装路径进行指定，直接安装在不需要系统 `root` 用户授权就可以自由读写的目录下
 
 ```bash
 <install path> -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -102,7 +102,7 @@ source ~/.bash_profile
 ```
 
 修改RVM源
-为了提高安装速度，修改 RVM，改用ruby-china镜像源。
+为了提高安装速度，修改 RVM，改用 ruby-china 镜像源。
 ```bash
 echo "ruby_url=https://cache.ruby-china.org/pub/ruby" > ~/.rvm/user/db
 ```
@@ -115,7 +115,7 @@ rvm install ruby-2.7.2      #安装ruby 2.7.2版本
 rvm list                    #查询已经安装的ruby版本
 ```
 
-创建 gemset，当前使用的 gems 环境可以在 ~/.rvm/gems 路径中查看
+创建 `gemset`，当前使用的 gems 环境可以在 ~/.rvm/gems 路径中查看
 ```bash
 rvm gemset create tony
 rvm use 2.7.0@tony --default
@@ -167,7 +167,7 @@ ssh-keygen -t rsa -C "your_email@example.com"
 
 注：如有配置多个 ssh-key 的需求，需要在 ~/.ssh 添加 config 文件。如下图所示，GitHub 和 内网 Gitlab 使用了不同的 ssh-key。
 config 文件的格式如下
-```
+```bash
 Host github.com
 HostName github.com
 IdentityFile ~/.ssh/github
