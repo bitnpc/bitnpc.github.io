@@ -18,7 +18,7 @@ App 的 Crash 率是衡量该App质量的标准之一。美团 App 的 Crash 率
 
 Crash 本质是一种异常控制。   
 
-现代操作系统需要有一整套完善的处理流程来解决异常。这种流程叫做 Exception Control Flow（ECF）。异常控制可以发生在硬件层，软件层和应用层。  
+现代操作系统需要有一整套完善的处理流程来解决异常。这种流程叫做 `Exception Control Flow（ECF）`。异常控制可以发生在硬件层，软件层和应用层。  
 在硬件层，硬件检测到的事件，会触发控制突然转移到异常处理程序。  
 在操作系统层，内核通过上下文转换将控制从一个用户进程转移到另一个用户进程。  
 在应用层，一个进程可以发送信号到另一个进程。如在终端执行 kill 命令，杀死其他进程。  
@@ -49,9 +49,9 @@ Crash 本质是一种异常控制。
 ## 应用层的异常控制
 
 不同的应用软件，有不同的异常控制。Java 的 JVM 和 iOS 的 runtime 是两套运行时环境，他们的异常控制机制有所不同。  
-在Java中，所有的异常都有一个共同的祖先 Throwable。Throwable 有两个子类，Error 和 Exception。
-- Error，是程序无法处理的错误，意味着代码运行时JVM出现了问题。如 Virtual Machine Error，和 Out Of Memory Error。
-- Exception，是程序本身可以处理的异常。如 Null Pointer Exception、Arithmetic Exception。
+在Java中，所有的异常都有一个共同的祖先 `Throwable`。`Throwable` 有两个子类，`Error` 和 `Exception`。
+- Error，是程序无法处理的错误，意味着代码运行时JVM出现了问题。如 `Virtual Machine Error`，和 `Out Of Memory Error`。
+- Exception，是程序本身可以处理的异常。如 `Null Pointer Exception`、`Arithmetic Exception`。
 安卓 App 的大部分 Crash 会在 JVM 这一层检测并得到处理。
 
 iOS App 的运行基于 runtime 环境。它也提供了一些异常控制，防止异常传递到操作系统层。如 `Unrecognized selector sent to instance` 就属于 runtime 的保护措施。  
@@ -67,12 +67,12 @@ App 发生 Crash 的原因可能有很多种。
 除0计算。  
 
 - 无效的指令。
-如基于x86_64架构的CPU（CISC指令集），无法运行在基于ARM架构的CPU（RISC指令集）。也可能是其他无效指令，如把数据当成指令的情况。  
+如基于 x86_64 架构的 CPU（CISC指令集），无法运行在基于 ARM 架构的 CPU（RISC 指令集）。也可能是其他无效指令，如把数据当成指令的情况。  
 
 - 无效的内存地址。应用程序在内存中的内存布局如下图所示。  
 ![Desktop View](/assets/img/post/post-2018-11-30/memory_layout.png){: width="972" height="589" .w-50 .normal}
 
-由低地址到高地址依次为：  代码段（.text）  已初始化的数据（.data）  未初始化的数据（.bss）  堆（heap）  栈（stack）  
+由低地址到高地址依次为：  代码段`（.text）`  已初始化的数据`（.data）`  未初始化的数据`（.bss）`  堆`（heap）`  栈`（stack）`  
 当进程在执行时，会在栈中创建保存指针的变量 pointer，pointer 指向堆中对象的内存地址。如果堆中对象的内存地址被释放，但是 pointer 未置空，那么随着进程不断执行，后续会向这块堆中的内存写数据，如果继续访问该 pointer，则很可能会导致 Crash。这种 pointer 被称为野指针。通常情况下，多线程操作是导致这种情况出现的主要因素。  
 
 ## 操作系统出于某种因素
@@ -84,7 +84,7 @@ App 发生 Crash 的原因可能有很多种。
 可能是由于 CPU 负载太高。操作系统会优先 kill 掉 CPU 占有率过高的 App.
 
 - 内存不足   
-App 在运行期间可能会收到 memoryWarning。在这个方法里面应该做一些释放内存的操作。  
+App 在运行期间可能会收到 `memoryWarning`。在这个方法里面应该做一些释放内存的操作。  
 
 - 签名无效  
 比如企业证书到期，App 启动时就会直接退出。   
@@ -121,7 +121,7 @@ int main () {
 当 App 发生 Crash 时，是有一定的传递流程的。这里以 iOS App 的 Crash 为例。   
 在操作系统层其传递顺序为 Mach 内核->Unix。在应用层，则会产生一个 NSException。  
 所以捕获的时候，就可以分别在对应的层次捕获堆栈信息。   
-苹果为了统一机制，操作系统和用户操作都会产生 Mach 异常。所以所有 Crash 都有对应 Mach 异常的 exception_type。  
+苹果为了统一机制，操作系统和用户操作都会产生 Mach 异常。所以所有 Crash 都有对应 Mach 异常的 `exception_type`。  
 最后，把捕获到的 CrashLog 符号化，转化为可读的堆栈信息。  
 
 ## Mach异常 
@@ -152,22 +152,22 @@ mach_port_move_member(mach_task_self(), _serverContext->notify_port, _serverCont
 pthread_create(&thr, &attr, &exception_server_thread, _serverContext)
 ```
 
-Mach 异常即使注册了对应的处理，也不会影响原先的传递流程。Mach 异常会继续传递到 Unix 层，转变为 Unix Signal。但是如果 Mach 异常让进程退出，则对应的 Unix 信号则不会产生。  
+Mach 异常即使注册了对应的处理，也不会影响原先的传递流程。Mach 异常会继续传递到 Unix 层，转变为 `Unix Signal`。但是如果 Mach 异常让进程退出，则对应的 Unix 信号则不会产生。  
 
-一个 Mach 异常对应一个或多个 Unix Signal。  
+一个 Mach 异常对应一个或多个 `Unix Signal`。  
 
 ### 常见的exception_types
 
 |   Exception类型    |       描述       |           说明            |
 |-------------------|-----------------|---------------------------|
 |  EXC_BAD_ACCESS   |Bad Memory Access|错误内存地址，访问的地址不存在或者当前进程没有权限都会报这个错|
-|     EXC_CRASH     |  Abnormal Exit  |通常跟随的UNIX Signal是SIGABRT，当前进程被系统检测到有异常行为而杀死|
+|     EXC_CRASH     |  Abnormal Exit  |通常跟随的 `UNIX Signal` 是 `SIGABRT`，当前进程被系统检测到有异常行为而杀死|
 |EXC_BAD_INSTRUCTION|Illegal Instruction|非法或未定义的指令或操作数|
 
 ## Unix Signal
-Unix Signal 是 Unix 系统的一种异步通知机制。Mach 异常在 host 层被 ux_exception 转换为相应的 Unix Signal，并通过 threadsignal 将信号投递到出错的线程。如 SIGABRT，SIGSEGV。
+Unix Signal 是 Unix 系统的一种异步通知机制。Mach 异常在 host 层被 `ux_exception` 转换为相应的 `Unix Signal`，并通过 `threadsignal` 将信号投递到出错的线程。如 `SIGABRT`，`SIGSEGV`。
 
-在 Unix 层则可以注册 Signal 处理回调。如下代码是把接受到的 SIGBUS 统一用 signalHander 来处理。
+在 Unix 层则可以注册 Signal 处理回调。如下代码是把接受到的 `SIGBUS` 统一用 `signalHander` 来处理。
 
 ```c
 void signalHander(int sig){
@@ -183,7 +183,7 @@ int main () {
 ```
 
 ### 常见的Unix信号 
-下表列出了常见的 Unix Signal。在 macOS 系统中，可以输入 `man signal` 查看所有的 Signal 列表。在[这里](https://github.com/torvalds/linux/blob/master/include/linux/signal.h)也可以看到。    
+下表列出了常见的 `Unix Signal`。在 macOS 系统中，可以输入 `man signal` 查看所有的 Signal 列表。在[这里](https://github.com/torvalds/linux/blob/master/include/linux/signal.h)也可以看到。    
 
 |  Unix Signal  |                  说明                   |
 |---------------|----------------------------------------|
@@ -195,8 +195,8 @@ int main () {
 
 ## NSException
 
-发生在 iOS 系统库。如 CoreFoundation，Runtime 等等。可以通过 `NSSetUncaughtExceptionHandler` 来注册 NSException 的捕获函数。  
-如下代码，会在 exceptionHandler 函数中获取 exception 的一些信息。
+发生在 iOS 系统库。如 `CoreFoundation`，`Runtime` 等等。可以通过 `NSSetUncaughtExceptionHandler` 来注册 `NSException` 的捕获函数。  
+如下代码，会在 `exceptionHandler` 函数中获取 exception 的一些信息。
 
 ```objc
 void exceptionHandler(NSException *exception)
@@ -220,10 +220,10 @@ Crash 捕获后获得的数据都是对应的虚拟内存地址。我们需要�
 符号化的本质是在一个映射文件中，找到内存地址对应的函数的方法名。    
 主要有以下三种符号化方法。 
 - 使用 Xcode 来符号化 
-- Symbolicatecrash
-- mac 下的 atos 工具和 Linux 平台的替代品 atosl
+- `Symbolicatecrash`
+- macOS 下的 `atos` 工具和 Linux 平台的替代品 `atosl`
 
-项目代码的符号文件在 dSYM 中。系统库的符号文件，可以从 iOS 固件中获取，也可以从 Github 上开源项目中找到对应系统的符号文件。  
+项目代码的符号文件在 `dSYM` 中。系统库的符号文件，可以从 iOS 固件中获取，也可以从 Github 上开源项目中找到对应系统的符号文件。  
 
 
 # Crash排查思路
@@ -236,11 +236,11 @@ Crash 捕获后获得的数据都是对应的虚拟内存地址。我们需要�
     使用搜索引擎。查询是否有人遇到过类似的问题，Stackoverflow 可能会帮到你。
 
 - 尝试复现   
-    通过上面搜集到的线索，可以大概确定 Crash 发生的范围，从而帮助我们复现问题。有些野指针问题，在本地难以复现。可尝试后使用一些工具，提高野指针的崩溃率。比如 Xcode 的 Diagnostics 中提供的 Malloc Scribble，Zombie Object 等工具。  
+    通过上面搜集到的线索，可以大概确定 Crash 发生的范围，从而帮助我们复现问题。有些野指针问题，在本地难以复现。可尝试后使用一些工具，提高野指针的崩溃率。比如 Xcode 的 `Diagnostics` 中提供的 `Malloc Scribble`，`Zombie Object` 等工具。  
 
 ### Malloc Scribble
 
-原理是通过在已释放对象中填充 0x55，使得野指针调用必然崩溃。仅本地 debug 时有效，如果想在内测包中实现此功能，需要 hook 系统库中的 free 函数。以如下代码为例（为便于说明，已关闭 ARC ）:
+原理是通过在已释放对象中填充 `0x55`，使得野指针调用必然崩溃。仅本地 `debug` 时有效，如果想在内测包中实现此功能，需要 hook 系统库中的 `free` 函数。以如下代码为例（为便于说明，已关闭 ARC ）:
 
 ```objc
 UIView *view = [UIView new];
@@ -248,14 +248,14 @@ UIView *view = [UIView new];
 [view setNeedsLayout];
 ```
 
-很显然，此时 view 指向的对象已释放，但是 view 指针未置为 nil。所以我们在向一个已释放的对象发送了消息。但是，编译运行后，发现并不会Crash。  
+很显然，此时 view 指向的对象已释放，但是 view 指针未置为 `nil`。所以我们在向一个已释放的对象发送了消息。但是，编译运行后，发现并不会 Crash。  
 
-打开 Malloc Scribble 后，可以从调试面板很清晰的看到，在第三行发生了 Crash。  
+打开 `Malloc Scribble` 后，可以从调试面板很清晰的看到，在第三行发生了 Crash。  
 
 ### Zombie Object
 
 把已释放的对象标记为僵尸对象，Xcode 的实现方式是使用 runtime 方法 `object_setClass`，覆写被释放的 view 的 isa 为 `_NSZombie_UIView`。
-除了上述 Memory Management 的工具，Xcode 还提供了 Runtime Sanitization 的工具（实际上是 LLVM 编译器提供的功能）。如可以监测竞态访问的 Thread Sanitizer，可以帮助开发者发现潜在的问题。
+除了上述 `Memory Management` 的工具，Xcode 还提供了 `Runtime Sanitization` 的工具（实际上是 LLVM 编译器提供的功能）。如可以监测竞态访问的 `Thread Sanitizer`，可以帮助开发者发现潜在的问题。
 
 ## 案例分析
 
@@ -335,7 +335,7 @@ for (int i = 0; i < 5; i++) {
 ```
 
 `objc_allocateClassPair` 时，返回的 class 为 nil。接着，用 `objc_registerClassPair` 注册新类时，由于传入的参数为 nil，导致了 crash。  
-再查看 objc-runtime 源码（objc4-723版本），可以看出，如果 `getClass(name)` 返回的类不为空，则直接返回 nil，不分配新的内存空间。
+再查看 `objc-runtime` 源码（objc4-723版本），可以看出，如果 `getClass(name)` 返回的类不为空，则直接返回 nil，不分配新的内存空间。
 
 ```objc
 /***********************************************************************

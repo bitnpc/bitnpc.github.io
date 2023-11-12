@@ -6,11 +6,11 @@ categories: [技术, 数据结构与算法]
 tags: [leetcode, 数据结构与算法, 二分搜索]
 ---
 ## 二分搜索简介
-在计算机科学中，二分搜索（binary search）也称折半搜索（half-interval search）、对数搜索（logarithmic search），是在有序数组中查找某一特定元素的搜索算法。 
+在计算机科学中，二分搜索（`binary search`）也称折半搜索（`half-interval search`）、对数搜索（`logarithmic search`），是在有序数组中查找某一特定元素的搜索算法。 
 
 其基本思想是通过逐次比较数组特定范围的中间元素与目标元素的大小，每次缩小一半的搜索范围，来提高搜索效率。 
 
-二分搜索的时间复杂度是 O(log n)，空间复杂度为 O(1)。 
+二分搜索的时间复杂度是 `O(log n)`，空间复杂度为 `O(1)`。 
 
 [这里](https://leetcode.com/tag/binary-search/)是 leetcode 中和二分搜索有关的习题。
 leetcode 上有个二分查找的[专题练习卡片](https://leetcode.com/explore/learn/card/binary-search)
@@ -84,7 +84,7 @@ int upper_bound(vector<int>& nums, int target) {
 ## 旋转数组问题
 旋转数组：顾名思义，一个有序的数组，从某个位置分成两部分，然后把这两部分颠倒顺序后形成的新数组。
 
-(i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+`(i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).`
 
 ### 旋转数组的搜索
 假设没有重复元素，使用二分搜索，难点在于左右边界的限定。注意小于等于号的位置。
@@ -119,7 +119,7 @@ int search(vector<int>& nums. int target) {
 ```
 如果有重复元素的话，该如何修改呢？
 [leetcode 第 81 题](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/)
-上一题如果 `nums[start] <= nums[mid]`, 那么 `[start, mid]` 为递增序列的假设不成立，比如 [1, 3, 1, 1, 1]。
+上一题如果 `nums[start] <= nums[mid]`, 那么 `[start, mid]` 为递增序列的假设不成立，比如 `[1, 3, 1, 1, 1]`。
 如果 `nums[start] <= nums[mid]` 不能确定递增，那么就把它拆分为两个条件：
 1. 如果 `nums[start] < nums[mid]`，那么区间 `[start, mid]` 必然递增
 2. 如果 `nums[start] == nums[mid]`，那么 `start++`，往下看一步即可
@@ -155,7 +155,7 @@ int search(vector<int>& nums. int target) {
 ```
 假设没有重复元素，搜索最小值、最大值。
 [leetcode 第 153 题](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
-以下是搜索最小值的算法，搜索最大值同理，只需要改下返回值和 start, end 的赋值逻辑。
+以下是搜索最小值的算法，搜索最大值同理，只需要改下返回值和 `start`, `end` 的赋值逻辑。
 ```cpp
 int findMin(vector<int>& nums) {
     if (nums.size() == 0) return -1;
@@ -203,7 +203,7 @@ int findMin(vector<int>& nums) {
 查找两个有序数组的中位数。
 [leetcode 第 4 题](https://leetcode.com/problems/median-of-two-sorted-arrays/)
 这道题很难，不仅思路很难理清楚，corner case 也需要考虑。 
-当然，可以选择把两个数组合并成一个，然后使用二分查找。时间复杂度是 O(m + n), 空间复杂度是 O(m + n)，但这显然不是最优解。
+当然，可以选择把两个数组合并成一个，然后使用二分查找。时间复杂度是 `O(m + n)`, 空间复杂度是 `O(m + n)`，但这显然不是最优解。
 解法见[这里](https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/2471/very-concise-ologminmn-iterative-solution-with-detailed-explanation)
 
 
@@ -243,7 +243,7 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
     return false;
 }
 ```
-一次二分搜索。一维数组中的 i 对应二维数组中的行号是 i / n, 列号是 i % n。
+一次二分搜索。一维数组中的 `i` 对应二维数组中的行号是 `i / n`, 列号是 `i % n`。
 ```cpp
 bool searchMatrix(vector<vector<int>>& matrix, int target) {
     if (matrix.empty() || matrix[0].empty()) return false;
@@ -267,7 +267,7 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
 ```
 
 ## 树的搜索
-最常见的就是 BST 了。BST 按照中序遍历即是一个有序数组。
+最常见的就是 `BST` 了。`BST` 按照中序遍历即是一个有序数组。
 [leetcode 第 230 题](https://leetcode.com/problems/kth-smallest-element-in-a-bst/)
 由于遍历二叉树有递归和迭代两种方法，所以这道题也有对应的两种解法。
 ```cpp
@@ -312,7 +312,7 @@ int kthSmallest(TreeNode* root, int k) {
 完全二叉树插入新节点问题。（ Google 校招面试题 ）
 [leetcode 第 919 题](https://leetcode.com/problems/complete-binary-tree-inserter/submissions/)
 给出一个完全二叉树，要求插入一个新节点后仍然为完全二叉树。
-可以用 bfs, 当遇到第一个没有左儿子或右儿子的节点时，插入到对应的位置。时间复杂度 O(n)，空间复杂度 O(n)。
+可以用 `BFS`, 当遇到第一个没有左儿子或右儿子的节点时，插入到对应的位置。时间复杂度 `O(n)`，空间复杂度 `O(n)`。
 ```cpp
 void insert(TreeNode *root, TreeNode *newNode) {
     if (!root) return;
@@ -339,7 +339,7 @@ void insert(TreeNode *root, TreeNode *newNode) {
 }
 ``` 
 
-也可以用二分搜索，每次判断当前节点的左右儿子的最大深度，记为 dl, dr, 如果 dl > dr, 则向左子树再次执行该操作，否则向右子树再次执行该操作。直到找到没有左儿子或者右儿子的节点。
+也可以用二分搜索，每次判断当前节点的左右儿子的最大深度，记为 `dl`, `dr`, 如果 `dl > dr`, 则向左子树再次执行该操作，否则向右子树再次执行该操作。直到找到没有左儿子或者右儿子的节点。
 ```cpp
 int depth(TreeNode *node) {
     int d = 0;
@@ -374,7 +374,7 @@ void insert(TreeNode *root, TreeNode *node) {
     }
 }
 ```
-还有另一种思路，可以借助当前树的总节点个数来实现 O(log n) 复杂度的插入。
+还有另一种思路，可以借助当前树的总节点个数来实现 `O(log n)` 复杂度的插入。
 详情见[这里](https://leetcode.com/problems/complete-binary-tree-inserter/discuss/186830/Java-O(1)-space-O(n)-init-O(logN)-insert)
 
 ## 其他数学问题
@@ -401,7 +401,7 @@ int mySqrt(int x) {
 ```
 下面来看一道 Google 面试题。
 [分蛋糕问题](https://leetcode.com/discuss/interview-question/348510/Google-or-Online-Assessment-or-Maximum-Area-Serving-Cake)
-大致意思是，n 个人平分 m 个蛋糕，问每个人分得的最大面积是多少（一个蛋糕可以分给多个人，多个蛋糕不能分给同一个人）
+大致意思是，`n` 个人平分 `m` 个蛋糕，问每个人分得的最大面积是多少（一个蛋糕可以分给多个人，多个蛋糕不能分给同一个人）
 二分法求满足人数的最大面积。
 
 ```cpp
