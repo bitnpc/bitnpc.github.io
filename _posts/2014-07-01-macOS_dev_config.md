@@ -32,8 +32,8 @@ xcode-select --install
 // 卸载
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 ```
-- /bin/bash: 使用 bash 环境运行
-- curl -fsSL: 使用 curl 命令下载
+- `/bin/bash`: 使用 bash 环境运行
+- `curl -fsSL`: 使用 curl 命令下载
 
 ### 基本使用
 ```bash
@@ -180,3 +180,4 @@ IdentityFile ~/.ssh/gitlab
 PreferredAuthentications publickey
 User tony
 ```
+{: file="~/.ssh/config" }
