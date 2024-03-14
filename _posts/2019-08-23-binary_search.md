@@ -3,7 +3,10 @@ layout: post
 title: "二分搜索及其应用"
 date: 2019-08-23
 categories: [技术, 数据结构与算法]
-tags: [leetcode, 数据结构与算法, 二分搜索]
+tags: 
+    - leetcode
+    - 数据结构与算法
+    - 二分搜索
 ---
 ## 二分搜索简介
 在计算机科学中，二分搜索（`binary search`）也称折半搜索（`half-interval search`）、对数搜索（`logarithmic search`），是在有序数组中查找某一特定元素的搜索算法。 
