@@ -80,7 +80,7 @@ Starting server
 
 To see the GUI go to: http://127.0.0.1:8188
 ```
-![ComfyUI](/assets/img/post/post-2024-03-13/ComfyUI.png){: width="972" height="589" .w-100 .normal}
+![ComfyUI](/assets/img/post/post-2024-03-13/comfyUI.png){: width="972" height="589" .w-100 .normal}
 
 
 参考资料
