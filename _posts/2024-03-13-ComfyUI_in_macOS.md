@@ -82,7 +82,7 @@ To see the GUI go to: http://127.0.0.1:8188
 ```
 ![ComfyUI](/assets/img/post/post-2024-03-13/comfyUI.png){: width="972" height="589" .w-100 .normal}
 
-> macOS Sonoma 14.4 (23E214) 的 GPU 加速会失效，导致生成纯色图像。可以通过增加参数 -cpu 解决，缺点是生成图片会变慢。
+> macOS Ventura 可以正常生成图片。macOS Sonoma 14.4 (23E214) 的 GPU 加速会失效，导致生成纯色图像。可以通过增加参数 -cpu 解决，缺点是生成图片会变慢。
 {: .prompt-warning }
 
 
