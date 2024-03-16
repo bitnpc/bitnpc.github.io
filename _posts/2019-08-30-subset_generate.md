@@ -2,7 +2,7 @@
 layout: post
 title: "子集生成"
 date: 2019-08-30
-categories:: 编程
+categories: [技术, 数据结构与算法]
 tags:
     - leetcode
     - 算法
