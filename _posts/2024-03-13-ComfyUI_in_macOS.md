@@ -20,9 +20,9 @@ tags:
 我们可以使用 `ComfyUI` 来方便的生成图片。
 
 本机环境:
-- M1 Pro MacBook
-- 16G RAM
-- 256G ROM
+- 16 inch MacBook Pro(Apple Silicon M1 Pro )
+- 16GB unified memory
+- 512GB SSD
 - macOS Sonama 14.4 (23E214)
 
 # python 环境
