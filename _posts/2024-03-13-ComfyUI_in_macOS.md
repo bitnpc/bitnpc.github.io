@@ -17,7 +17,7 @@ tags:
 6. 模型支持：可以加载 `ckpt`、`safetensors` 和 `diffusers` 模型/检查点，以及独立的 `VAE` 和 `CLIP` 模型。
 7. 工作流保存/加载：您可以将工作流保存为 JSON 文件，并从生成的 PNG 文件中加载完整的工作流（包括种子）。
 
-我们可以使用 `ComfyUI`
+我们可以使用 `ComfyUI` 来方便的生成图片。
 
 本机环境:
 - M1 Pro MacBook
@@ -82,8 +82,12 @@ To see the GUI go to: http://127.0.0.1:8188
 ```
 ![ComfyUI](/assets/img/post/post-2024-03-13/comfyUI.png){: width="972" height="589" .w-100 .normal}
 
+> macOS Sonoma 14.4 (23E214) 的 GPU 加速会失效，导致生成纯色图像。可以通过增加参数 -cpu 解决，缺点是生成图片会变慢。
+{: .prompt-warning }
+
 
 参考资料
 1. [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI.git)
 2. [Accelerated PyTorch training on Mac](https://developer.apple.com/metal/pytorch/)
 3. [ImportError: urllib3 v2.0 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with LibreSSL 2.8.3](https://stackoverflow.com/questions/76187256/importerror-urllib3-v2-0-only-supports-openssl-1-1-1-currently-the-ssl-modu)
+4. [ComfyUI outputs Rothko-esque solid color images](https://github.com/comfyanonymous/ComfyUI/issues/2992)
