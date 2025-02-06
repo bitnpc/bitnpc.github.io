@@ -25,7 +25,7 @@ tags:
 - 512GB SSD
 - macOS Sonama 14.4 (23E214)
 
-# python 环境
+## python 环境
 macOS 自带 python3，为了避免执行命令时手动替换，需要处理一下。
 ```bash
 $ vim ~/.zshrc
@@ -36,12 +36,12 @@ alias pip='pip3'
 $ source ~/.zshrc
 ```
 
-# torch 工具
+## torch 工具
 ```bash
 $ pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu
 ```
 
-# 代码仓库和模型
+## 代码仓库和模型
 代码仓库地址：[https://github.com/comfyanonymous/ComfyUI.git](https://github.com/comfyanonymous/ComfyUI.git)
 
 把模型放在 **models/checkpoints** 目录
@@ -67,7 +67,7 @@ LibreSSL 3.3.6
 $ pip install urllib3==1.26.6
 ```
 
-# 运行
+## 运行
 ```bash
 $ python main.py --force-fp16
 Total VRAM 16384 MB, total RAM 16384 MB
