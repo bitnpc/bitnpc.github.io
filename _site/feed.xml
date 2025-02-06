@@ -1,0 +1,227 @@
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://bitnpc.github.io/</id>
+  <title>Tony</title>
+  <subtitle>非典型程序员，热爱技术、音乐和美食</subtitle>
+  <updated>2025-02-07T00:07:10+08:00</updated>
+  <author>
+    <name>Tony</name>
+    <uri>https://bitnpc.github.io/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="https://bitnpc.github.io/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en"
+    href="https://bitnpc.github.io/"/>
+  <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
+  <rights> © 2025 Tony </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>色域显示</title>
+    <link href="https://bitnpc.github.io/posts/%E8%89%B2%E5%9F%9F/" rel="alternate" type="text/html" title="色域显示" />
+    <published>2024-10-13T00:00:00+08:00</published>
+  
+    <updated>2024-10-13T00:00:00+08:00</updated>
+  
+    <id>https://bitnpc.github.io/posts/%E8%89%B2%E5%9F%9F/</id>
+    <content src="https://bitnpc.github.io/posts/%E8%89%B2%E5%9F%9F/" />
+    <author>
+      <name>Tony</name>
+    </author>
+
+  
+    
+    <category term="技术" />
+    
+    <category term="音视频" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>使用 Ollama 本地部署 Deepseek 并集成到 VSCode 中</title>
+    <link href="https://bitnpc.github.io/posts/deepseek_deploy/" rel="alternate" type="text/html" title="使用 Ollama 本地部署 Deepseek 并集成到 VSCode 中" />
+    <published>2024-09-06T00:00:00+08:00</published>
+  
+    <updated>2024-09-06T00:00:00+08:00</updated>
+  
+    <id>https://bitnpc.github.io/posts/deepseek_deploy/</id>
+    <content src="https://bitnpc.github.io/posts/deepseek_deploy/" />
+    <author>
+      <name>Tony</name>
+    </author>
+
+  
+    
+    <category term="技术" />
+    
+    <category term="大模型" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      什么是 Ollama 和 DeepSeek？
+Ollama
+Ollama 是一个用于本地部署和管理 AI 模型的工具。它允许开发者在本地环境中运行各种 AI 模型，而无需依赖云端服务。Ollama 提供了简单的命令行接口，使得模型的部署和管理变得非常容易。
+
+DeepSeek
+DeepSeek 是一个基于 AI 的代码补全工具，它能够根据上下文提供智能的代码建议。DeepSeek 支持多种编程语言，并且可以通过 API 集成到各种开发环境中，如 VSCode、IntelliJ IDEA 等。
+
+在 macOS 上使用 Ollama 部署 DeepSeek
+首先，我们需要在 macOS 上安装 Ollama。Ollama 可以通过 Homebrew 进行安装。
+
+brew install ollama
+
+
+下载 Deepseek 模型
+访问 ollama 的 deepseek libr...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>使用 VideoToolbox 完成低延时视频编码</title>
+    <link href="https://bitnpc.github.io/posts/low_latency_encoding/" rel="alternate" type="text/html" title="使用 VideoToolbox 完成低延时视频编码" />
+    <published>2024-09-06T00:00:00+08:00</published>
+  
+    <updated>2024-09-06T00:00:00+08:00</updated>
+  
+    <id>https://bitnpc.github.io/posts/low_latency_encoding/</id>
+    <content src="https://bitnpc.github.io/posts/low_latency_encoding/" />
+    <author>
+      <name>Tony</name>
+    </author>
+
+  
+    
+    <category term="技术" />
+    
+    <category term="音视频" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      Low Latency Pipeline
+
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Matter 协议介绍</title>
+    <link href="https://bitnpc.github.io/posts/matter/" rel="alternate" type="text/html" title="Matter 协议介绍" />
+    <published>2024-03-16T00:00:00+08:00</published>
+  
+    <updated>2024-03-16T00:00:00+08:00</updated>
+  
+    <id>https://bitnpc.github.io/posts/matter/</id>
+    <content src="https://bitnpc.github.io/posts/matter/" />
+    <author>
+      <name>Tony</name>
+    </author>
+
+  
+    
+    <category term="技术" />
+    
+    <category term="计算机网络" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>在 macOS 上部署 ComfyUI</title>
+    <link href="https://bitnpc.github.io/posts/ComfyUI_in_macOS/" rel="alternate" type="text/html" title="在 macOS 上部署 ComfyUI" />
+    <published>2024-03-13T00:00:00+08:00</published>
+  
+    <updated>2024-03-16T20:17:56+08:00</updated>
+  
+    <id>https://bitnpc.github.io/posts/ComfyUI_in_macOS/</id>
+    <content src="https://bitnpc.github.io/posts/ComfyUI_in_macOS/" />
+    <author>
+      <name>Tony</name>
+    </author>
+
+  
+    
+    <category term="技术" />
+    
+    <category term="大模型" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      ComfyUI 是一个强大且模块化的 Stable Diffusion 图形用户界面（GUI）和后端工具。它提供了一个基于图形、节点和流程图的界面，让您能够设计和执行复杂的稳定扩散工作流程。它有以下特点和功能:
+
+  节点/图形/流程图界面：您可以在不需要编写代码的情况下实验和创建复杂的稳定扩散工作流程。
+  全面支持：ComfyUI 支持 SD1.x、SD2.x、SDXL、稳定视频扩散和稳定级联。
+  异步队列系统：优化的队列系统仅重新执行工作流中发生更改的部分。
+  低 VRAM 支持：使用 --lowvram 选项，即使在 VRAM 少于 3GB 的 GPU 上也可以运行（在 VRAM 较低的 GPU 上会自动启用）。
+  离线工作：ComfyUI 完全离线工作，不会下载任何内容。
+  模型支持：可以加载 ckpt、safetensors 和 diffusers 模型/检查点，...
+    </summary>
+  
+
+  </entry>
+
+</feed>
+
+
