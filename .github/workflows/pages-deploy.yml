@@ -41,14 +41,14 @@ jobs:
           bundler-cache: true
 
       - name: Build site
-        run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
+        run: bundle exec jekyll b -d "_site"
         env:
           JEKYLL_ENV: "production"
 
       - name: Debug _site directory
         run: |
-          echo "Base path: ${{ steps.pages.outputs.base_path }}"
-          ls -R "_site${{ steps.pages.outputs.base_path }}"
+          echo "Base path: _site"
+          ls -R "_site"
 
       - name: Test site
         run: |
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: "_site${{ steps.pages.outputs.base_path }}"
+          path: "_site"
           retention-days: 1  # 仅保留 1 天，避免长期存储
 
   deploy:
@@ -69,14 +69,6 @@ jobs:
     needs: build
 
     steps:
-      - name: Download site artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: ./artifact
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-        with:
-          artifact_path: ./artifact
