@@ -5,6 +5,7 @@ date: 2025-08-26
 categories: [技术, AI]
 tags: 
     - Vision
+mermaid: true
 ---
 
 
