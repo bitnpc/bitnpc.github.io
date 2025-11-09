@@ -9,27 +9,24 @@ tags:
     - 异常处理
 ---  
 
-Crash 是我们在日常使用 App 时，偶尔会遇到的“闪退”。闪退会带来糟糕的用户体验，影响 App 的正常使用。   
-App 的 Crash 率是衡量该App质量的标准之一。美团 App 的 Crash 率一般控制在万分之五以下。   
-下面，我主要谈谈 iOS 中 App 的 Crash，并结合实际开发工作，给出一些排查建议。    
+## 概述
+Crash 是我们在日常使用 App 时偶尔会遇到的“闪退”，直接影响用户体验与留存。Crash 率是衡量 App 质量的重要指标之一，通常主流 App 会将 Crash 率控制在万分之五以下。本文围绕 iOS 生态，结合系统原理与实战经验，梳理 Crash 的成因、传递方式、排查手段及案例分析，帮助构建一套稳定的质量保障流程。
 
 
-# Crash是什么？
+## Crash 是什么？
 
-Crash 本质是一种异常控制。   
+Crash 本质是操作系统对异常情况的一种“异常控制流程（Exception Control Flow, ECF）”。当 CPU、内核或运行时检测到不可恢复的异常时，会触发控制流跳转到异常处理程序，最终可能导致进程退出。
 
-现代操作系统需要有一整套完善的处理流程来解决异常。这种流程叫做 `Exception Control Flow（ECF）`。异常控制可以发生在硬件层，软件层和应用层。  
-在硬件层，硬件检测到的事件，会触发控制突然转移到异常处理程序。  
-在操作系统层，内核通过上下文转换将控制从一个用户进程转移到另一个用户进程。  
-在应用层，一个进程可以发送信号到另一个进程。如在终端执行 kill 命令，杀死其他进程。  
+ECF 可以发生在硬件、内核与应用层：
+- **硬件层**：硬件检测到事件（如外设中断）后通知 CPU；
+- **内核层**：内核调度、上下文切换或信号派发；
+- **应用层**：运行时或应用逻辑主动抛出异常、发送信号。
 
-一般而言，App 的 Crash 和硬件没有直接关系，所以我们主要来看操作系统和应用层的异常处理。  
+移动 App 的 Crash 主要与内核层和应用层相关，因此下文聚焦这两层的处理机制。
 
-## 操作系统的异常控制
+### 操作系统的异常控制
 
-操作系统的异常分为4种。中断（interrupt），陷阱（trap），故障（fault）和终止（abort）。  
-注: 该分类源于《深入理解计算机系统 》第8章，作者 Randal E Bryant, David R. O'Hallaron。  
-有些观点认为中断不属于异常。我的理解是该书中的异常是广义上的异常，是进程没有按照原先的逻辑来执行的所有异常情况，从这个角度来看，它包括了中断。
+操作系统会把异常划分为四类：中断（interrupt）、陷阱（trap）、故障（fault）和终止（abort）。该分类来自《深入理解计算机系统》第 8 章。虽然部分资料认为中断不属于异常，但从“程序未按原逻辑执行”的角度出发，可以将其视为广义异常的一部分。
 
 |     类别     |           原因       |   异步/同步   |        返回行为       |
 |-------------|----------------------|-------------|----------------------|
@@ -38,66 +35,53 @@ Crash 本质是一种异常控制。
 |     故障     |    潜在可恢复的错误    |     同步     |    可能返回到当前指令   |
 |     终止     |     不可恢复的错误     |     同步     |       不会返回        |
 
-中断（interrupt）是唯一一个异步发生的异常。由硬件产生，通过中断控制器发送给 CPU，CPU 判断中断来源后发送到操作系统内核，最后到达用户进程。举个例子。当我们把 iPhone 由竖屏旋转至横屏时，iPhone 中的陀螺仪会产生一系列中断，经过中断处理程序和操作系统内核的处理，最终使得App接收到横屏的 notification，并作出响应。   
-陷阱（trap）是有意的异常，主要作用是提供系统调用。如打开文件。  
-故障（fault）是由错误引起。可能会被故障处理程序修复，如缺页异常。  
-终止（abort）是不可恢复的致命错误。通常是由硬件产生。  
+日常开发中最常见的导致 Crash 的是 `fault`，即潜在可恢复的错误。一旦故障无法被修复（如段错误访问非法内存），系统就会向进程发送信号或直接终止，从而表现为 Crash。常见的 `EXC_BAD_ACCESS`、`SIGSEGV` 都属于这一类。
 
-通常情况下，在操作系统层，fault 是导致App Crash的主要因素。  
-比如常见的 SegmentFault 是一种 fault，它是指段错误，访问了错误的内存地址。一般而言不可被故障处理程序修复，会直接导致进程退出。  
+### 应用层的异常控制
 
-## 应用层的异常控制
+不同运行时拥有各自的异常体系。Java 的 JVM 通过 `Throwable -> Error / Exception` 抽象层级管理异常，绝大多数 Android Crash 都会被 JVM 捕获并转化为 Java 堆栈信息。
 
-不同的应用软件，有不同的异常控制。Java 的 JVM 和 iOS 的 runtime 是两套运行时环境，他们的异常控制机制有所不同。  
-在Java中，所有的异常都有一个共同的祖先 `Throwable`。`Throwable` 有两个子类，`Error` 和 `Exception`。
-- Error，是程序无法处理的错误，意味着代码运行时JVM出现了问题。如 `Virtual Machine Error`，和 `Out Of Memory Error`。
-- Exception，是程序本身可以处理的异常。如 `Null Pointer Exception`、`Arithmetic Exception`。
-安卓 App 的大部分 Crash 会在 JVM 这一层检测并得到处理。
+iOS 运行时（Objective-C Runtime / Swift Runtime）同样具备异常保护机制，例如：
+- `unrecognized selector sent to instance`：向对象发送未知消息时触发；
+- `objc_exception_throw`：Objective-C 抛出的 `NSException`；
+- Swift 层的 `fatalError`、`preconditionFailure` 会触发 `SIGABRT`。
 
-iOS App 的运行基于 runtime 环境。它也提供了一些异常控制，防止异常传递到操作系统层。如 `Unrecognized selector sent to instance` 就属于 runtime 的保护措施。  
+这些保护措施可以阻止异常直接掉到内核层，但当异常未被处理或升级为致命错误时，最终仍然会以 Crash 呈现。
 
 
-# Crash的原因
+## Crash 的常见成因
 
-App 发生 Crash 的原因可能有很多种。  
+App 发生 Crash 的原因可能有很多种，可按照 CPU 执行、系统策略、语言保护与开发者防范四个维度来理解。
 
-## CPU无法执行代码
+### CPU 无法执行代码
 
-- 非法算术运算。
-除0计算。  
+- **非法算术运算**：例如除以 0、浮点溢出等情况会触发 `SIGFPE`；
+- **无效指令**：运行时执行到未定义或架构不支持的指令，触发 `SIGILL`，常见于混用不同架构的二进制或错误的函数指针；
+- **访问非法内存**：越界访问、使用已释放的指针、执行写保护内存等都会触发 `EXC_BAD_ACCESS` / `SIGSEGV`。
 
-- 无效的指令。
-如基于 x86_64 架构的 CPU（CISC指令集），无法运行在基于 ARM 架构的 CPU（RISC 指令集）。也可能是其他无效指令，如把数据当成指令的情况。  
-
-- 无效的内存地址。应用程序在内存中的内存布局如下图所示。  
+在应用层面，可以借助内存布局图理解常见问题：
 ![Desktop View](/assets/img/post/post-2018-11-30/memory_layout.png){: width="972" height="589" .w-50 .normal}
 
 由低地址到高地址依次为：  代码段`（.text）`  已初始化的数据`（.data）`  未初始化的数据`（.bss）`  堆`（heap）`  栈`（stack）`  
-当进程在执行时，会在栈中创建保存指针的变量 pointer，pointer 指向堆中对象的内存地址。如果堆中对象的内存地址被释放，但是 pointer 未置空，那么随着进程不断执行，后续会向这块堆中的内存写数据，如果继续访问该 pointer，则很可能会导致 Crash。这种 pointer 被称为野指针。通常情况下，多线程操作是导致这种情况出现的主要因素。  
+当进程在执行时，常见的 Crash 包括：
+- 使用已释放对象（野指针）；
+- 多线程下对同一内存的竞争写入；
+- 越界访问数组或结构体。
 
-## 操作系统出于某种因素
+### 操作系统策略
 
-- WatchDog 事件。
-用来检测应用是否长时间无响应，模拟器无此功能。
+- **WatchDog**：系统监控主线程和应用启动时长，UI 主线程卡顿或冷启动超时会被 WatchDog 杀死；
+- **热量与功耗**：CPU/GPU 长时间高负载会触发系统降频甚至强制退出前台 App；
+- **内存压力**：收到 `didReceiveMemoryWarning` 但未及时释放资源，或后台 App 内存超标，系统会回收进程；
+- **代码签名 / 证书问题**：企业证书过期、签名失效、越狱环境中签名校验失败等都会在启动阶段被系统终止。
 
-- 机器过热  
-可能是由于 CPU 负载太高。操作系统会优先 kill 掉 CPU 占有率过高的 App.
+### 编程语言的保护措施
 
-- 内存不足   
-App 在运行期间可能会收到 `memoryWarning`。在这个方法里面应该做一些释放内存的操作。  
+- **未识别消息**：Objective-C Runtime 捕获 `unrecognized selector`；
+- **容器越界 / 插入 `nil`**：Foundation 与 Swift 容器会主动抛出异常或调用 `fatalError`；
+- **类型断言失败**：`as!` 或 `try!` 失败时触发 `SIGABRT`。
 
-- 签名无效  
-比如企业证书到期，App 启动时就会直接退出。   
-
-## 编程语言的保护措施
-
-- 找不到指定方法。Runtime 提供的保护措施。
-
-- 数组越界。  
-
-不是所有语言都提供这种保护措施。如C语言就不提供数组越界的保护。  
-
-如下代码，第三行，在 C 语言中是不会 Crash 的，但是第四行打印出来的内容是未知的。 在第七行是 Objective-C 代码，同样是数组越界，它就必然会发生 Crash。
+底层语言如 C 并不提供这些保护，越界访问往往直接读写未定义内存。以下代码比较了 C 与 Objective-C 在数组越界时的不同表现：
 
 ```objc
 int main () {
@@ -111,24 +95,26 @@ int main () {
 }
 ```
 
-## 开发者的防范措施
+### 开发者的防范措施
 
-这里主要是指用 Assert 来检查某些重要的参数。
+- **前置校验**：使用 `NSParameterAssert`、`guard`、`precondition` 检查关键参数，尽早在开发阶段暴露问题；
+- **容错策略**：对网络返回、JSON 解析、文件读写等做好兜底逻辑，避免因为单个异常数据导致崩溃；
+- **线程安全**：对共享资源加锁或使用串行队列，避免野指针与竞态；
+- **灰度与监控**：上线前在内部渠道开启额外的断言或日志，结合 A/B 测试快速定位 Crash。
 
 
-# Crash传递的流程与捕获方式
+## Crash 捕获与传递流程
 
-当 App 发生 Crash 时，是有一定的传递流程的。这里以 iOS App 的 Crash 为例。   
-在操作系统层其传递顺序为 Mach 内核->Unix。在应用层，则会产生一个 NSException。  
-所以捕获的时候，就可以分别在对应的层次捕获堆栈信息。   
-苹果为了统一机制，操作系统和用户操作都会产生 Mach 异常。所以所有 Crash 都有对应 Mach 异常的 `exception_type`。  
+当 App 发生 Crash 时，异常会沿着「Mach 异常 → Unix Signal → NSException」的链路逐层上报。掌握这一流程就能在合适的层面挂钩收集信息。
+
+苹果为了统一机制，所有崩溃都会先生成 Mach 异常（`exception_type`），然后在用户态转换成 Unix Signal，最后由运行时抛出 `NSException`（若来得及）。因此我们通常需要在多个层次同时注册处理器，补齐上下文。
 最后，把捕获到的 CrashLog 符号化，转化为可读的堆栈信息。  
 
-## Mach异常 
+### Mach 异常
 
 Mach 异常是最底层的内核级异常，如 `EXC_BAD_ACCESS`。在异常发生时，会被异常处理程序转换为 Mach 消息，接着依次投递到 thread，task 和 host 端口。
 
-通过监听这些端口，来捕获 Mach 层的异常。这里以 `PLCrashReporter` 为例（此处仅列出关键代码）。具体代码可查看 [PLCrashMachExceptionServer](https://github.com/plausiblelabs/plcrashreporter/blob/master/Source/PLCrashMachExceptionServer.m)  
+通过监听这些端口即可捕获 Mach 层的异常。下面以 `PLCrashReporter` 为例（此处仅列出关键代码），完整实现参见 [PLCrashMachExceptionServer](https://github.com/plausiblelabs/plcrashreporter/blob/master/Source/PLCrashMachExceptionServer.m)：
 
 ```objc
 // Initialize the bare context. 
@@ -152,11 +138,13 @@ mach_port_move_member(mach_task_self(), _serverContext->notify_port, _serverCont
 pthread_create(&thr, &attr, &exception_server_thread, _serverContext)
 ```
 
+开源方案如 PLCrashReporter、KSCrash 都是在底层注册 Mach 异常端口，提前截获异常并持久化堆栈，然后再交由系统继续传递，保证不会破坏默认行为。
+
 Mach 异常即使注册了对应的处理，也不会影响原先的传递流程。Mach 异常会继续传递到 Unix 层，转变为 `Unix Signal`。但是如果 Mach 异常让进程退出，则对应的 Unix 信号则不会产生。  
 
 一个 Mach 异常对应一个或多个 `Unix Signal`。  
 
-### 常见的exception_types
+#### 常见的 exception_type
 
 |   Exception类型    |       描述       |           说明            |
 |-------------------|-----------------|---------------------------|
@@ -164,25 +152,25 @@ Mach 异常即使注册了对应的处理，也不会影响原先的传递流程
 |     EXC_CRASH     |  Abnormal Exit  |通常跟随的 `UNIX Signal` 是 `SIGABRT`，当前进程被系统检测到有异常行为而杀死|
 |EXC_BAD_INSTRUCTION|Illegal Instruction|非法或未定义的指令或操作数|
 
-## Unix Signal
+### Unix Signal
 Unix Signal 是 Unix 系统的一种异步通知机制。Mach 异常在 host 层被 `ux_exception` 转换为相应的 `Unix Signal`，并通过 `threadsignal` 将信号投递到出错的线程。如 `SIGABRT`，`SIGSEGV`。
 
-在 Unix 层则可以注册 Signal 处理回调。如下代码是把接受到的 `SIGBUS` 统一用 `signalHander` 来处理。
+在 Unix 层可使用 `signal` / `sigaction` 注册信号处理回调，将关键信息写入文件或上传至服务器。如下代码把接收到的 `SIGBUS` 统一用 `signalHander` 处理：
 
 ```c
-void signalHander(int sig){
+void signalHandler(int sig){
     printf("signal %d received.\n", sig);
     exit();
 }
 
 int main () {
-    signal(SIGBUS, sigHanler);
+    signal(SIGBUS, signalHandler);
     char *str = "bitnpc";
     str[0] = 'H';
 }
 ```
 
-### 常见的Unix信号 
+#### 常见的 Unix 信号
 下表列出了常见的 `Unix Signal`。在 macOS 系统中，可以输入 `man signal` 查看所有的 Signal 列表。在[这里](https://github.com/torvalds/linux/blob/master/include/linux/signal.h)也可以看到。    
 
 |  Unix Signal  |                  说明                   |
@@ -193,10 +181,11 @@ int main () {
 |    SIGTRAP    |Debugger相关|
 |    SIGILL     |尝试执行一个非法的、未知的、没有权限的指令|
 
-## NSException
+### NSException
 
-发生在 iOS 系统库。如 `CoreFoundation`，`Runtime` 等等。可以通过 `NSSetUncaughtExceptionHandler` 来注册 `NSException` 的捕获函数。  
-如下代码，会在 `exceptionHandler` 函数中获取 exception 的一些信息。
+`NSException` 发生在 Foundation、CoreFoundation 等系统库中。通过 `NSSetUncaughtExceptionHandler` 注册处理函数，可以在崩溃前抓取异常名称、原因、调用栈并进行持久化。常见做法是在 handler 中将信息写入沙盒文件，待下次启动时再上报，避免在崩溃现场进行复杂逻辑。
+
+如下代码展示了基础用法：
 
 ```objc
 void exceptionHandler(NSException *exception)
@@ -215,30 +204,41 @@ int main() {
 }
 ```
 
-## CrashLog符号化
+### Crash Log 符号化
 Crash 捕获后获得的数据都是对应的虚拟内存地址。我们需要把虚拟内存地址转化为可读的堆栈信息。   
 符号化的本质是在一个映射文件中，找到内存地址对应的函数的方法名。    
-主要有以下三种符号化方法。 
-- 使用 Xcode 来符号化 
-- `Symbolicatecrash`
-- macOS 下的 `atos` 工具和 Linux 平台的替代品 `atosl`
+常见的符号化方式包括：
+- 使用 Xcode Organizer / Devices 面板自动符号化；
+- 利用 `symbolicatecrash` 脚本离线符号化；
+- 借助 `atos` / `atosl` 根据地址定位符号，适用于自建平台。
 
-项目代码的符号文件在 `dSYM` 中。系统库的符号文件，可以从 iOS 固件中获取，也可以从 Github 上开源项目中找到对应系统的符号文件。  
+项目代码的符号文件存储在 `dSYM` 中，应在构建后及时归档并与版本号关联。系统库的符号可从 iOS 固件或第三方镜像获取。企业团队通常会在 CI 中集成符号文件上传，便于 Crash 平台（如 Firebase Crashlytics、腾讯 Bugly、自研平台）自动解析。
+
+## Crash 监控与治理体系
+
+- **核心指标**：关注冷启动 Crash 率、活跃用户 Crash 率（DAU 崩溃用户占比）、场景 Crash 率（按页面 / 功能拆分），并结合卡顿、OOM 统计；
+- **采集策略**：客户端在下次启动时上报 Crash 日志、线程堆栈、设备信息、最近操作，服务端聚合后计算指标；
+- **治理闭环**：结合构建信息、灰度批次，对 Crash 进行分桶（首次出现、回归、核心路径），设定 SLA 与报警阈值；
+- **工具链**：常见方案有 Crashlytics、Bugly、Sentry、自建基于 PLCrashReporter 的上报系统；配合 Xcode Organizer 与 App Store Connect 的 `Metrics`/`Analytics` 交叉验证；
+- **预防机制**：在内测包开启 ASan、TSan、Malloc Guard、Zombie 等调试工具；使用静态检查（Clang Static Analyzer、Infer）与单元测试覆盖关键模块；上线后利用 Feature Flag 快速降级。
 
 
-# Crash排查思路
+## Crash 排查思路
 通常情况下，debug 时发生的 Crash 很好解决。但是，App 上线后，往往会出现一些本地没有遇到过，并且难以复现的 Crash。并且从 CrashLog 中往往不能直接定位问题所在。
 
-## 定位
-- 搜集线索   
-    CrashLog。系统版本，App 版本（分析改动日志），线程堆栈。
-    用户操作日志。有些 App 中集成进了记录用户操作行为的功能，如美团的 Logan。可以通过操作日志复现用户操作路径。
-    使用搜索引擎。查询是否有人遇到过类似的问题，Stackoverflow 可能会帮到你。
+### 定位
+- **收集线索**：确认系统版本、App 版本、用户操作路径、堆栈、线程信息、设备型号、电量和网络环境等；
+- **还原场景**：结合埋点或操作回放日志（如 Logan、Matrix）定位触发路径；
+- **快速对比**：对比上一个版本的差异，关注近期合入的模块与实验开关。
 
-- 尝试复现   
-    通过上面搜集到的线索，可以大概确定 Crash 发生的范围，从而帮助我们复现问题。有些野指针问题，在本地难以复现。可尝试后使用一些工具，提高野指针的崩溃率。比如 Xcode 的 `Diagnostics` 中提供的 `Malloc Scribble`，`Zombie Object` 等工具。  
+### 尝试复现
+- **本地复现**：利用断点回溯、开关控制精确命中崩溃路径；
+- **提升命中率**：在 Xcode `Diagnostics` 中开启 `Malloc Scribble`、`NSZombie`、`Thread Sanitizer`、`Address Sanitizer` 等；
+- **多线程场景**：编写脚本在多个线程中并发触发问题，提高复现概率。
 
-### Malloc Scribble
+常用的内存调试工具如下：
+
+#### Malloc Scribble
 
 原理是通过在已释放对象中填充 `0x55`，使得野指针调用必然崩溃。仅本地 `debug` 时有效，如果想在内测包中实现此功能，需要 hook 系统库中的 `free` 函数。以如下代码为例（为便于说明，已关闭 ARC ）:
 
@@ -252,12 +252,12 @@ UIView *view = [UIView new];
 
 打开 `Malloc Scribble` 后，可以从调试面板很清晰的看到，在第三行发生了 Crash。  
 
-### Zombie Object
+#### Zombie Object
 
 把已释放的对象标记为僵尸对象，Xcode 的实现方式是使用 runtime 方法 `object_setClass`，覆写被释放的 view 的 isa 为 `_NSZombie_UIView`。
 除了上述 `Memory Management` 的工具，Xcode 还提供了 `Runtime Sanitization` 的工具（实际上是 LLVM 编译器提供的功能）。如可以监测竞态访问的 `Thread Sanitizer`，可以帮助开发者发现潜在的问题。
 
-## 案例分析
+### 案例分析
 
 下面是一个 CrashLog，为了便于阅读，省略了不相关的部分。
 
@@ -378,9 +378,9 @@ KVO 用这两个中间类创建子类时，因为没有分配到内存空间，�
 
 该框架内部做了判断，当 `objc_allocateClassPair` 返回 null 时，不执行 register 操作。但是 KVO 显然没有做这样的判断。  
 
+该案例强调：在运行时动态生成类或方法时需注意线程安全与命名冲突，必要时加锁或使用串行队列，避免多线程下重复注册。
 
-# 总结
 
-本文结合了操作系统的异常控制，讨论了 Crash 的本质，成因，传递流程，说明了 Crash 的堆栈捕获层次与符号化方式，简要说明了 Crash 的排查思路，并给出了一个案例分析。  
+## 总结
 
-除了上述流程，在 Crash 的预防、Crash 的监控止损甚至是 Crash 的自我修复等流程上也可以做出一些措施，来降低 App 的 Crash 率，提高 App 整体质量。
+本文结合操作系统异常控制机制，梳理了 Crash 的本质、常见成因、传递流程、捕获层次与符号化方法，并给出排查思路与实际案例。要持续降低 Crash 率，需要在开发期做好前置防护、上线期完善监控与回归测试、运营期保持指标跟踪与快速止损，形成自上而下的质量闭环。
