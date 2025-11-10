@@ -93,14 +93,14 @@ mermaid: true
 ![Live Photo](/assets/img/post/post-2025-11-04/live-photo.jpeg){: width="972" height="589" .w-50 .normal}
 
 ## 二、互转策略与能力边界
-### 2.1 Motion Photo → Live Photo（尽量无损）
+### 2.1 Motion Photo → Live Photo
 - 视频：直接**无重编码拷贝**到 `mov`（容器改封装）。
 - 静图：保留 `JPEG` 可直接作为 Live Photo 静图（iOS 可识别）；如需 `HEIC`，仅在确有需求时转换。
 - HDR GainMap：
   - 若源为 Google UltraHDR（JPEG 内含 GainMap），目前通用工具对“JPEG GainMap → HEIC GainMap”自动迁移支持有限；建议保留 JPEG 静图（牺牲 iOS 上的系统级 HDR 呈现），或使用实验性库迁移（见“高级：HDR 迁移”）。
 - 深度/语义分割等 Auxiliary：Motion Photo（JPEG 容器）通常不带 HEIF 风格的 Auxiliary 图像，迁移为 HEIC 时需要新增辅助图像（见“高级：Auxiliary 迁移”）。
 
-### 2.2 Live Photo → Motion Photo（尽量无损）
+### 2.2 Live Photo → Motion Photo
 - 视频：`MOV → MP4` **无重编码拷贝**。
 - 静图：若为 `HEIC`，可转换为 `JPEG` 作为 Motion Photo 主图（会丢失 HEIC 的原生 Auxiliary，如 Depth/GainMap）。
 - HDR/Depth：Motion Photo（JPEG 容器）缺乏标准化的 HEIF Auxiliary 承载；转换到 JPEG 后，HDR GainMap 与 Depth 通常难以“等价”保存（除非迁移为自定义 XMP/APP 区段，生态支持较弱）。
