@@ -7,7 +7,7 @@ tags:
     - iOS
     - Exception Handling
 toc: true
-description: 'A crash is the occasional "app freeze and exit" we encounter while using apps, directly impacting user experience and retention. The crash rate is one of the key metrics for measuring app quality.'
+description: 'A comprehensive guide to iOS crashes covering their nature as exception control flow, common causes, capture mechanisms, investigation methods, and governance.'
 ---
 
 ## Overview

@@ -9,7 +9,7 @@ tags:
     - HEIC
     - EXIF/XMP
 toc: true
-description: 'This article systematically examines the file structure, metadata conventions, and conversion paths between Google Motion Photo and Apple Live Photo, presenting a two-way conversion scheme aimed at "as lossless as possible," covering retention strategies and capability boundaries for auxiliary data such as HDR GainMap and Depth, along with a reusable Swift package and sample code.'
+description: 'Examines file structure, metadata, and conversion paths between Google Motion Photo and Apple Live Photo, with a two-way lossless-preferring scheme for HDR GainMap and Depth retention via a reusable Swift package.'
 ---
 
 ## Overview

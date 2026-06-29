@@ -11,7 +11,7 @@ tags:
     - Dijkstra
     - Binary Search
 toc: true
-description: 'LeetCode 1631. Path With Minimum Effort'
+description: 'A walkthrough of LeetCode 1631 (minimax path) using binary search + BFS/DFS, union-find (Kruskal), and adapted Dijkstra.'
 ---
 
 ## Problem Description

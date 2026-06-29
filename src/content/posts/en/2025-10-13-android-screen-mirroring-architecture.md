@@ -10,7 +10,7 @@ tags:
     - H.264
     - H.265
 toc: true
-description: 'Screen mirroring is a common need: projecting an Android phone screen in real time to a computer (Mac) or tablet (iPad/iPhone) for presentations, remote assistance, or multimedia sharing. Implementing a low-latency, high-smoothness mirroring solution requires covering the entire pipeline from screen capture and encoding on the phone side, through network transmission, to decoding and rendering on the receiving side.'
+description: 'End-to-end architecture of Android screen mirroring to Mac/iPhone: phone-side capture and hardware encoding, network transmission, receiver-side decoding, and Metal rendering. Covers reverse control, transport protocol, and latency optimization.'
 ---
 
 ## Introduction

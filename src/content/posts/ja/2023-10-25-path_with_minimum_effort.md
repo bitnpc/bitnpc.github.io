@@ -11,7 +11,7 @@ tags:
     - Dijkstra
     - 二分探索
 toc: true
-description: 'LeetCode 1631. Path With Minimum Effort'
+description: 'LeetCode 1631を3つのアルゴリズム（二分探索+BFS/DFS、Union-Find、Dijkstra改造版）で解説。グリッド上のminimax経路問題を多角的に分析し、類似問題も紹介。'
 ---
 
 ## 問題概要
@@ -107,6 +107,7 @@ public:
         }
         return false;
     }
+    
 }
 
 ```

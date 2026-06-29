@@ -8,7 +8,7 @@ tags:
     - Concurrency
 translationKey: swift-async-await-deep-dive
 toc: true
-description: 'Swift async/await, introduced in Swift 5.5, is a modern concurrency model that fundamentally changes how asynchronous code is written. Compared to traditional callbacks and GCD, async/await offers a cleaner, safer, and more efficient asynchronous programming experience.'
+description: 'A deep dive into Swift async/await covering implementation internals, performance comparison with GCD and callbacks, Actor-based data race protection, and best practices for production code.'
 ---
 
 ## Overview

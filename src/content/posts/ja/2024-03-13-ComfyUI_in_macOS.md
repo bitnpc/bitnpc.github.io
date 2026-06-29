@@ -6,7 +6,7 @@ tags:
     - 大規模モデル
     - Stable Diffusion
 toc: true
-description: 'ComfyUI は、強力でモジュール化された Stable Diffusion のグラフィカルユーザーインターフェース（GUI）およびバックエンドツールです。グラフ、ノード、フローチャートベースのインターフェースを提供し、複雑な Stable Diffusion ワークフローを設計および実行できます。以下の特徴と機能があります:'
+description: 'macOS（Apple Silicon）に ComfyUI をインストールし、Stable Diffusion のノードベースワークフローを実行する手順を解説します。'
 ---
 
 `ComfyUI` は、強力でモジュール化された `Stable Diffusion` のグラフィカルユーザーインターフェース（GUI）およびバックエンドツールです。グラフ、ノード、フローチャートベースのインターフェースを提供し、複雑な Stable Diffusion ワークフローを設計および実行できます。以下の特徴と機能があります:

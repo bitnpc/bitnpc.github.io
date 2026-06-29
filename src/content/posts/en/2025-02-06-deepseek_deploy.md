@@ -6,7 +6,7 @@ tags:
     - Ollama
     - Deepseek
 toc: true
-description: 'Ollama is a tool for locally deploying and managing AI models. It allows developers to run various AI models in their local environment without relying on cloud services. Ollama provides a simple command-line interface that makes model deployment and management very easy.'
+description: 'Run DeepSeek locally on macOS with Ollama and connect it to VSCode via the Continue extension for AI-assisted coding.'
 ---
 
 

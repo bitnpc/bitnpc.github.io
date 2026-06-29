@@ -5,7 +5,7 @@ categories: [Tech, AI]
 tags: 
     - Vision
 toc: true
-description: 'The Vision framework represents Apple's systemic innovation in mobile computer vision, delivering high-performance visual processing through deep integration of hardware acceleration, machine learning optimization, and modern Swift concurrency. This article explores its architecture design, core capabilities, and best practices in depth.'
+description: "Apple's Vision framework combines hardware acceleration, ML optimization, and Swift concurrency to deliver high-performance computer vision for iOS. Covers architecture, face detection, text recognition, pose tracking, and production best practices."
 ---
 
 

@@ -9,7 +9,7 @@ tags:
     - HEIC
     - EXIF/XMP
 toc: true
-description: '本稿では Google Motion Photo と Apple Live Photo のファイル構造、メタデータ仕様、相互変換の手法を体系的に整理し、「可能な限りロスレス」を目指した双方向変換方法を解説します。HDR GainMap や深度情報などの Auxiliary Data の保持戦略と能力限界についても取り上げ、再利用可能な Swift パッケージとサンプルコードを提供します。'
+description: 'Google Motion Photo と Apple Live Photo の相互変換手法を、ファイル構造・メタデータ仕様・HDR GainMap/深度情報の保持戦略含めて解説。Swift パッケージとサンプルコード付き。'
 ---
 
 ## 概要

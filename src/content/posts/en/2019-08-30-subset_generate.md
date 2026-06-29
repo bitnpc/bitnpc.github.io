@@ -7,7 +7,7 @@ tags:
     - algorithm
     - brute force
 toc: true
-description: 'Many seemingly complex problems can be solved by "enumerating all possibilities" — brute-force enumeration. Though it may appear clumsy at first, it is often the most direct and reliable approach. In real-world development, BFS for shortest paths, backtracking for solutions, and combinatorial enumeration all rely on this idea.'
+description: 'A guide to generating all subsets of a set (power set) using three methods: incremental construction, recursive backtracking, and bit manipulation, with C++ examples for LeetCode 78.'
 ---
 ## Overview
 Many seemingly complex problems can be solved by "enumerating all possibilities" — brute-force enumeration. Though it may appear clumsy at first, it is often the most direct and reliable approach. In real-world development, BFS for shortest paths, backtracking for solutions, and combinatorial enumeration all rely on this idea.

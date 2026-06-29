@@ -6,7 +6,7 @@ tags:
     - FFmpeg
     - Audio & Video
 toc: true
-description: 'FFmpeg is both an audio/video codec tool and a set of audio/video codec development libraries. It is the de facto standard in the open-source multimedia processing domain — nearly every video player, streaming service, and video editing application relies on FFmpeg under the hood.'
+description: 'An introduction to FFmpeg covering installation, command-line syntax, transcoding, stream selection, filtergraphs, and the architecture of its core library modules.'
 ---
 
 ## What is FFmpeg

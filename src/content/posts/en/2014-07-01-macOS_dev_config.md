@@ -6,7 +6,7 @@ tags:
     - Environment Setup
     - macOS
 toc: true
-description: 'The most common pitfalls when configuring a macOS environment for the first time or after a reinstall revolve around toolchain versions, installation paths, and permission control. This article organizes a general workflow in the order of "System Preparation → Package Management → Terminal & Shell → Language Runtimes → Version Control → Containers & Common Tools" to help you get development work up and running quickly.'
+description: 'Step-by-step guide to setting up a macOS development environment with Homebrew, shell configuration, language runtimes, Git dual-identity setup, containers, and automated deployment.'
 ---
 
 ## Overview

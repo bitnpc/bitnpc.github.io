@@ -10,7 +10,7 @@ tags:
     - VBR
     - HID
 toc: true
-description: 'Apple の Sidecar（随航）は Mac 画面を iPad に拡張し、iPad から Mac をタッチ操作できます。しかし Sidecar は Apple エコシステム限定です——Android Pad でも同じ体験を実現できるでしょうか？'
+description: 'Mac画面をAndroid Padにキャストする仮想ディスプレイ、VideoToolboxエンコード、HID逆操作注入のアーキテクチャ実装解説。'
 ---
 
 ## はじめに

@@ -6,7 +6,7 @@ tags:
     - Life
     - Travel
 toc: true
-description: 'The economy has been very poor in the past two years, and regions everywhere are rolling out stimulus policies. The Hong Kong government, in collaboration with several Hong Kong airlines, launched the "World of Winners" campaign. At the end of April, I happened to win a round-trip ticket from Beijing to Hong Kong, so a trip to Hong Kong was naturally put on the agenda.'
+description: 'A personal travelogue covering transportation, accommodation, payment, communication, attractions, food, and impressions from a Hong Kong trip after winning a round-trip ticket from the "World of Winners" campaign.'
 ---
 
 ## Foreword

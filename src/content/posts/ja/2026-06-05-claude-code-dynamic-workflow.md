@@ -9,7 +9,7 @@ tags:
     - オーケストレーション
 translationKey: claude-code-dynamic-workflow
 toc: true
-description: 'Dynamic Workflow の本質は AI 駆動の分割統治法 — Claude が「分解・並列求解・検証・統合」のオーケストレーションスクリプトを動的に生成し、独立したランタイムが実行することで、単一 Agent ループのコンテキスト・並列性・検証の限界を突破する。'
+description: 'Dynamic Workflow は AI 駆動の分割統治法 — Claude が動的生成したスクリプトを独立ランタイムが実行し、Agent ループの限界を突破する。'
 ---
 
 Dynamic Workflow の本質は **AI 駆動の分割統治法** である — Claude が「分解 → 並列求解 → 検証 → 統合」のオーケストレーションスクリプトを動的に生成し、独立したランタイムがそれを実行することで、単一 Agent ループのコンテキスト、並列性、検証のボトルネックを突破する。

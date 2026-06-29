@@ -6,7 +6,7 @@ tags:
     - Large Language Models
     - Stable Diffusion
 toc: true
-description: 'ComfyUI is a powerful and modular Stable Diffusion graphical user interface (GUI) and backend tool. It provides a graph/nodes/flowchart-based interface for designing and executing complex Stable Diffusion workflows. Its features include:'
+description: 'A guide to installing and running ComfyUI on Apple Silicon Mac, including Python setup, PyTorch, dependencies, and troubleshooting.'
 ---
 
 `ComfyUI` is a powerful and modular `Stable Diffusion` graphical user interface (GUI) and backend tool. It provides a graph/nodes/flowchart-based interface that lets you design and execute complex Stable Diffusion workflows without writing code. Here are its features and capabilities:

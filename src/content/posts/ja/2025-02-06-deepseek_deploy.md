@@ -6,7 +6,7 @@ tags:
     - Ollama
     - Deepseek
 toc: true
-description: 'Ollama は、AI モデルをローカルにデプロイおよび管理するためのツールです。開発者はクラウドサービスに依存することなく、ローカル環境でさまざまな AI モデルを実行できます。Ollama はシンプルなコマンドラインインターフェースを提供し、モデルのデプロイと管理を非常に容易にします。'
+description: 'Ollama を使って DeepSeek モデルをローカルにデプロイし、VSCode の Continue 拡張機能に統合する方法を解説します。'
 ---
 
 ## Ollama と DeepSeek とは？

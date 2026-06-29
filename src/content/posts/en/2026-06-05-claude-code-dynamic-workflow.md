@@ -9,7 +9,7 @@ tags:
     - Orchestration
 translationKey: claude-code-dynamic-workflow
 toc: true
-description: 'Dynamic Workflow is AI-powered divide-and-conquer — Claude dynamically generates orchestration scripts that decompose, parallel-solve, verify, and merge, breaking through the context, parallelism, and verification limits of a single Agent loop.'
+description: 'Claude Code Dynamic Workflow uses AI-generated orchestration scripts to decompose, parallelize, verify, and merge tasks, overcoming the context, parallelism, and verification limits of single-agent loops.'
 ---
 
 Dynamic Workflow is fundamentally **AI-driven divide-and-conquer** — Claude dynamically generates orchestration scripts that "decompose → parallel-solve → verify → merge", executed by an independent runtime, breaking through the context, parallelism, and verification bottlenecks of the single Agent loop.

@@ -9,7 +9,7 @@ tags:
     - Embedded
     - P2P
 toc: true
-description: 'This article systematically walks through how to build an industrial-grade Mijia smart camera product from three perspectives: hardware design, software architecture, and cloud services. It uses the PTZ indoor camera as the main thread while covering the differences of other form factors such as the bullet-and-ball dual-lens camera.'
+description: 'A systematic breakdown of building an industrial-grade Mijia smart camera from three angles: hardware design, software architecture, and cloud services. Uses the PTZ indoor camera as the main thread.'
 ---
 
 This article systematically walks through how to build an industrial-grade Mijia smart camera product from three perspectives: hardware design, software architecture, and cloud services. It uses the PTZ indoor camera as the main thread while covering the differences of other form factors such as the bullet-and-ball dual-lens camera.

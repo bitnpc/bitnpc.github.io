@@ -7,7 +7,7 @@ tags:
     - data structures and algorithms
     - binary search
 toc: true
-description: 'Binary Search, also known as half-interval search or logarithmic search, is applicable to searching problems where "the answer lies within an ordered interval or monotonic space." The core idea is to compare the midpoint of the interval with the target, halving the search space with each step, ultimately locating the result in O(log n) time with O(1) extra space.'
+description: 'Binary Search locates targets in ordered or monotonic spaces in O(log n) time. Covers templates, rotated arrays, 2D matrices, BSTs, and answer-space search techniques.'
 translationKey: 'binary_search'
 ---
 

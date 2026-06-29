@@ -10,7 +10,7 @@ tags:
     - VBR
     - HID
 toc: true
-description: 'Apple Sidecar extends the Mac display to an iPad and enables touch control of the Mac on the iPad. But Sidecar is limited to the Apple ecosystem — can we achieve the same experience on an Android Pad?'
+description: 'Mac-to-Android Pad screen casting architecture: virtual display capture, VideoToolbox encoding, VBR strategy, and HID reverse control.'
 ---
 
 ## Introduction

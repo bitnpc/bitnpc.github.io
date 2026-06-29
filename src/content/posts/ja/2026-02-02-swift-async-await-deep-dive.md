@@ -8,7 +8,7 @@ tags:
     - 並行プログラミング
 translationKey: swift-async-await-deep-dive
 toc: true
-description: 'Swift の async/await は Swift 5.5 で導入されたモダンな並行プログラミングモデルで、非同期コードの書き方を根本的に変えた。従来のコールバック（Completion Handler）や GCD と比較して、async/await はより簡潔で安全、かつ効率的な非同期プログラミング体験を提供する。'
+description: 'Swift 5.5のasync/awaitを徹底解説。実装メカニズム、Actor分離、GCD比較、マルチスレッド安全性、ベストプラクティスを網羅。'
 ---
 
 ## 概要
