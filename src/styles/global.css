@@ -135,8 +135,8 @@
   --width-prose: 50rem;
 
   /* Fonts — configured via Astro Fonts API (astro.config.mjs) */
-  --font-sans: var(--font-source-sans-3, system-ui, sans-serif);
-  --font-mono: var(--font-jetbrains-mono, ui-monospace, monospace);
+  --font-sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace;
 }
 
 [data-theme='chirpy-dark'] {
