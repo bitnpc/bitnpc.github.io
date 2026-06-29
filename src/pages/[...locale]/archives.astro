@@ -165,24 +165,27 @@ const groups = groupByYearMonth(posts, locale);
   }
 
   /* Date label: absolutely placed in the reserved left padding.
-     Flex layout so day is left-aligned and month is right-aligned,
-     keeping "10 Nov" and "6 Sep" aligned on the month column. */
+     Stacked column: day on top, month below and right-aligned.
+     This avoids CJK character width causing overlap with the timeline. */
   #archives .date {
     position: absolute;
-    left: 0.75rem;
+    left: 0.5rem;
     top: 0;
-    line-height: var(--tl-row-h);
+    height: var(--tl-row-h);
     display: flex;
-    width: 3.5rem;
-    gap: 0.25rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 2.75rem;
   }
   #archives .day {
     font-variant-numeric: tabular-nums;
+    line-height: 1.2;
     color: var(--color-base-content);
   }
   #archives .month {
-    font-size: 85%;
-    margin-left: auto;
+    font-size: 65%;
+    line-height: 1.2;
     color: color-mix(in oklch, var(--color-base-content) 60%, transparent);
     text-transform: capitalize;
   }
