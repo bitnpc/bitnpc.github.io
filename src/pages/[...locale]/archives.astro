@@ -38,11 +38,8 @@ const groups = groupByYearMonth(posts, locale);
               <ul>
                 {yearPosts.map((p) => (
                   <li>
-                    <span class="day">
-                      {formatDate(p.data.pubDate, locale, { day: '2-digit' })}
-                    </span>
-                    <span class="month">
-                      {formatDate(p.data.pubDate, locale, { month: 'short' })}
+                    <span class="date">
+                      {formatDate(p.data.pubDate, locale, { month: 'short', day: 'numeric' })}
                     </span>
                     <a href={postPath(p)}>{p.data.title}</a>
                   </li>
@@ -166,21 +163,16 @@ const groups = groupByYearMonth(posts, locale);
     height: calc(var(--tl-row-h) / 2);
   }
 
-  /* Day + month labels: absolutely placed in the reserved left padding. */
-  #archives .day,
-  #archives .month {
+  /* Date label: absolutely placed in the reserved left padding.
+     Uses a single locale-aware format (e.g. "Jun 15", "6月15日") to
+     avoid overlapping month/day in CJK locales. */
+  #archives .date {
     position: absolute;
+    left: 0.75rem;
     top: 0;
     line-height: var(--tl-row-h);
-  }
-  #archives .day {
-    left: 0.75rem;
-    font-variant-numeric: tabular-nums;
-    color: var(--color-base-content);
-  }
-  #archives .month {
-    left: 2.5rem;
     font-size: 85%;
+    font-variant-numeric: tabular-nums;
     color: color-mix(in oklch, var(--color-base-content) 60%, transparent);
     text-transform: capitalize;
   }
