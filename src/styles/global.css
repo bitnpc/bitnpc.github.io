@@ -134,9 +134,11 @@
   /* Reading column max width on post pages */
   --width-prose: 50rem;
 
-  /* Fonts — configured via Astro Fonts API (astro.config.mjs) */
-  --font-sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-  --font-mono: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', ui-monospace, monospace;
+  /* Fonts — loaded via @fontsource (Astro Fonts API in astro.config.mjs).
+     Match Jekyll Chirpy: Lato for headings, Source Sans 3 for body. */
+  --font-sans: var(--font-source-sans-3), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-lato), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'SF Mono', 'Cascadia Code', ui-monospace, monospace;
 }
 
 [data-theme='chirpy-dark'] {
@@ -159,6 +161,10 @@
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
   }
 
   :focus-visible {
@@ -395,7 +401,9 @@
   /* Title and description gain line-clamps so a very long title (or a
      verbose description) cannot push the card past the fixed height. */
   .chirpy-card-title {
-    @apply text-base-content mt-0 text-2xl leading-snug font-bold tracking-tight sm:text-[1.55rem];
+    @apply text-base-content/90 mt-0 text-lg leading-snug tracking-tight sm:text-[1.3rem];
+    font-family: var(--font-heading);
+    font-weight: 400;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -403,7 +411,7 @@
     overflow: hidden;
   }
   .chirpy-card-title.compact {
-    @apply md:text-[1.4rem];
+    @apply md:text-[1.25rem];
   }
   @media (min-width: 768px) {
     .chirpy-card-link.has-image.dynamic-size .chirpy-card-title {
