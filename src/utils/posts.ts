@@ -89,15 +89,24 @@ export function sortPostsByDate(posts: Post[]): Post[] {
   });
 }
 
-/** Get all posts for a locale (drafts + unlisted hidden in prod, sorted). */
+/** Get all posts for a locale (drafts + unlisted hidden in prod, sorted).
+ *  Falls back to the default locale when the requested locale has no posts. */
 export async function getPosts(locale: Locale): Promise<Post[]> {
   if (skipPostCollections) return [];
-  const all = await getCollection('posts', (entry) => {
+  let all = await getCollection('posts', (entry) => {
     if (isProd && entry.data.draft) return false;
     if (entry.data.unlisted) return false;
     const lang = entry.data.lang ?? localeFromId(entry.id);
     return lang === locale;
   });
+  if (all.length === 0 && locale !== SITE.defaultLocale) {
+    all = await getCollection('posts', (entry) => {
+      if (isProd && entry.data.draft) return false;
+      if (entry.data.unlisted) return false;
+      const lang = entry.data.lang ?? localeFromId(entry.id);
+      return lang === SITE.defaultLocale;
+    });
+  }
   return sortPosts(all.map(normalize));
 }
 
