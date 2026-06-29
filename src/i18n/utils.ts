@@ -118,7 +118,7 @@ export function formatDate(
   const d = typeof date === 'string' ? new Date(date) : date;
   if (Number.isNaN(d.getTime())) return '';
   if (SITE.isoDates) return d.toISOString().slice(0, 10);
-  const lang = locale === 'fr' ? 'fr-FR' : 'en-US';
+  const lang = locale === 'zh' ? 'zh-CN' : locale === 'ja' ? 'ja-JP' : 'en-US';
   return new Intl.DateTimeFormat(lang, options).format(d);
 }
 
@@ -168,9 +168,12 @@ export function canonicalUrl(pathname: string): string {
 /** Pretty label for the language switcher. */
 export function localeLabel(locale: Locale): string {
   switch (locale) {
-    case 'fr':
-      return 'Français';
+    case 'zh':
+      return '中文';
+    case 'ja':
+      return '日本語';
     case 'en':
+      return 'English';
     default:
       return 'English';
   }
@@ -179,9 +182,12 @@ export function localeLabel(locale: Locale): string {
 /** ISO BCP 47 language tag for `<html lang>` and date formatters. */
 export function htmlLang(locale: Locale): string {
   switch (locale) {
-    case 'fr':
-      return 'fr-FR';
+    case 'zh':
+      return 'zh-CN';
+    case 'ja':
+      return 'ja-JP';
     case 'en':
+      return 'en-US';
     default:
       return 'en-US';
   }
