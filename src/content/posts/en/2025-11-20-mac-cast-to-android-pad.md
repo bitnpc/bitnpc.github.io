@@ -1,14 +1,12 @@
 ---
 title: 'Mac Screen Casting to Android Pad Architecture'
 pubDate: 2025-11-20
-categories: [Tech, Audio & Video]
+categories: [Audio/Video]
 tags:
-    - Connectivity
-    - Screen Casting
+    - Screen Mirroring
     - VideoToolbox
-    - Virtual Display
-    - VBR
     - HID
+
 toc: true
 description: 'Mac-to-Android Pad screen casting architecture: virtual display capture, VideoToolbox encoding, VBR strategy, and HID reverse control.'
 ---

@@ -1,13 +1,12 @@
 ---
 title: 'Mijia Camera Technology: A Complete Breakdown'
 pubDate: 2024-11-10
-categories: [Tech, Audio & Video]
+categories: [Smart Home]
 tags:
-    - Smart Home
-    - IoT
-    - Camera
-    - Embedded
+    - Audio/Video
     - P2P
+    - Embedded
+
 toc: true
 description: 'A systematic breakdown of building an industrial-grade Mijia smart camera from three angles: hardware design, software architecture, and cloud services. Uses the PTZ indoor camera as the main thread.'
 ---

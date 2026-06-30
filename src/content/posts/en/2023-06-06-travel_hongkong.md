@@ -1,10 +1,11 @@
 ---
 title: 'Trip to Hong Kong'
 pubDate: 2023-06-14
-categories: [Life, Travel]
+categories: [Travel]
 tags:
-    - Life
-    - Travel
+    - Hong Kong
+    - Food
+    - Guide
 toc: true
 description: 'A personal travelogue covering transportation, accommodation, payment, communication, attractions, food, and impressions from a Hong Kong trip after winning a round-trip ticket from the "World of Winners" campaign.'
 ---

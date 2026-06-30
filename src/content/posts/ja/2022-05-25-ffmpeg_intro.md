@@ -1,10 +1,11 @@
 ---
 title: 'FFmpeg 入門'
 pubDate: 2022-05-25
-categories: [テクノロジー, 音声・映像]
+categories: [オーディオ/ビデオ]
 tags:
     - FFmpeg
-    - 音声・映像
+    - コーデック
+
 toc: true
 description: 'FFmpeg はオープンソースの音声・映像コーデックツールです。インストール方法、基本コマンド、ストリーム処理、フィルター、ライブラリ構成を解説します。'
 ---

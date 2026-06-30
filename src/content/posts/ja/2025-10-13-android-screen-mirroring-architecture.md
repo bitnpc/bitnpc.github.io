@@ -1,14 +1,12 @@
 ---
 title: 'Android スマホの画面を Mac/iPhone にミラーリングするアーキテクチャ実装'
 pubDate: 2025-10-13
-categories: [テクノロジー, 音声・映像]
+categories: [オーディオ/ビデオ]
 tags:
-    - 相互接続
     - 画面ミラーリング
-    - ビデオコーデック
     - Metal
-    - H.264
-    - H.265
+    - Android
+
 toc: true
 description: 'Androidスマホの画面をMac/iPad/iPhoneにミラーリングするエンドツーエンドのアーキテクチャを、キャプチャ・エンコードからネットワーク伝送、デコード・レンダリング、逆方向制御まで分析する。'
 ---

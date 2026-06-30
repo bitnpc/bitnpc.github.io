@@ -1,10 +1,11 @@
 ---
 title: 'macOS 开发环境配置'
 pubDate: 2014-07-01
-categories: [技术, macOS]
+categories: [macOS]
 tags:
-    - 环境配置
-    - macOS
+    - Homebrew
+    - Shell
+    - Git
 toc: true
 description: '第一次配置或重装后的 macOS 环境时，最容易踩坑的地方集中在工具链版本、安装路径与权限控制。本文按「系统准备 → 包管理 → 终端与 Shell → 语言运行时 → 版本控制 → 容器与常用工具」的顺序整理一套通用流程，确保后续开发工作可快速投入。'
 ---

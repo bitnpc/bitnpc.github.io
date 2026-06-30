@@ -1,13 +1,12 @@
 ---
 title: 'Mi Smart Camera（ミヤカメラ）技術実装の完全解説'
 pubDate: 2024-11-10
-categories: [テクノロジー, 音声/映像]
+categories: [スマートホーム]
 tags:
-    - スマートホーム
-    - IoT
-    - カメラ
-    - 組み込み
+    - オーディオ/ビデオ
     - P2P
+    - 組み込み
+
 toc: true
 description: 'ハードウェア・ソフトウェア・クラウドの3観点から、工業レベルのMi Smart Cameraの作り方を解説する。屋内PTZカメラを軸に、デュアルカメラなど形態の違いも説明する。'
 ---

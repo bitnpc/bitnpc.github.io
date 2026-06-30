@@ -1,15 +1,12 @@
 ---
 title: 'An Algorithmic Synthesis Problem: Path With Minimum Effort'
 pubDate: 2023-10-25
-categories: [Tech, Data Structures & Algorithms]
+categories: [Algorithms]
 tags:
-    - leetcode
-    - Data Structures & Algorithms
-    - DFS
-    - BFS
-    - UnionFind
+    - Graph
+    - LeetCode
     - Dijkstra
-    - Binary Search
+
 toc: true
 description: 'A walkthrough of LeetCode 1631 (minimax path) using binary search + BFS/DFS, union-find (Kruskal), and adapted Dijkstra.'
 ---

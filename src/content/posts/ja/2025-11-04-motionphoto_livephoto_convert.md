@@ -1,13 +1,12 @@
 ---
 title: 'Google Motion Photo ↔ Apple Live Photo 形式相互変換実践ガイド'
 pubDate: 2025-11-04
-categories: [テクノロジー, 音声動画]
+categories: [オーディオ/ビデオ]
 tags:
-    - Motion Photo
     - Live Photo
-    - HDR GainMap
+    - Motion Photo
     - HEIC
-    - EXIF/XMP
+    - HDR
 toc: true
 description: 'Google Motion Photo と Apple Live Photo の相互変換手法を、ファイル構造・メタデータ仕様・HDR GainMap/深度情報の保持戦略含めて解説。Swift パッケージとサンプルコード付き。'
 ---

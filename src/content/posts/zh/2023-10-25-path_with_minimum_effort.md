@@ -1,15 +1,12 @@
 ---
 title: '一道算法综合题：Path With Minimum Effort'
 pubDate: 2023-10-25
-categories: [技术, 数据结构与算法]
+categories: [算法]
 tags:
-    - leetcode
-    - 数据结构与算法
-    - DFS
-    - BFS
-    - UnionFind
+    - 图算法
+    - LeetCode
     - Dijkstra
-    - 二分搜索
+
 toc: true
 description: 'LeetCode 1631. Path With Minimum Effort'
 ---

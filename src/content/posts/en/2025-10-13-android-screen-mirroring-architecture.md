@@ -1,14 +1,12 @@
 ---
 title: 'Architecture Implementation of Android Screen Mirroring to Mac/iPhone'
 pubDate: 2025-10-13
-categories: [Tech, Audio & Video]
+categories: [Audio/Video]
 tags:
-    - Connectivity
     - Screen Mirroring
-    - Video Codec
     - Metal
-    - H.264
-    - H.265
+    - Android
+
 toc: true
 description: 'End-to-end architecture of Android screen mirroring to Mac/iPhone: phone-side capture and hardware encoding, network transmission, receiver-side decoding, and Metal rendering. Covers reverse control, transport protocol, and latency optimization.'
 ---

@@ -1,11 +1,11 @@
 ---
 title: 'Subset Generation'
 pubDate: 2019-08-30
-categories: [Tech, Data Structures & Algorithms]
+categories: [Algorithms]
 tags:
-    - leetcode
-    - algorithm
-    - brute force
+    - Brute Force
+    - LeetCode
+
 toc: true
 description: 'A guide to generating all subsets of a set (power set) using three methods: incremental construction, recursive backtracking, and bit manipulation, with C++ examples for LeetCode 78.'
 ---

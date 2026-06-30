@@ -1,12 +1,12 @@
 ---
 title: 'Claude Code Dynamic Workflow 詳細解説'
 pubDate: 2026-06-05
-categories: [技术, AI]
+categories: [AI]
 tags:
     - Claude Code
-    - AI
     - Agent
     - オーケストレーション
+
 translationKey: claude-code-dynamic-workflow
 toc: true
 description: 'Dynamic Workflow は AI 駆動の分割統治法 — Claude が動的生成したスクリプトを独立ランタイムが実行し、Agent ループの限界を突破する。'

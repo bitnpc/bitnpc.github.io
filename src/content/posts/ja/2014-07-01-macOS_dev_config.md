@@ -1,10 +1,11 @@
 ---
 title: 'macOS 開発環境のセットアップ'
 pubDate: 2014-07-01
-categories: [テクノロジー, macOS]
+categories: [macOS]
 tags:
-    - 環境設定
-    - macOS
+    - Homebrew
+    - Shell
+    - Git
 toc: true
 description: 'macOS 開発環境のセットアップ手順を体系的に解説。システム準備、パッケージ管理、シェル設定、言語ランタイム、Git、コンテナまで網羅し、make all で自動再現可能。'
 ---

@@ -1,11 +1,12 @@
 ---
 title: 'Swift Async/Await Deep Dive: From Implementation to Best Practices'
 pubDate: 2026-02-02
-categories: [技术, iOS]
+categories: [iOS]
 tags:
     - Swift
-    - Async/Await
     - Concurrency
+    - Actor
+
 translationKey: swift-async-await-deep-dive
 toc: true
 description: 'A deep dive into Swift async/await covering implementation internals, performance comparison with GCD and callbacks, Actor-based data race protection, and best practices for production code.'

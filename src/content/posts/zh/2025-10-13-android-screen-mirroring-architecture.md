@@ -1,14 +1,12 @@
 ---
 title: 'Android 手机投屏到 Mac/iPhone 的架构实现'
 pubDate: 2025-10-13
-categories: [技术, 音视频]
+categories: [音视频]
 tags:
-    - 互联互通
     - 投屏
-    - 视频编解码
     - Metal
-    - H.264
-    - H.265
+    - Android
+
 toc: true
 description: '手机投屏是一项常见的需求：把 Android 手机的画面实时投射到电脑（Mac）或平板（iPad/iPhone）上，用于演示、远程协助或多媒体分享。实现一个低延迟、高流畅度的投屏方案，需要覆盖从手机端的屏幕采集编码、网络传输、到接收端的解码渲染全链路。'
 ---

@@ -1,12 +1,12 @@
 ---
 title: 'Claude Code Dynamic Workflow: A Deep Dive'
 pubDate: 2026-06-05
-categories: [技术, AI]
+categories: [AI]
 tags:
     - Claude Code
-    - AI
     - Agent
     - Orchestration
+
 translationKey: claude-code-dynamic-workflow
 toc: true
 description: 'Claude Code Dynamic Workflow uses AI-generated orchestration scripts to decompose, parallelize, verify, and merge tasks, overcoming the context, parallelism, and verification limits of single-agent loops.'

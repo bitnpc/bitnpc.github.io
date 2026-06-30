@@ -1,14 +1,12 @@
 ---
 title: 'Mac 投屏到 Android Pad 的架构实现'
 pubDate: 2025-11-20
-categories: [技术, 音视频]
+categories: [音视频]
 tags:
-    - 互联互通
     - 投屏
     - VideoToolbox
-    - 虚拟显示器
-    - VBR
     - HID
+
 toc: true
 description: '苹果的 Sidecar（随航）能把 Mac 画面扩展到 iPad 上，并在 iPad 上触控操作 Mac。但 Sidecar 仅限 Apple 生态——能不能在 Android Pad 上实现同样的体验？'
 ---

@@ -1,15 +1,12 @@
 ---
 title: 'アルゴリズム総合問題：Path With Minimum Effort'
 pubDate: 2023-10-25
-categories: [テクノロジー, データ構造とアルゴリズム]
+categories: [アルゴリズム]
 tags:
-    - leetcode
-    - データ構造とアルゴリズム
-    - DFS
-    - BFS
-    - UnionFind
+    - グラフ
+    - LeetCode
     - Dijkstra
-    - 二分探索
+
 toc: true
 description: 'LeetCode 1631を3つのアルゴリズム（二分探索+BFS/DFS、Union-Find、Dijkstra改造版）で解説。グリッド上のminimax経路問題を多角的に分析し、類似問題も紹介。'
 ---

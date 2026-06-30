@@ -1,11 +1,12 @@
 ---
 title: 'Swift Async/Await 深度解析：从实现机制到最佳实践'
 pubDate: 2026-02-02
-categories: [技术, iOS]
+categories: [iOS]
 tags:
     - Swift
-    - Async/Await
     - 并发编程
+    - Actor
+
 translationKey: swift-async-await-deep-dive
 toc: true
 description: 'Swift 的 async/await 是 Swift 5.5 引入的现代并发编程模型，它彻底改变了 Swift 中异步代码的编写方式。相比传统的回调（Completion Handler）和 GCD（Grand Central Dispatch），async/await 提供了更简洁、更安全、更高效的异步编程体验。'

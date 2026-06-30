@@ -1,11 +1,12 @@
 ---
 title: 'Swift Async/Await 詳細解説：実装メカニズムからベストプラクティスまで'
 pubDate: 2026-02-02
-categories: [技术, iOS]
+categories: [iOS]
 tags:
     - Swift
-    - Async/Await
     - 並行プログラミング
+    - Actor
+
 translationKey: swift-async-await-deep-dive
 toc: true
 description: 'Swift 5.5のasync/awaitを徹底解説。実装メカニズム、Actor分離、GCD比較、マルチスレッド安全性、ベストプラクティスを網羅。'

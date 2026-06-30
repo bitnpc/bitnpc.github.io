@@ -1,11 +1,11 @@
 ---
 title: 'Binary Search and Its Applications'
 pubDate: 2019-08-23
-categories: [Tech, Data Structures and Algorithms]
-tags: 
-    - leetcode
-    - data structures and algorithms
-    - binary search
+categories: [Algorithms]
+tags:
+    - Binary Search
+    - LeetCode
+
 toc: true
 description: 'Binary Search locates targets in ordered or monotonic spaces in O(log n) time. Covers templates, rotated arrays, 2D matrices, BSTs, and answer-space search techniques.'
 translationKey: 'binary_search'
@@ -61,7 +61,6 @@ description: **Key Techniques**:
 ```
 
 Next, we'll walk through typical problems to illustrate common application scenarios.
-
 
 ## 2. Basic Example: Searching in a Sorted Array
 

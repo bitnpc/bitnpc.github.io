@@ -1,10 +1,12 @@
 ---
 title: 'Deploying ComfyUI on macOS'
 pubDate: 2024-03-13
-categories: [Tech, Large Language Models]
-tags: 
-    - Large Language Models
+categories: [AI]
+tags:
     - Stable Diffusion
+    - ComfyUI
+    - macOS
+
 toc: true
 description: 'A guide to installing and running ComfyUI on Apple Silicon Mac, including Python setup, PyTorch, dependencies, and troubleshooting.'
 ---

@@ -1,10 +1,11 @@
 ---
 title: 'Introduction to FFmpeg'
 pubDate: 2022-05-25
-categories: [Tech, Audio & Video]
+categories: [Audio/Video]
 tags:
     - FFmpeg
-    - Audio & Video
+    - Codec
+
 toc: true
 description: 'An introduction to FFmpeg covering installation, command-line syntax, transcoding, stream selection, filtergraphs, and the architecture of its core library modules.'
 ---

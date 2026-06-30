@@ -1,10 +1,12 @@
 ---
 title: '在 macOS 上部署 ComfyUI'
 pubDate: 2024-03-13
-categories: [技术, 大模型]
-tags: 
-    - 大模型
+categories: [AI]
+tags:
     - Stable Diffusion
+    - ComfyUI
+    - macOS
+
 toc: true
 description: 'ComfyUI 是一个强大且模块化的 Stable Diffusion 图形用户界面（GUI）和后端工具。它提供了一个基于图形、节点和流程图的界面，让您能够设计和执行复杂的稳定扩散工作流程。它有以下特点和功能:'
 ---
@@ -86,7 +88,6 @@ To see the GUI go to: http://127.0.0.1:8188
 type: warning
 description: macOS Ventura 可以正常生成图片。macOS Sonoma 14.4 (23E214) 的 GPU 加速会失效，导致生成纯色图像。可以通过增加参数 -cpu 解决，缺点是生成图片会变慢。
 ```
-
 
 参考资料
 1. [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI.git)

@@ -1,10 +1,11 @@
 ---
 title: 'FFmpeg 简介'
 pubDate: 2022-05-25
-categories: [技术, 音视频]
+categories: [音视频]
 tags:
     - FFmpeg
-    - 音视频
+    - 编解码
+
 toc: true
 description: 'FFmpeg 既是一款音视频编解码工具，也是一组音视频编解码开发套件。它是开源多媒体处理领域的事实标准，几乎所有的视频播放器、流媒体服务、视频编辑软件背后都依赖 FFmpeg。'
 ---

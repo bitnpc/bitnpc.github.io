@@ -1,13 +1,15 @@
 ---
 title: 'Deep Dive into Vision Framework: Modern iOS Computer Vision Architecture and Practice'
 pubDate: 2025-08-26
-categories: [Tech, AI]
-tags: 
+categories: [iOS]
+tags:
     - Vision
+    - Core ML
+    - Computer Vision
+
 toc: true
 description: "Apple's Vision framework combines hardware acceleration, ML optimization, and Swift concurrency to deliver high-performance computer vision for iOS. Covers architecture, face detection, text recognition, pose tracking, and production best practices."
 ---
-
 
 ## Overview
 The Vision framework represents Apple's systemic innovation in mobile computer vision. By deeply integrating hardware acceleration, machine learning optimization, and modern Swift concurrency programming, it provides developers with high-performance visual processing capabilities. This article explores its architectural design, core capabilities, and best practices in depth.
@@ -459,6 +461,5 @@ Key Takeaways:
 - Modern concurrency programming greatly simplifies asynchronous processing
 - System-level optimization requires comprehensive consideration of memory, power, and performance
 - Error handling and resource management are critical for production environments
-
 
 https://developer.apple.com/documentation/samplecode/#Vision

@@ -1,11 +1,11 @@
 ---
 title: '部分集合の生成'
 pubDate: 2019-08-30
-categories: [テクノロジー, データ構造とアルゴリズム]
+categories: [アルゴリズム]
 tags:
-    - leetcode
-    - アルゴリズム
-    - 力任せ探索
+    - 全探索
+    - LeetCode
+
 translationKey: subset_generate
 toc: true
 description: 'LeetCode 78「Subsets」で全ての部分集合を生成する三手法（インクリメンタル構築、バックトラッキング、ビット演算）を解説する。'

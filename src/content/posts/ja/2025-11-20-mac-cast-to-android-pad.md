@@ -1,14 +1,12 @@
 ---
 title: 'Mac 画面を Android Pad にキャストするアーキテクチャ実装'
 pubDate: 2025-11-20
-categories: [テクノロジー, 音声・動画]
+categories: [オーディオ/ビデオ]
 tags:
-    - 相互接続
-    - 画面キャスト
+    - 画面ミラーリング
     - VideoToolbox
-    - 仮想ディスプレイ
-    - VBR
     - HID
+
 toc: true
 description: 'Mac画面をAndroid Padにキャストする仮想ディスプレイ、VideoToolboxエンコード、HID逆操作注入のアーキテクチャ実装解説。'
 ---

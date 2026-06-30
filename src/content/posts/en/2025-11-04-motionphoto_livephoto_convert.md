@@ -1,13 +1,12 @@
 ---
 title: 'Google Motion Photo ↔ Apple Live Photo Format Conversion in Practice'
 pubDate: 2025-11-04
-categories: [Tech, Audio & Video]
+categories: [Audio/Video]
 tags:
-    - Motion Photo
     - Live Photo
-    - HDR GainMap
+    - Motion Photo
     - HEIC
-    - EXIF/XMP
+    - HDR
 toc: true
 description: 'Examines file structure, metadata, and conversion paths between Google Motion Photo and Apple Live Photo, with a two-way lossless-preferring scheme for HDR GainMap and Depth retention via a reusable Swift package.'
 ---

@@ -1,11 +1,12 @@
 ---
 title: 'Exploring Crashes in iOS'
 pubDate: 2018-11-28
-categories: [Tech, iOS]
-tags: 
+categories: [iOS]
+tags:
     - Crash
-    - iOS
+    - Mach-O
     - Exception Handling
+
 toc: true
 description: 'A comprehensive guide to iOS crashes covering their nature as exception control flow, common causes, capture mechanisms, investigation methods, and governance.'
 ---

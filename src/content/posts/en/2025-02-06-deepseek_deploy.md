@@ -1,14 +1,15 @@
 ---
 title: 'Deploy Deepseek Locally with Ollama and Integrate into VSCode'
 pubDate: 2024-09-06
-categories: [Tech, LLM]
-tags: 
+categories: [AI]
+tags:
     - Ollama
-    - Deepseek
+    - DeepSeek
+    - Local Deployment
+
 toc: true
 description: 'Run DeepSeek locally on macOS with Ollama and connect it to VSCode via the Continue extension for AI-assisted coding.'
 ---
-
 
 ## What are Ollama and DeepSeek?
 
@@ -17,7 +18,6 @@ Ollama is a tool for locally deploying and managing AI models. It allows develop
 
 **DeepSeek**
 DeepSeek is an AI-powered code completion tool that provides intelligent code suggestions based on context. DeepSeek supports multiple programming languages and can be integrated into various development environments, such as VSCode, IntelliJ IDEA, etc., through its API.
-
 
 ## Deploy DeepSeek with Ollama on macOS
 

@@ -1,12 +1,12 @@
 ---
 title: 'Claude Code Dynamic Workflow 深度解析'
 pubDate: 2026-06-05
-categories: [技术, AI]
+categories: [AI]
 tags:
     - Claude Code
-    - AI
     - Agent
     - 编排
+
 translationKey: claude-code-dynamic-workflow
 toc: true
 description: 'Dynamic Workflow 的本质是 AI 驱动的分治法——Claude 动态生成"分解-并行求解-验证-合并"的编排脚本，由独立运行时执行，从而突破单 Agent 的上下文、并行度和验证能力瓶颈。'

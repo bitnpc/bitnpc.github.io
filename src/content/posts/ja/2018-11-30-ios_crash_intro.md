@@ -1,11 +1,12 @@
 ---
 title: 'iOS における Crash の探求'
 pubDate: 2018-11-28
-categories: [テクノロジー, iOS]
-tags: 
+categories: [iOS]
+tags:
     - Crash
-    - iOS
+    - Mach-O
     - 例外処理
+
 toc: true
 description: 'iOS Crashの本質、一般的な原因、伝達フロー、調査方法、実践ケース、管理体制について体系的に解説します。'
 ---

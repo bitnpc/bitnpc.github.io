@@ -1,10 +1,12 @@
 ---
 title: 'macOS で ComfyUI をデプロイする'
 pubDate: 2024-03-13
-categories: [テクノロジー, 大規模モデル]
-tags: 
-    - 大規模モデル
+categories: [AI]
+tags:
     - Stable Diffusion
+    - ComfyUI
+    - macOS
+
 toc: true
 description: 'macOS（Apple Silicon）に ComfyUI をインストールし、Stable Diffusion のノードベースワークフローを実行する手順を解説します。'
 ---
@@ -87,7 +89,6 @@ To see the GUI go to: http://127.0.0.1:8188
 type: warning
 description: macOS Ventura では正常に画像を生成できます。macOS Sonoma 14.4 (23E214) では GPU アクセラレーションが無効になり、ベタ塗りの画像が生成される場合があります。回避策として -cpu パラメータを追加してください。ただし、画像生成が遅くなることに注意してください。
 ```
-
 
 参考文献
 1. [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI.git)

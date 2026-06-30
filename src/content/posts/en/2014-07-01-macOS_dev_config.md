@@ -1,10 +1,11 @@
 ---
 title: 'macOS Development Environment Setup'
 pubDate: 2014-07-01
-categories: [Tech, macOS]
+categories: [macOS]
 tags:
-    - Environment Setup
-    - macOS
+    - Homebrew
+    - Shell
+    - Git
 toc: true
 description: 'Step-by-step guide to setting up a macOS development environment with Homebrew, shell configuration, language runtimes, Git dual-identity setup, containers, and automated deployment.'
 ---

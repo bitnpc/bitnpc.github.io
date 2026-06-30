@@ -1,11 +1,12 @@
 ---
 title: 'iOS 中的 Crash 探究'
 pubDate: 2018-11-28
-categories: [技术, iOS]
-tags: 
+categories: [iOS]
+tags:
     - Crash
-    - iOS
+    - Mach-O
     - 异常处理
+
 toc: true
 description: 'Crash 是我们在日常使用 App 时偶尔会遇到的"闪退"，直接影响用户体验与留存。Crash 率是衡量 App 质量的重要指标之一。'
 ---
