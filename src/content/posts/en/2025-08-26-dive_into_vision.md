@@ -26,41 +26,30 @@ description: "Vision empowers developers to focus on the application logic of co
 
 The Vision framework adopts a carefully designed layered architecture, where each layer targets specific optimization goals:
 
-```mermaid
-flowchart TD
-    subgraph A["Application Layer"]
-        A1[VNRequest]
-        A2[VNObservation]
-    end
-
-    subgraph B["Runtime Engine"]
-        B1[Task Scheduling]
-        B2[Memory Management]
-        B3[Pipeline Processing]
-    end
-
-    subgraph C["Hardware Abstraction Layer"]
-        C1[Metal]
-        C2[BNNS]
-        C3[ANE]
-        C4[CoreML]
-    end
-
-    subgraph D["Hardware Accelerators"]
-        D1[GPU]
-        D2[NPU]
-        D3[CPU]
-        D4[Image Signal Processor]
-    end
-
-    A --> B
-    B --> C
-    C --> D
-
-    style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style B fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
-    style C fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style D fill:#fbe9e7,stroke:#bf360c,stroke-width:2px
+```text
+┌─────────────────────────────────────────────────┐
+│  Application Layer                               │
+│    VNRequest  →  VNObservation                   │
+└──────────────────────┬──────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────┐
+│  Runtime Engine                                   │
+│    Task Scheduling → Memory Management           │
+│    → Pipeline Processing                         │
+└──────────────────────┬──────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────┐
+│  Hardware Abstraction Layer                      │
+│    Metal  →  BNNS  →  ANE  →  CoreML            │
+└──────────────────────┬──────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────┐
+│  Hardware Accelerators                           │
+│    GPU  →  NPU  →  CPU  →  ISP                   │
+└─────────────────────────────────────────────────┘
 ```
 
 Design Advantages:
