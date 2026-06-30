@@ -39,19 +39,26 @@ description: "async/await is more than syntactic sugar — it's the core of Swif
 
 Swift's async/await is built on the **Structured Concurrency** model, which is its core design philosophy:
 
-```mermaid
-flowchart TD
-    A[async function call] --> B[Create Continuation]
-    B --> C[Suspend current task]
-    C --> D[Save execution context]
-    D --> E[Wait for async operation]
-    E --> F[Resume execution]
-    F --> G[Return result]
-
-    H[Task creation] --> I[Task tree structure]
-    I --> J[Parent manages child tasks]
-    J --> K[Automatic cancellation propagation]
-    K --> L[Automatic resource cleanup]
+```text
+async function call          Task creation
+     │                             │
+     ▼                             ▼
+Create Continuation           Task tree structure
+     │                             │
+     ▼                             ▼
+Suspend current task          Parent manages child tasks
+     │                             │
+     ▼                             ▼
+Save execution context        Automatic cancellation propagation
+     │                             │
+     ▼                             ▼
+Wait for async operation      Automatic resource cleanup
+     │
+     ▼
+Resume execution
+     │
+     ▼
+Return result
 ```
 
 **Core concepts:**
