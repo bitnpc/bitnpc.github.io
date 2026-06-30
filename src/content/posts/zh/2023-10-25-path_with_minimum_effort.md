@@ -3,9 +3,9 @@ title: '一道算法综合题：Path With Minimum Effort'
 pubDate: 2023-10-25
 categories: [算法]
 tags:
-    - 图算法
-    - LeetCode
-    - Dijkstra
+  - 图算法
+  - LeetCode
+  - Dijkstra
 
 toc: true
 description: 'LeetCode 1631. Path With Minimum Effort'
@@ -36,11 +36,11 @@ This is better than the route of [1,2,2,2,5], where the maximum absolute differe
 
 这道题之所以是一道优秀的综合题，在于它可以用**至少四种不同的算法范式**来解决，且每种解法都体现了不同的思维角度：
 
-| 方法 | 核心思想 | 时间复杂度 |
-|------|---------|-----------|
-| 二分 + BFS/DFS | 将最优化问题转化为判定问题 | O(mn · log(maxHeight)) |
-| 并查集 (Kruskal) | 将问题建模为最小瓶颈路 | O(mn · log(mn)) |
-| Dijkstra | 改造最短路算法，松弛条件变为 max | O(mn · log(mn)) |
+| 方法             | 核心思想                         | 时间复杂度             |
+| ---------------- | -------------------------------- | ---------------------- |
+| 二分 + BFS/DFS   | 将最优化问题转化为判定问题       | O(mn · log(maxHeight)) |
+| 并查集 (Kruskal) | 将问题建模为最小瓶颈路           | O(mn · log(mn))        |
+| Dijkstra         | 改造最短路算法，松弛条件变为 max | O(mn · log(mn))        |
 
 **关键观察**：这道题求的不是路径上所有边权之和的最小值（经典最短路），而是路径上**单条边权的最大值**的最小值。这种 "minimax path" 问题在图论中称为**最小瓶颈路 (Minimum Bottleneck Path)**。
 
@@ -57,6 +57,7 @@ This is better than the route of [1,2,2,2,5], where the maximum absolute differe
 - **搜索空间**：答案在 `[0, maxHeight - minHeight]` 之间，对这个区间做二分，每次用 BFS/DFS 验证可行性。
 
 ### BFS 实现
+
 ```c++
 class Solution {
 private:
@@ -109,6 +110,7 @@ public:
 ```
 
 ### DFS 实现
+
 ```c++
 class Solution {
 private:
@@ -328,12 +330,12 @@ public:
 
 这类"最小化路径上最大边权"的问题在 LeetCode 和竞赛中反复出现：
 
-| 题目 | 核心差异 |
-|------|---------|
-| [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/) | 边权变为 max(grid[nx][ny], grid[x][y])，即需等待水位降到格子高度才能通过 |
-| [1102. Path With Maximum Minimum Value](https://leetcode.com/problems/path-with-maximum-minimum-value/) | 反过来：最大化路径上的最小值 (maximin)，同样可用三种方法 |
-| [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/) | 先 BFS 预处理每个格子到最近威胁的距离，再求 maximin path |
-| [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/) | 边权为概率，路径值为乘积的最大值，Dijkstra 取 max 变体 |
+| 题目                                                                                                    | 核心差异                                                                 |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/)                        | 边权变为 max(grid[nx][ny], grid[x][y])，即需等待水位降到格子高度才能通过 |
+| [1102. Path With Maximum Minimum Value](https://leetcode.com/problems/path-with-maximum-minimum-value/) | 反过来：最大化路径上的最小值 (maximin)，同样可用三种方法                 |
+| [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/)   | 先 BFS 预处理每个格子到最近威胁的距离，再求 maximin path                 |
+| [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/)     | 边权为概率，路径值为乘积的最大值，Dijkstra 取 max 变体                   |
 
 ### 更广泛的 "二分答案 + 判定" 模式
 
@@ -344,6 +346,7 @@ public:
 - 给定答案后，判定问题比原问题容易得多
 
 常见应用场景：
+
 - **二分 + 图搜索**：本题、Swim in Rising Water
 - **二分 + 贪心**：分割数组的最大值 ([410](https://leetcode.com/problems/split-array-largest-sum/))
 - **二分 + DP**：第 K 小的距离对 ([719](https://leetcode.com/problems/find-k-th-smallest-pair-distance/))

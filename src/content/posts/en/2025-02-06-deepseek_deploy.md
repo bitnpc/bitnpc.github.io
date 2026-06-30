@@ -3,9 +3,9 @@ title: 'Deploy Deepseek Locally with Ollama and Integrate into VSCode'
 pubDate: 2024-09-06
 categories: [AI]
 tags:
-    - Ollama
-    - DeepSeek
-    - Local Deployment
+  - Ollama
+  - DeepSeek
+  - Local Deployment
 
 toc: true
 description: 'Run DeepSeek locally on macOS with Ollama and connect it to VSCode via the Continue extension for AI-assisted coding.'

@@ -39,8 +39,12 @@ const groups = groupByYearMonth(posts, locale);
                 {yearPosts.map((p) => (
                   <li>
                     <span class="date">
-                      <span class="day">{formatDate(p.data.pubDate, locale, { day: 'numeric' })}</span>
-                      <span class="month">{formatDate(p.data.pubDate, locale, { month: 'short' })}</span>
+                      <span class="day">
+                        {formatDate(p.data.pubDate, locale, { day: 'numeric' })}
+                      </span>
+                      <span class="month">
+                        {formatDate(p.data.pubDate, locale, { month: 'short' })}
+                      </span>
                     </span>
                     <a href={postPath(p)}>{p.data.title}</a>
                   </li>

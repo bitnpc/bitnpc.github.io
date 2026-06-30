@@ -3,9 +3,9 @@ title: 'Swift Async/Await Deep Dive: From Implementation to Best Practices'
 pubDate: 2026-02-02
 categories: [iOS]
 tags:
-    - Swift
-    - Concurrency
-    - Actor
+  - Swift
+  - Concurrency
+  - Actor
 
 translationKey: swift-async-await-deep-dive
 toc: true
@@ -15,6 +15,7 @@ description: 'A deep dive into Swift async/await covering implementation interna
 ## Overview
 
 Swift's async/await is a modern concurrency programming model introduced in Swift 5.5 that fundamentally changed how asynchronous code is written in Swift. Compared to traditional completion handlers and GCD, async/await delivers a cleaner, safer, and more efficient async programming experience.
+
 ```alert
 type: success
 description: "async/await is more than syntactic sugar — it's the core of Swift's concurrency system, providing structured concurrency, actor isolation, and compile-time safety guarantees." — Swift Evolution Proposal SE-0296
@@ -203,11 +204,11 @@ func fetchData() async throws -> Data {
 
 **Memory comparison:**
 
-| Approach | Memory overhead (single call) | Notes |
-|----------|-------------------------------|-------|
-| **Callback closure** | ~200-500 bytes | Closure object + captured variables |
-| **Async/Await** | ~48-96 bytes | Continuation + state machine |
-| **GCD Dispatch** | ~100-200 bytes | Block object + context |
+| Approach             | Memory overhead (single call) | Notes                               |
+| -------------------- | ----------------------------- | ----------------------------------- |
+| **Callback closure** | ~200-500 bytes                | Closure object + captured variables |
+| **Async/Await**      | ~48-96 bytes                  | Continuation + state machine        |
+| **GCD Dispatch**     | ~100-200 bytes                | Block object + context              |
 
 **Optimization effect:** async/await reduces memory overhead by **60-80%** compared to the callback approach.
 
@@ -278,10 +279,10 @@ Task {
 
 **Actual test data:**
 
-| Scenario | GCD threads | Async/Await threads | Performance gain |
-|----------|-------------|---------------------|------------------|
-| 100 concurrent requests | 8-12 | 4-6 | +30% |
-| 1000 concurrent requests | 50-80 | 4-6 | +150% |
+| Scenario                 | GCD threads | Async/Await threads | Performance gain |
+| ------------------------ | ----------- | ------------------- | ---------------- |
+| 100 concurrent requests  | 8-12        | 4-6                 | +30%             |
+| 1000 concurrent requests | 50-80       | 4-6                 | +150%            |
 
 ---
 
@@ -385,12 +386,12 @@ func testAsyncAwait() async {
 
 **Test results:**
 
-| Metric | GCD | Async/Await | Improvement |
-|--------|-----|-------------|-------------|
-| **Execution time** | 2.3s | 1.9s | +21% |
-| **Peak memory** | 45MB | 28MB | +38% |
-| **CPU usage** | 78% | 62% | +21% |
-| **Peak threads** | 12 | 4 | +67% |
+| Metric             | GCD  | Async/Await | Improvement |
+| ------------------ | ---- | ----------- | ----------- |
+| **Execution time** | 2.3s | 1.9s        | +21%        |
+| **Peak memory**    | 45MB | 28MB        | +38%        |
+| **CPU usage**      | 78%  | 62%         | +21%        |
+| **Peak threads**   | 12   | 4           | +67%        |
 
 ### 3.3 Error Handling Comparison
 
@@ -650,9 +651,9 @@ class LockedSharedState {
 
 ```javascript
 async function fetchData() {
-    const response = await fetch('https://api.example.com/data');
-    const data = await response.json();
-    return data;
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+  return data;
 }
 ```
 
@@ -667,13 +668,13 @@ func fetchData() async throws -> Data {
 
 **Comparative analysis:**
 
-| Feature | JavaScript | Swift | Notes |
-|---------|-----------|-------|-------|
-| **Type safety** | ❌ Dynamic typing | ✅ Static typing | Swift compile-time checks |
-| **Error handling** | try/catch | try/catch + throws | Swift enforces error declaration |
-| **Concurrency model** | Single-threaded event loop | Multi-threaded cooperative | Swift has true concurrency |
-| **Cancellation** | AbortController | Task.cancel() | Swift structured cancellation |
-| **Data race protection** | ❌ None | ✅ Actor | Swift compile-time checks |
+| Feature                  | JavaScript                 | Swift                      | Notes                            |
+| ------------------------ | -------------------------- | -------------------------- | -------------------------------- |
+| **Type safety**          | ❌ Dynamic typing          | ✅ Static typing           | Swift compile-time checks        |
+| **Error handling**       | try/catch                  | try/catch + throws         | Swift enforces error declaration |
+| **Concurrency model**    | Single-threaded event loop | Multi-threaded cooperative | Swift has true concurrency       |
+| **Cancellation**         | AbortController            | Task.cancel()              | Swift structured cancellation    |
+| **Data race protection** | ❌ None                    | ✅ Actor                   | Swift compile-time checks        |
 
 **Advantages:**
 
@@ -704,13 +705,13 @@ func fetchData() async throws -> Data {
 
 **Comparative analysis:**
 
-| Feature | C# | Swift | Notes |
-|---------|-----|-------|-------|
-| **Return type** | `Task<T>` | `async throws -> T` | Swift is more concise |
-| **Error handling** | `Task<T>` / `Task<TResult>` | `throws` | Swift explicit errors |
-| **Cancellation** | `CancellationToken` | `Task.cancel()` | Swift is simpler |
-| **Concurrency safety** | `lock`, `Monitor` | `Actor` | Swift Actor is safer |
-| **Structured concurrency** | ❌ None | ✅ Yes | Swift structured concurrency |
+| Feature                    | C#                          | Swift               | Notes                        |
+| -------------------------- | --------------------------- | ------------------- | ---------------------------- |
+| **Return type**            | `Task<T>`                   | `async throws -> T` | Swift is more concise        |
+| **Error handling**         | `Task<T>` / `Task<TResult>` | `throws`            | Swift explicit errors        |
+| **Cancellation**           | `CancellationToken`         | `Task.cancel()`     | Swift is simpler             |
+| **Concurrency safety**     | `lock`, `Monitor`           | `Actor`             | Swift Actor is safer         |
+| **Structured concurrency** | ❌ None                     | ✅ Yes              | Swift structured concurrency |
 
 **Swift advantages:**
 
@@ -741,13 +742,13 @@ func fetchData() async throws -> Data {
 
 **Comparative analysis:**
 
-| Feature | Rust | Swift | Notes |
-|---------|------|-------|-------|
-| **Memory safety** | ✅ Ownership system | ✅ ARC | Both provide memory safety |
-| **Concurrency safety** | ✅ Send + Sync | ✅ Sendable + Actor | Both provide concurrency safety |
-| **Zero-cost abstraction** | ✅ Yes | ⚠️ Partial | Rust is more thorough |
-| **Error handling** | `Result<T, E>` | `throws` | Rust explicit, Swift concise |
-| **Runtime** | Minimal runtime | Swift Runtime | Swift runtime is larger |
+| Feature                   | Rust                | Swift               | Notes                           |
+| ------------------------- | ------------------- | ------------------- | ------------------------------- |
+| **Memory safety**         | ✅ Ownership system | ✅ ARC              | Both provide memory safety      |
+| **Concurrency safety**    | ✅ Send + Sync      | ✅ Sendable + Actor | Both provide concurrency safety |
+| **Zero-cost abstraction** | ✅ Yes              | ⚠️ Partial          | Rust is more thorough           |
+| **Error handling**        | `Result<T, E>`      | `throws`            | Rust explicit, Swift concise    |
+| **Runtime**               | Minimal runtime     | Swift Runtime       | Swift runtime is larger         |
 
 **Swift advantages:**
 
@@ -783,13 +784,13 @@ func fetchData() async throws -> Data {
 
 **Comparative analysis:**
 
-| Feature | Kotlin | Swift | Notes |
-|---------|--------|-------|-------|
-| **Keyword** | `suspend` | `async` | Semantically similar |
-| **Error handling** | `Result<T>` / exceptions | `throws` | Swift more unified |
-| **Structured concurrency** | ✅ CoroutineScope | ✅ Task | Both supported |
-| **Cancellation** | `Job.cancel()` | `Task.cancel()` | Both supported |
-| **Concurrency safety** | `Mutex`, `Atomic` | `Actor` | Swift Actor is safer |
+| Feature                    | Kotlin                   | Swift           | Notes                |
+| -------------------------- | ------------------------ | --------------- | -------------------- |
+| **Keyword**                | `suspend`                | `async`         | Semantically similar |
+| **Error handling**         | `Result<T>` / exceptions | `throws`        | Swift more unified   |
+| **Structured concurrency** | ✅ CoroutineScope        | ✅ Task         | Both supported       |
+| **Cancellation**           | `Job.cancel()`           | `Task.cancel()` | Both supported       |
+| **Concurrency safety**     | `Mutex`, `Atomic`        | `Actor`         | Swift Actor is safer |
 
 **Similarities:**
 

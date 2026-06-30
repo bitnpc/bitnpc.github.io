@@ -3,9 +3,9 @@ title: 'Swift Async/Await 深度解析：从实现机制到最佳实践'
 pubDate: 2026-02-02
 categories: [iOS]
 tags:
-    - Swift
-    - 并发编程
-    - Actor
+  - Swift
+  - 并发编程
+  - Actor
 
 translationKey: swift-async-await-deep-dive
 toc: true
@@ -15,6 +15,7 @@ description: 'Swift 的 async/await 是 Swift 5.5 引入的现代并发编程模
 ## 概述
 
 Swift 的 async/await 是 Swift 5.5 引入的现代并发编程模型，它彻底改变了 Swift 中异步代码的编写方式。相比传统的回调（Completion Handler）和 GCD（Grand Central Dispatch），async/await 提供了更简洁、更安全、更高效的异步编程体验。
+
 ```alert
 type: success
 description: "async/await 不仅仅是语法糖，它是 Swift 并发系统的核心，提供了结构化并发、actor 隔离和编译器级别的安全检查。" —— Swift Evolution Proposal SE-0296
@@ -203,11 +204,11 @@ func fetchData() async throws -> Data {
 
 **内存对比：**
 
-| 方式 | 内存开销（单次调用） | 说明 |
-|------|---------------------|------|
-| **回调闭包** | ~200-500 字节 | 闭包对象 + 捕获变量 |
-| **Async/Await** | ~48-96 字节 | Continuation + 状态机 |
-| **GCD Dispatch** | ~100-200 字节 | Block 对象 + 上下文 |
+| 方式             | 内存开销（单次调用） | 说明                  |
+| ---------------- | -------------------- | --------------------- |
+| **回调闭包**     | ~200-500 字节        | 闭包对象 + 捕获变量   |
+| **Async/Await**  | ~48-96 字节          | Continuation + 状态机 |
+| **GCD Dispatch** | ~100-200 字节        | Block 对象 + 上下文   |
 
 **优化效果：** async/await 相比回调方式减少 **60-80%** 的内存开销。
 
@@ -278,10 +279,10 @@ Task {
 
 **实际测试数据：**
 
-| 场景 | GCD 线程数 | Async/Await 线程数 | 性能提升 |
-|------|-----------|-------------------|---------|
-| 100 并发请求 | 8-12 | 4-6 | +30% |
-| 1000 并发请求 | 50-80 | 4-6 | +150% |
+| 场景          | GCD 线程数 | Async/Await 线程数 | 性能提升 |
+| ------------- | ---------- | ------------------ | -------- |
+| 100 并发请求  | 8-12       | 4-6                | +30%     |
+| 1000 并发请求 | 50-80      | 4-6                | +150%    |
 
 ---
 
@@ -385,12 +386,12 @@ func testAsyncAwait() async {
 
 **测试结果：**
 
-| 指标 | GCD | Async/Await | 提升 |
-|------|-----|-------------|------|
-| **执行时间** | 2.3s | 1.9s | +21% |
-| **内存峰值** | 45MB | 28MB | +38% |
-| **CPU 使用率** | 78% | 62% | +21% |
-| **线程数峰值** | 12 | 4 | +67% |
+| 指标           | GCD  | Async/Await | 提升 |
+| -------------- | ---- | ----------- | ---- |
+| **执行时间**   | 2.3s | 1.9s        | +21% |
+| **内存峰值**   | 45MB | 28MB        | +38% |
+| **CPU 使用率** | 78%  | 62%         | +21% |
+| **线程数峰值** | 12   | 4           | +67% |
 
 ### 3.3 错误处理对比
 
@@ -650,9 +651,9 @@ class LockedSharedState {
 
 ```javascript
 async function fetchData() {
-    const response = await fetch('https://api.example.com/data');
-    const data = await response.json();
-    return data;
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+  return data;
 }
 ```
 
@@ -667,13 +668,13 @@ func fetchData() async throws -> Data {
 
 **对比分析：**
 
-| 特性 | JavaScript | Swift | 说明 |
-|------|-----------|-------|------|
-| **类型安全** | ❌ 动态类型 | ✅ 静态类型 | Swift 编译时检查 |
-| **错误处理** | try/catch | try/catch + throws | Swift 强制错误声明 |
-| **并发模型** | 单线程事件循环 | 多线程协作 | Swift 真正的并发 |
-| **取消机制** | AbortController | Task.cancel() | Swift 结构化取消 |
-| **数据竞争保护** | ❌ 无 | ✅ Actor | Swift 编译时检查 |
+| 特性             | JavaScript      | Swift              | 说明               |
+| ---------------- | --------------- | ------------------ | ------------------ |
+| **类型安全**     | ❌ 动态类型     | ✅ 静态类型        | Swift 编译时检查   |
+| **错误处理**     | try/catch       | try/catch + throws | Swift 强制错误声明 |
+| **并发模型**     | 单线程事件循环  | 多线程协作         | Swift 真正的并发   |
+| **取消机制**     | AbortController | Task.cancel()      | Swift 结构化取消   |
+| **数据竞争保护** | ❌ 无           | ✅ Actor           | Swift 编译时检查   |
 
 **优势：**
 
@@ -704,13 +705,13 @@ func fetchData() async throws -> Data {
 
 **对比分析：**
 
-| 特性 | C# | Swift | 说明 |
-|------|----|-------|------|
-| **返回类型** | `Task<T>` | `async throws -> T` | Swift 更简洁 |
-| **错误处理** | `Task<T>` / `Task<TResult>` | `throws` | Swift 显式错误 |
-| **取消** | `CancellationToken` | `Task.cancel()` | Swift 更简单 |
-| **并发安全** | `lock`, `Monitor` | `Actor` | Swift Actor 更安全 |
-| **结构化并发** | ❌ 无 | ✅ 有 | Swift 结构化并发 |
+| 特性           | C#                          | Swift               | 说明               |
+| -------------- | --------------------------- | ------------------- | ------------------ |
+| **返回类型**   | `Task<T>`                   | `async throws -> T` | Swift 更简洁       |
+| **错误处理**   | `Task<T>` / `Task<TResult>` | `throws`            | Swift 显式错误     |
+| **取消**       | `CancellationToken`         | `Task.cancel()`     | Swift 更简单       |
+| **并发安全**   | `lock`, `Monitor`           | `Actor`             | Swift Actor 更安全 |
+| **结构化并发** | ❌ 无                       | ✅ 有               | Swift 结构化并发   |
 
 **Swift 优势：**
 
@@ -741,13 +742,13 @@ func fetchData() async throws -> Data {
 
 **对比分析：**
 
-| 特性 | Rust | Swift | 说明 |
-|------|------|-------|------|
-| **内存安全** | ✅ 所有权系统 | ✅ ARC | 都提供内存安全 |
-| **并发安全** | ✅ Send + Sync | ✅ Sendable + Actor | 都提供并发安全 |
-| **零成本抽象** | ✅ 是 | ⚠️ 部分 | Rust 更彻底 |
-| **错误处理** | `Result<T, E>` | `throws` | Rust 显式，Swift 简洁 |
-| **运行时** | 最小运行时 | Swift Runtime | Swift 运行时更大 |
+| 特性           | Rust           | Swift               | 说明                  |
+| -------------- | -------------- | ------------------- | --------------------- |
+| **内存安全**   | ✅ 所有权系统  | ✅ ARC              | 都提供内存安全        |
+| **并发安全**   | ✅ Send + Sync | ✅ Sendable + Actor | 都提供并发安全        |
+| **零成本抽象** | ✅ 是          | ⚠️ 部分             | Rust 更彻底           |
+| **错误处理**   | `Result<T, E>` | `throws`            | Rust 显式，Swift 简洁 |
+| **运行时**     | 最小运行时     | Swift Runtime       | Swift 运行时更大      |
 
 **Swift 优势：**
 
@@ -783,13 +784,13 @@ func fetchData() async throws -> Data {
 
 **对比分析：**
 
-| 特性 | Kotlin | Swift | 说明 |
-|------|--------|-------|------|
-| **关键字** | `suspend` | `async` | 语义相似 |
-| **错误处理** | `Result<T>` / 异常 | `throws` | Swift 更统一 |
-| **结构化并发** | ✅ CoroutineScope | ✅ Task | 都支持 |
-| **取消** | `Job.cancel()` | `Task.cancel()` | 都支持 |
-| **并发安全** | `Mutex`, `Atomic` | `Actor` | Swift Actor 更安全 |
+| 特性           | Kotlin             | Swift           | 说明               |
+| -------------- | ------------------ | --------------- | ------------------ |
+| **关键字**     | `suspend`          | `async`         | 语义相似           |
+| **错误处理**   | `Result<T>` / 异常 | `throws`        | Swift 更统一       |
+| **结构化并发** | ✅ CoroutineScope  | ✅ Task         | 都支持             |
+| **取消**       | `Job.cancel()`     | `Task.cancel()` | 都支持             |
+| **并发安全**   | `Mutex`, `Atomic`  | `Actor`         | Swift Actor 更安全 |
 
 **相似性：**
 

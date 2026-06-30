@@ -3,9 +3,9 @@ title: 'An Algorithmic Synthesis Problem: Path With Minimum Effort'
 pubDate: 2023-10-25
 categories: [Algorithms]
 tags:
-    - Graph
-    - LeetCode
-    - Dijkstra
+  - Graph
+  - LeetCode
+  - Dijkstra
 
 toc: true
 description: 'A walkthrough of LeetCode 1631 (minimax path) using binary search + BFS/DFS, union-find (Kruskal), and adapted Dijkstra.'
@@ -36,13 +36,13 @@ This is better than the route of [1,2,2,2,5], where the maximum absolute differe
 
 What makes this problem such an excellent synthesis exercise is that it can be solved using **at least four different algorithmic paradigms**, each offering a distinct perspective:
 
-| Method | Core Idea | Time Complexity |
-|--------|-----------|-----------------|
+| Method                  | Core Idea                                | Time Complexity        |
+| ----------------------- | ---------------------------------------- | ---------------------- |
 | Binary Search + BFS/DFS | Convert optimization to decision problem | O(mn · log(maxHeight)) |
-| Union-Find (Kruskal) | Model as a minimum bottleneck path | O(mn · log(mn)) |
-| Dijkstra | Adapt shortest path with max relaxation | O(mn · log(mn)) |
+| Union-Find (Kruskal)    | Model as a minimum bottleneck path       | O(mn · log(mn))        |
+| Dijkstra                | Adapt shortest path with max relaxation  | O(mn · log(mn))        |
 
-**Key insight**: This problem does not ask for the minimum *sum* of edge weights along a path (classic shortest path), but rather the minimum possible *maximum single edge weight* along a path. This "minimax path" problem is known in graph theory as the **Minimum Bottleneck Path**.
+**Key insight**: This problem does not ask for the minimum _sum_ of edge weights along a path (classic shortest path), but rather the minimum possible _maximum single edge weight_ along a path. This "minimax path" problem is known in graph theory as the **Minimum Bottleneck Path**.
 
 ---
 
@@ -57,6 +57,7 @@ Transform the optimization problem into a decision problem:
 - **Search space**: The answer lies in `[0, maxHeight - minHeight]`. Binary search over this range, using BFS/DFS to verify feasibility at each step.
 
 ### BFS Implementation
+
 ```c++
 class Solution {
 private:
@@ -109,6 +110,7 @@ public:
 ```
 
 ### DFS Implementation
+
 ```c++
 class Solution {
 private:
@@ -245,7 +247,7 @@ public:
 
 ### Intuition
 
-Classic Dijkstra finds the minimum *sum* of edge weights along a path, with the relaxation condition:
+Classic Dijkstra finds the minimum _sum_ of edge weights along a path, with the relaxation condition:
 
 ```
 dist[v] = min(dist[v], dist[u] + w(u,v))
@@ -328,12 +330,12 @@ The three methods answer the same question from different angles:
 
 This "minimize the maximum edge weight along a path" type of problem appears frequently on LeetCode and in contests:
 
-| Problem | Key Difference |
-|---------|---------------|
-| [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/) | Edge weight becomes max(grid[nx][ny], grid[x][y]) — you must wait for the water level to rise to the cell's height before passing |
-| [1102. Path With Maximum Minimum Value](https://leetcode.com/problems/path-with-maximum-minimum-value/) | The reverse: maximize the minimum value along a path (maximin), also solvable with all three methods |
-| [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/) | First BFS-preprocess each cell's distance to the nearest threat, then find the maximin path |
-| [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/) | Edge weights are probabilities, path value is the product, solved with a max-variant of Dijkstra |
+| Problem                                                                                                 | Key Difference                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/)                        | Edge weight becomes max(grid[nx][ny], grid[x][y]) — you must wait for the water level to rise to the cell's height before passing |
+| [1102. Path With Maximum Minimum Value](https://leetcode.com/problems/path-with-maximum-minimum-value/) | The reverse: maximize the minimum value along a path (maximin), also solvable with all three methods                              |
+| [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/)   | First BFS-preprocess each cell's distance to the nearest threat, then find the maximin path                                       |
+| [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/)     | Edge weights are probabilities, path value is the product, solved with a max-variant of Dijkstra                                  |
 
 ### The Broader "Binary Search the Answer + Verification" Pattern
 
@@ -344,6 +346,7 @@ This "minimize the maximum edge weight along a path" type of problem appears fre
 - Given a candidate answer, the decision problem is significantly easier than the original
 
 Common application scenarios:
+
 - **Binary search + graph search**: This problem, Swim in Rising Water
 - **Binary search + greedy**: Split Array Largest Sum ([410](https://leetcode.com/problems/split-array-largest-sum/))
 - **Binary search + DP**: Find K-th Smallest Pair Distance ([719](https://leetcode.com/problems/find-k-th-smallest-pair-distance/))

@@ -3,9 +3,9 @@ title: 'Exploring Crashes in iOS'
 pubDate: 2018-11-28
 categories: [iOS]
 tags:
-    - Crash
-    - Mach-O
-    - Exception Handling
+  - Crash
+  - Mach-O
+  - Exception Handling
 
 toc: true
 description: 'A comprehensive guide to iOS crashes covering their nature as exception control flow, common causes, capture mechanisms, investigation methods, and governance.'
@@ -14,12 +14,14 @@ description: 'A comprehensive guide to iOS crashes covering their nature as exce
 ## Overview
 
 A crash is the occasional "app freeze and exit" we encounter while using apps, directly impacting user experience and retention. The crash rate is one of the key metrics for measuring app quality.
+
 ```alert
 type: success
 description: Typically, mainstream apps keep their crash rate below 0.05%, meaning no more than 5 crashes per 10,000 launches.
 ```
 
 This article focuses on the iOS ecosystem, combining system principles with practical experience, to systematically cover the following aspects of crashes:
+
 - **Nature**: The mechanism of Exception Control Flow (ECF)
 - **Causes**: Common causes sorted by frequency
 - **Propagation flow**: Two distinct paths for low-level errors and high-level language errors
@@ -45,14 +47,14 @@ Mobile app crashes primarily relate to the kernel and application layers, so the
 
 ### 1.2 OS Exception Classification
 
-Operating systems classify exceptions into four categories: interrupts, traps, faults, and aborts. This classification comes from Chapter 8 of *Computer Systems: A Programmer's Perspective*. Although some sources argue that interrupts are not exceptions, from the perspective of "the program not executing as originally intended," they can be considered part of a broader definition of exceptions.
+Operating systems classify exceptions into four categories: interrupts, traps, faults, and aborts. This classification comes from Chapter 8 of _Computer Systems: A Programmer's Perspective_. Although some sources argue that interrupts are not exceptions, from the perspective of "the program not executing as originally intended," they can be considered part of a broader definition of exceptions.
 
-| Category | Cause | Async/Sync | Return Behavior |
-|----------|-------|------------|-----------------|
-| Interrupt | Signal from I/O device | Asynchronous | Always returns to the next instruction |
-| Trap | Intentional exception | Synchronous | Always returns to the next instruction |
-| Fault | Potentially recoverable error | Synchronous | May return to the current instruction |
-| Abort | Unrecoverable error | Synchronous | Does not return |
+| Category  | Cause                         | Async/Sync   | Return Behavior                        |
+| --------- | ----------------------------- | ------------ | -------------------------------------- |
+| Interrupt | Signal from I/O device        | Asynchronous | Always returns to the next instruction |
+| Trap      | Intentional exception         | Synchronous  | Always returns to the next instruction |
+| Fault     | Potentially recoverable error | Synchronous  | May return to the current instruction  |
+| Abort     | Unrecoverable error           | Synchronous  | Does not return                        |
 
 The most common type leading to crashes in everyday development is **fault**, i.e., a potentially recoverable error. Once a fault cannot be repaired (e.g., a segmentation fault accessing invalid memory), the system sends a signal to the process or terminates it directly, manifesting as a crash. Common examples like `EXC_BAD_ACCESS` and `SIGSEGV` fall into this category.
 
@@ -86,6 +88,7 @@ At the application level, the memory layout diagram helps illustrate common issu
 ![Desktop View](../../../assets/images/posts/post-2018-11-30/memory_layout.svg)
 
 From low address to high address: Code segment (`.text`) → Initialized data (`.data`) → Uninitialized data (`.bss`) → Heap → Stack
+
 ```alert
 type: info
 description: **Memory layout note**: In most architectures, the stack is typically located in the high address region and grows downward; the heap is below the stack and grows upward. Different architectures may have slight variations in memory layout.
@@ -107,6 +110,7 @@ The iOS runtime (Objective-C Runtime / Swift Runtime) provides exception protect
 - **Force unwrapping `nil`**: Swift's `!` force unwrap encountering `nil` triggers `SIGABRT`
 
 Low-level languages like C do not provide these protections; out-of-bounds access often results in reading or writing undefined memory directly.
+
 ```alert
 type: info
 description: **Language protection differences**: The C language provides no runtime protection — out-of-bounds access won't crash immediately but leads to undefined behavior, potentially causing data corruption or security vulnerabilities. In contrast, Objective-C/Swift runtime protection mechanisms actively throw exceptions when anomalies are detected. While this may cause a crash, it helps identify problems earlier.
@@ -131,6 +135,7 @@ int main () {
 ### 2.3 OS Policy Restrictions
 
 The iOS system may actively terminate an app based on resource management, security policies, and other factors:
+
 ```alert
 type: info
 description: **System protection mechanisms**: These policies are important means by which iOS protects user experience and device security. Developers need to understand these mechanisms and pay attention to resource usage and performance optimization during development to avoid triggering system protections.
@@ -153,12 +158,15 @@ These crashes are typically caused by low-level hardware or instruction-level er
 There are two main paths for crash propagation in iOS, depending on the source of the error:
 
 **Path One: Low-level errors** (e.g., dangling pointers, illegal memory access)
+
 - Hardware/kernel detects an exception → Mach exception → Unix Signal
 - These errors are caught directly by the lower layers of the system, bypassing the language runtime
 
 **Path Two: High-level language errors** (e.g., array out-of-bounds, unrecognized selector)
+
 - Objective-C/Swift Runtime detects → NSException → Uncaught, calls `abort()` → SIGABRT
 - These errors are actively thrown by the language runtime; if no exception handler is set, they ultimately trigger a signal via `abort()`
+
 ```alert
 type: success
 description: **Key insight**: Understanding the difference between these two paths is crucial. Errors on Path One cannot be caught via NSException — you must register a signal handler. Errors on Path Two can be caught via an NSException handler providing more detailed error information (exception name, reason, etc.), but if left unhandled, they will ultimately trigger a signal.
@@ -181,6 +189,7 @@ These crashes are detected by the language runtime, which throws an NSException;
 - **Array out-of-bounds** → `NSRangeException` → `SIGABRT`
 - **Message forwarding failure** → `NSInvalidArgumentException` → `SIGABRT`
 - **Swift optional force unwrap of nil** → `NSException` → `SIGABRT`
+
 ```alert
 type: success
 description: **Capture strategy**: Understanding the difference between these two paths helps in registering handlers at the appropriate layers to collect information. Typically, handlers need to be registered at multiple layers simultaneously (Mach exception, Unix Signal, NSException) to obtain complete context. Finally, the captured crash logs should be symbolicated into readable stack traces.
@@ -214,6 +223,7 @@ pthread_create(&thr, &attr, &exception_server_thread, _serverContext);
 ```
 
 Open-source solutions like PLCrashReporter and KSCrash register Mach exception ports at the low level, intercept exceptions in advance, persist the stack trace, and then hand the exception back to the system's normal delivery flow, ensuring default behavior is not disrupted.
+
 ```alert
 type: info
 description: **Important notes**:
@@ -224,11 +234,11 @@ description: **Important notes**:
 
 #### Common exception_type Values
 
-| Exception Type | Description | Notes |
-|---------------|-------------|-------|
-| `EXC_BAD_ACCESS` | Bad Memory Access | Invalid memory address — either the address does not exist or the current process lacks permission to access it. Commonly seen in Path One (low-level errors) |
-| `EXC_CRASH` | Abnormal Exit | Usually accompanied by the `SIGABRT` `UNIX Signal`, indicating an abnormal process exit. Commonly seen in Path Two (high-level language errors) when an uncaught NSException triggers `abort()` |
-| `EXC_BAD_INSTRUCTION` | Illegal Instruction | Illegal or undefined instruction or operand. Commonly seen in Path One (low-level errors) |
+| Exception Type        | Description         | Notes                                                                                                                                                                                           |
+| --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EXC_BAD_ACCESS`      | Bad Memory Access   | Invalid memory address — either the address does not exist or the current process lacks permission to access it. Commonly seen in Path One (low-level errors)                                   |
+| `EXC_CRASH`           | Abnormal Exit       | Usually accompanied by the `SIGABRT` `UNIX Signal`, indicating an abnormal process exit. Commonly seen in Path Two (high-level language errors) when an uncaught NSException triggers `abort()` |
+| `EXC_BAD_INSTRUCTION` | Illegal Instruction | Illegal or undefined instruction or operand. Commonly seen in Path One (low-level errors)                                                                                                       |
 
 ### 3.2 Unix Signal
 
@@ -255,17 +265,18 @@ int main() {
 
 The following table lists common `Unix Signals`. On macOS, you can type `man signal` to see the full list of signals. It can also be found [here](https://github.com/torvalds/linux/blob/master/include/linux/signal.h).
 
-| Unix Signal | Description |
-|------------|-------------|
-| `SIGSEGV` | Access to an invalid memory address — the address exists but the current process does not have permission to access it. This is a hardware-level error |
-| `SIGABRT` | Abnormal program termination, typically triggered by the C `abort()` function, or by runtime assertion failures, Swift's `fatalError`, etc. This is a software-level error |
-| `SIGBUS` | Access to an invalid memory address — the difference from `SIGSEGV` is that `SIGBUS` indicates the memory address does not exist. This is a hardware-level error |
-| `SIGTRAP` | Debugger-related |
-| `SIGILL` | Attempt to execute an illegal, unknown, or unauthorized instruction |
+| Unix Signal | Description                                                                                                                                                                |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SIGSEGV`   | Access to an invalid memory address — the address exists but the current process does not have permission to access it. This is a hardware-level error                     |
+| `SIGABRT`   | Abnormal program termination, typically triggered by the C `abort()` function, or by runtime assertion failures, Swift's `fatalError`, etc. This is a software-level error |
+| `SIGBUS`    | Access to an invalid memory address — the difference from `SIGSEGV` is that `SIGBUS` indicates the memory address does not exist. This is a hardware-level error           |
+| `SIGTRAP`   | Debugger-related                                                                                                                                                           |
+| `SIGILL`    | Attempt to execute an illegal, unknown, or unauthorized instruction                                                                                                        |
 
 ### 3.3 NSException
 
 `NSException` is an exception object thrown by the Objective-C runtime, typically triggered by the language runtime's protection mechanisms (e.g., array out-of-bounds, unrecognized selector, etc.). By registering a handler function via `NSSetUncaughtExceptionHandler`, you can capture the exception name, reason, and call stack before a crash and persist them. A common practice is to write this information to a sandbox file in the handler and upload it on the next app launch, avoiding complex logic at the crash site.
+
 ```alert
 type: warning
 description: **Warning**: If no exception handler is set or the handler does not prevent the program from continuing, an uncaught NSException will cause the program to call `abort()`, which triggers the `SIGABRT` signal. Therefore, be sure to save critical information in the handler and avoid performing time-consuming operations at the crash site.
@@ -307,6 +318,7 @@ Common symbolication methods include:
 - **Xcode Organizer / Devices panel**: Automatic symbolication, suitable for local debugging
 - **symbolicatecrash script**: Offline symbolication, suitable for batch processing
 - **atos / atosl**: Locate symbols by address, useful for custom-built platforms
+
 ```alert
 type: success
 description: **Symbolication best practices**: Symbol files for project code are stored in `dSYM` and should be archived and associated with version numbers after each build. System library symbols can be obtained from iOS firmware or third-party images. Enterprise teams typically integrate symbol file upload in their CI pipeline, enabling crash platforms (e.g., Firebase Crashlytics, Tencent Bugly, Sentry, custom platforms) to automatically resolve crashes.
@@ -315,6 +327,7 @@ description: **Symbolication best practices**: Symbol files for project code are
 ## 4. Crash Investigation Approach
 
 Under normal circumstances, crashes that occur during debugging are easy to fix. However, after an app is released, crashes that were never seen locally and are difficult to reproduce often appear. The crash log alone often does not directly pinpoint the problem, requiring a systematic investigation approach.
+
 ```alert
 type: info
 description: **Investigation principles**: Investigating production crashes requires patience and a systematic approach. Don't jump to conclusions — gather sufficient information, try multiple reproduction methods, and use debugging tools to assist when necessary.
@@ -337,6 +350,7 @@ description: **Investigation principles**: Investigating production crashes requ
 #### Malloc Scribble
 
 The principle is to fill deallocated objects with `0x55`, ensuring that dangling pointer calls will inevitably crash.
+
 ```alert
 type: info
 description: **Usage limitations**: Malloc Scribble is only effective in local `debug` builds. To achieve similar functionality in internal test builds, you would need to hook the `free` function in the system library.
@@ -359,6 +373,7 @@ After enabling `Malloc Scribble`, you can clearly see from the debug panel that 
 Deallocated objects are marked as zombie objects. Xcode accomplishes this using the runtime method `object_setClass`, overwriting the isa of the released view to `_NSZombie_UIView`.
 
 In addition to the aforementioned `Memory Management` tools, Xcode also provides `Runtime Sanitization` tools (actually features provided by the LLVM compiler). For example, `Thread Sanitizer` can detect race condition access, helping developers identify potential issues.
+
 ```alert
 type: success
 description: **Debugging tool recommendations**: Fully leveraging Xcode's diagnostic tools during development can catch most memory and thread safety issues before release. It is recommended to perform comprehensive checks with these tools before key version releases.
@@ -367,6 +382,7 @@ description: **Debugging tool recommendations**: Fully leveraging Xcode's diagno
 ## 5. Case Study: Conflict Between KVO and Dynamic Class Creation
 
 This is a real production crash case, demonstrating the conflict between dynamic class creation and KVO mechanisms in a multithreaded environment.
+
 ```alert
 type: warning
 description: **Case background**: This is a typical thread safety issue. When dynamically creating classes in a multithreaded environment without proper synchronization mechanisms, crashes are very likely. Such problems are often difficult to reproduce in production and require careful analysis of the stack trace.
@@ -495,6 +511,7 @@ At this point, the cause is very clear. The following flowchart illustrates the 
 ![Desktop View](../../../assets/images/posts/post-2018-11-30/case_crash_flow.png)
 
 A foundational library in the project created two `TPKxxxItem_XXX` classes — let's call them intermediate classes. When KVO tried to create subclasses from these two intermediate classes, it failed to allocate memory space, causing `objc_registerClassPair` to crash.
+
 ```alert
 type: success
 description: **Solution**: When creating intermediate classes, lock on `self.class` to ensure only one intermediate class is generated. Using `dispatch_once` or `@synchronized` can both achieve thread safety, with `dispatch_once` recommended for better performance.
@@ -522,16 +539,19 @@ dispatch_once(&onceToken, ^{
     return cachedClass;
 }
 ```
+
 ```alert
 type: info
 description: **Note**: The reason generating `TPKxxxItem_XXX` didn't crash is that when multiple threads attempt to create a class with the same name, `objc_allocateClassPair` may not always return `nil` — this depends on the underlying container implementation. The framework in question had a check: when `objc_allocateClassPair` returned `nil`, it would not proceed with the register operation. However, KVO apparently does not have such a check.
 ```
+
 ```alert
 type: success
 description: **Lessons learned**: When dynamically generating classes or methods at runtime, be mindful of thread safety and naming conflicts. Use locking or serial queues when necessary to avoid duplicate registration under multithreading. This is one of the common pitfalls in iOS development.
 ```
 
 ## 6. Crash Monitoring and Governance System
+
 ```alert
 type: success
 description: **Governance principles**: Crash governance is an ongoing process that requires establishing a closed-loop system of monitoring, analysis, fixing, and prevention. The key is to identify and resolve issues before they impact users.
@@ -546,6 +566,7 @@ description: **Governance principles**: Crash governance is an ongoing process t
 ## 7. Summary
 
 This article, grounded in the operating system's exception control mechanism, has examined the nature of crashes, common causes, propagation flow, capture layers, and symbolication methods, along with investigation approaches and a real-world case study.
+
 ```alert
 type: success
 description: **Quality assurance system**: To continuously reduce the crash rate, you need to establish front-line prevention during development, comprehensive monitoring and regression testing at release, and ongoing metric tracking with rapid damage control in operations, forming a top-down quality closed loop. This is a systematic effort requiring team collaboration and continuous improvement.

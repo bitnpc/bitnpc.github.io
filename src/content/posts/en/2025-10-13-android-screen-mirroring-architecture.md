@@ -3,9 +3,9 @@ title: 'Architecture Implementation of Android Screen Mirroring to Mac/iPhone'
 pubDate: 2025-10-13
 categories: [Audio/Video]
 tags:
-    - Screen Mirroring
-    - Metal
-    - Android
+  - Screen Mirroring
+  - Metal
+  - Android
 
 toc: true
 description: 'End-to-end architecture of Android screen mirroring to Mac/iPhone: phone-side capture and hardware encoding, network transmission, receiver-side decoding, and Metal rendering. Covers reverse control, transport protocol, and latency optimization.'
@@ -103,12 +103,12 @@ struct EncoderConfig {
 
 **H.264 vs H.265:**
 
-| Comparison | H.264 | H.265 |
-|------------|-------|-------|
-| Hardware Compatibility | Nearly all devices | Newer devices |
-| Bitrate at Same Quality | Baseline | ~30-50% lower |
-| Encoding Latency | Lower | Slightly higher |
-| Decoding Complexity | Low | High |
+| Comparison              | H.264              | H.265           |
+| ----------------------- | ------------------ | --------------- |
+| Hardware Compatibility  | Nearly all devices | Newer devices   |
+| Bitrate at Same Quality | Baseline           | ~30-50% lower   |
+| Encoding Latency        | Lower              | Slightly higher |
+| Decoding Complexity     | Low                | High            |
 
 Strategy: Use H.265 by default for lower bitrate (approximately 30-50% reduction at the same quality), and force fallback to H.264 only on older devices such as iPad mini 4 and iPad Air 2 to ensure compatibility. Resolution and frame rate are dynamically adjusted based on network conditions — 1080p@60fps when the network is good, and degradation to 720p@30fps during network fluctuations.
 
@@ -316,13 +316,13 @@ The SDK has built-in adaptive bitrate control (`Option_EnableAdptiveFun`). Durin
 
 The SDK's encryption is layered:
 
-| Layer | Configuration | Description |
-|-------|---------------|-------------|
-| Encryption Type | `ENCRYPTION_TYPE_AES` / `SMS4` | Select encryption algorithm |
-| Encryption Level | `AESCBC128` / `192` / `256` | AES key length |
-| Encryption Scope | `FORMAT_VIDEO` / `AUDIO` / `CMD` | Selectively encrypt only video, audio, or control commands |
-| Transport Encryption | `ENCRYPTION_TRANSLEVEL_XOR` | Additional XOR protection during key transmission |
-| Integrity | `SHA256` / `SHA128` / `MD5` | Data integrity verification |
+| Layer                | Configuration                    | Description                                                |
+| -------------------- | -------------------------------- | ---------------------------------------------------------- |
+| Encryption Type      | `ENCRYPTION_TYPE_AES` / `SMS4`   | Select encryption algorithm                                |
+| Encryption Level     | `AESCBC128` / `192` / `256`      | AES key length                                             |
+| Encryption Scope     | `FORMAT_VIDEO` / `AUDIO` / `CMD` | Selectively encrypt only video, audio, or control commands |
+| Transport Encryption | `ENCRYPTION_TRANSLEVEL_XOR`      | Additional XOR protection during key transmission          |
+| Integrity            | `SHA256` / `SHA128` / `MD5`      | Data integrity verification                                |
 
 Encryption keys (`key` + `iv`) and authentication keys (`authKey`) are injected by the upper layer via `setAttribute()` before `start()`. Encryption and decryption are handled transparently within the SDK — the upper layer receives plaintext audio/video data.
 
@@ -544,12 +544,12 @@ int64_t RenderManager::render() {
 
 After the decoder outputs a `CVPixelBuffer`, it needs to be displayed on screen. On Apple platforms, there are two options: using `AVSampleBufferDisplayLayer` directly (system-managed rendering) or using Metal for custom rendering control.
 
-| Dimension | Metal Custom Rendering | AVSampleBufferDisplayLayer |
-|-----------|------------------------|----------------------------|
-| Render Timing | Fully controlled (in sync with VSync) | Internal system buffer queue, latency not controllable |
-| Drop Strategy | Custom (drop old, keep new) | System decides, cannot intervene |
-| Color Space | Custom YUV→RGB shader | System handles automatically |
-| Code Complexity | High | Low (a few lines of enqueue code) |
+| Dimension       | Metal Custom Rendering                | AVSampleBufferDisplayLayer                             |
+| --------------- | ------------------------------------- | ------------------------------------------------------ |
+| Render Timing   | Fully controlled (in sync with VSync) | Internal system buffer queue, latency not controllable |
+| Drop Strategy   | Custom (drop old, keep new)           | System decides, cannot intervene                       |
+| Color Space     | Custom YUV→RGB shader                 | System handles automatically                           |
+| Code Complexity | High                                  | Low (a few lines of enqueue code)                      |
 
 Screen mirroring is a latency-sensitive scenario where the core requirement is to **decide for yourself "when to render which frame."** When network jitter causes frame accumulation, we need to drop old frames and show only the latest picture — this is not achievable with `AVSampleBufferDisplayLayer` (which plays frames smoothly in PTS order, suitable for video players, not for real-time mirroring). Therefore, Metal custom rendering is the chosen approach.
 
@@ -803,11 +803,11 @@ void onCommandReceived(const uint8_t* data, size_t size) {
 
 ### 5.5 Latency Sensitivity
 
-| Type | Tolerable Latency | Impact |
-|------|-------------------|--------|
-| Video Frames | 100-300ms | Perceptible degradation but acceptable |
-| Control Commands | < 50ms | User perceives "unresponsive" |
-| Continuous Scrolling | < 33ms | Trajectory feels disjointed |
+| Type                 | Tolerable Latency | Impact                                 |
+| -------------------- | ----------------- | -------------------------------------- |
+| Video Frames         | 100-300ms         | Perceptible degradation but acceptable |
+| Control Commands     | < 50ms            | User perceives "unresponsive"          |
+| Continuous Scrolling | < 33ms            | Trajectory feels disjointed            |
 
 Design principles for the control channel: dedicated UDP channel, commands prioritized over video frames, minimal data size (single packet reachable).
 
@@ -833,12 +833,12 @@ The fix itself is not complex: persist the `TextureCache` for the view's lifetim
 
 Touch/gesture sample rates for various devices:
 
-| Device | Touch Sample Rate | Notes |
-|--------|------------------|-------|
-| Mac Trackpad / Mouse | ~60-80 Hz | macOS delivers events at display refresh rate |
-| iPhone (standard) | ~60-120 Hz | |
-| iPhone Pro | ~120 Hz | ProMotion devices |
-| iPad Pro | **240 Hz** | Low latency with Apple Pencil |
+| Device               | Touch Sample Rate | Notes                                         |
+| -------------------- | ----------------- | --------------------------------------------- |
+| Mac Trackpad / Mouse | ~60-80 Hz         | macOS delivers events at display refresh rate |
+| iPhone (standard)    | ~60-120 Hz        |                                               |
+| iPhone Pro           | ~120 Hz           | ProMotion devices                             |
+| iPad Pro             | **240 Hz**        | Low latency with Apple Pencil                 |
 
 The Mac trackpad generates `mouseDragged` events at approximately 70Hz. If forwarded to the phone at full rate, Android's `InputDispatcher` consumes events at vsync (60Hz) rate, causing excess events to queue up for the next vsync — cumulative latency grows frame by frame.
 
@@ -872,6 +872,7 @@ class EventThrottler {
 ```
 
 **Why 30Hz:**
+
 - 30Hz means at most one event arrives every two vsync cycles (16.6ms × 2 = 33ms), preventing accumulation.
 - The human visual perception threshold for touch trajectory continuity is approximately 20-30Hz; drag trajectories at 30Hz are still smooth.
 - `touchDown` and `touchUp` are not throttled, ensuring immediate click responsiveness.
@@ -890,16 +891,16 @@ class EventThrottler {
 
 ## 7. Comparison with Industry Solutions
 
-| Dimension | This Solution | Scrcpy | AirPlay | Google Cast |
-|-----------|---------------|--------|---------|-------------|
-| Transport Protocol | RTSP/RTP + Custom MPT (UDP/TCP/Multi-link) | ADB Tunnel (USB/Wi-Fi) | RTSP/RTP + UDP | WebRTC |
-| Encryption | AES | None | FairPlay DRM | DTLS-SRTP |
-| Video Decoding | VideoToolbox HW Decode | FFmpeg SW Decode | VideoToolbox HW Decode | HW Decode |
-| Audio Encoding | PCM / AAC | PCM / Opus | ALAC / AAC | Opus |
-| Reverse Control | Independent UDP + HID Commands | ADB HID Event Injection | MFI Protocol | WebRTC DataChannel |
-| Latency | 30-100ms (LAN) | 30-70ms (Wired) | 50-200ms | 50-300ms+ |
-| Cross-Platform Sink | macOS + iOS | All Desktop Platforms | Apple Ecosystem | All Platforms |
-| Open Source | Proprietary | Open Source | Partially Open Source | Partially Open Source |
+| Dimension           | This Solution                              | Scrcpy                  | AirPlay                | Google Cast           |
+| ------------------- | ------------------------------------------ | ----------------------- | ---------------------- | --------------------- |
+| Transport Protocol  | RTSP/RTP + Custom MPT (UDP/TCP/Multi-link) | ADB Tunnel (USB/Wi-Fi)  | RTSP/RTP + UDP         | WebRTC                |
+| Encryption          | AES                                        | None                    | FairPlay DRM           | DTLS-SRTP             |
+| Video Decoding      | VideoToolbox HW Decode                     | FFmpeg SW Decode        | VideoToolbox HW Decode | HW Decode             |
+| Audio Encoding      | PCM / AAC                                  | PCM / Opus              | ALAC / AAC             | Opus                  |
+| Reverse Control     | Independent UDP + HID Commands             | ADB HID Event Injection | MFI Protocol           | WebRTC DataChannel    |
+| Latency             | 30-100ms (LAN)                             | 30-70ms (Wired)         | 50-200ms               | 50-300ms+             |
+| Cross-Platform Sink | macOS + iOS                                | All Desktop Platforms   | Apple Ecosystem        | All Platforms         |
+| Open Source         | Proprietary                                | Open Source             | Partially Open Source  | Partially Open Source |
 
 Applicable scenarios for each solution:
 

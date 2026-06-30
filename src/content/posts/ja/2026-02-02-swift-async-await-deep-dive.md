@@ -3,9 +3,9 @@ title: 'Swift Async/Await 詳細解説：実装メカニズムからベストプ
 pubDate: 2026-02-02
 categories: [iOS]
 tags:
-    - Swift
-    - 並行プログラミング
-    - Actor
+  - Swift
+  - 並行プログラミング
+  - Actor
 
 translationKey: swift-async-await-deep-dive
 toc: true
@@ -15,6 +15,7 @@ description: 'Swift 5.5のasync/awaitを徹底解説。実装メカニズム、A
 ## 概要
 
 Swift の async/await は Swift 5.5 で導入されたモダンな並行プログラミングモデルであり、Swift における非同期コードの書き方を根本的に変えた。従来のコールバック（Completion Handler）や GCD（Grand Central Dispatch）と比較して、async/await はより簡潔で、より安全で、より効率的な非同期プログラミング体験を提供する。
+
 ```alert
 type: success
 description: "async/await は単なる糖衣構文ではない。これは Swift 並行システムの中核であり、構造化並行性、Actor 分離、コンパイラレベルの安全性チェックを提供する。" —— Swift Evolution Proposal SE-0296
@@ -203,11 +204,11 @@ func fetchData() async throws -> Data {
 
 **メモリ比較：**
 
-| 方式 | メモリオーバーヘッド（単一呼出） | 説明 |
-|------|--------------------------------|------|
-| **コールバッククロージャ** | ~200-500 バイト | クロージャオブジェクト + キャプチャ変数 |
-| **Async/Await** | ~48-96 バイト | Continuation + ステートマシン |
-| **GCD Dispatch** | ~100-200 バイト | Block オブジェクト + コンテキスト |
+| 方式                       | メモリオーバーヘッド（単一呼出） | 説明                                    |
+| -------------------------- | -------------------------------- | --------------------------------------- |
+| **コールバッククロージャ** | ~200-500 バイト                  | クロージャオブジェクト + キャプチャ変数 |
+| **Async/Await**            | ~48-96 バイト                    | Continuation + ステートマシン           |
+| **GCD Dispatch**           | ~100-200 バイト                  | Block オブジェクト + コンテキスト       |
 
 **最適化効果：** async/await はコールバック方式と比較して **60-80%** のメモリオーバーヘッドを削減する。
 
@@ -278,10 +279,10 @@ Task {
 
 **実測データ：**
 
-| シナリオ | GCD スレッド数 | Async/Await スレッド数 | 性能向上 |
-|----------|---------------|------------------------|----------|
-| 100 並行リクエスト | 8-12 | 4-6 | +30% |
-| 1000 並行リクエスト | 50-80 | 4-6 | +150% |
+| シナリオ            | GCD スレッド数 | Async/Await スレッド数 | 性能向上 |
+| ------------------- | -------------- | ---------------------- | -------- |
+| 100 並行リクエスト  | 8-12           | 4-6                    | +30%     |
+| 1000 並行リクエスト | 50-80          | 4-6                    | +150%    |
 
 ---
 
@@ -385,12 +386,12 @@ func testAsyncAwait() async {
 
 **テスト結果：**
 
-| 指標 | GCD | Async/Await | 向上率 |
-|------|-----|-------------|--------|
-| **実行時間** | 2.3s | 1.9s | +21% |
-| **メモリピーク** | 45MB | 28MB | +38% |
-| **CPU 使用率** | 78% | 62% | +21% |
-| **スレッド数ピーク** | 12 | 4 | +67% |
+| 指標                 | GCD  | Async/Await | 向上率 |
+| -------------------- | ---- | ----------- | ------ |
+| **実行時間**         | 2.3s | 1.9s        | +21%   |
+| **メモリピーク**     | 45MB | 28MB        | +38%   |
+| **CPU 使用率**       | 78%  | 62%         | +21%   |
+| **スレッド数ピーク** | 12   | 4           | +67%   |
 
 ### 3.3 エラーハンドリング比較
 
@@ -650,9 +651,9 @@ class LockedSharedState {
 
 ```javascript
 async function fetchData() {
-    const response = await fetch('https://api.example.com/data');
-    const data = await response.json();
-    return data;
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+  return data;
 }
 ```
 
@@ -667,13 +668,13 @@ func fetchData() async throws -> Data {
 
 **比較分析：**
 
-| 特性 | JavaScript | Swift | 説明 |
-|------|-----------|-------|------|
-| **型安全性** | ❌ 動的型付け | ✅ 静的型付け | Swift はコンパイル時チェック |
-| **エラーハンドリング** | try/catch | try/catch + throws | Swift はエラー宣言を強制 |
-| **並行モデル** | シングルスレッドイベントループ | マルチスレッド協調 | Swift は真の並行性を持つ |
-| **キャンセル** | AbortController | Task.cancel() | Swift は構造化キャンセル |
-| **データ競合保護** | ❌ なし | ✅ Actor | Swift はコンパイル時チェック |
+| 特性                   | JavaScript                     | Swift              | 説明                         |
+| ---------------------- | ------------------------------ | ------------------ | ---------------------------- |
+| **型安全性**           | ❌ 動的型付け                  | ✅ 静的型付け      | Swift はコンパイル時チェック |
+| **エラーハンドリング** | try/catch                      | try/catch + throws | Swift はエラー宣言を強制     |
+| **並行モデル**         | シングルスレッドイベントループ | マルチスレッド協調 | Swift は真の並行性を持つ     |
+| **キャンセル**         | AbortController                | Task.cancel()      | Swift は構造化キャンセル     |
+| **データ競合保護**     | ❌ なし                        | ✅ Actor           | Swift はコンパイル時チェック |
 
 **優位性：**
 
@@ -704,13 +705,13 @@ func fetchData() async throws -> Data {
 
 **比較分析：**
 
-| 特性 | C# | Swift | 説明 |
-|------|-----|-------|------|
-| **戻り値型** | `Task<T>` | `async throws -> T` | Swift はより簡潔 |
-| **エラーハンドリング** | `Task<T>` / `Task<TResult>` | `throws` | Swift は明示的エラー |
-| **キャンセル** | `CancellationToken` | `Task.cancel()` | Swift はよりシンプル |
-| **並行安全性** | `lock`, `Monitor` | `Actor` | Swift Actor はより安全 |
-| **構造化並行性** | ❌ なし | ✅ あり | Swift は構造化並行性 |
+| 特性                   | C#                          | Swift               | 説明                   |
+| ---------------------- | --------------------------- | ------------------- | ---------------------- |
+| **戻り値型**           | `Task<T>`                   | `async throws -> T` | Swift はより簡潔       |
+| **エラーハンドリング** | `Task<T>` / `Task<TResult>` | `throws`            | Swift は明示的エラー   |
+| **キャンセル**         | `CancellationToken`         | `Task.cancel()`     | Swift はよりシンプル   |
+| **並行安全性**         | `lock`, `Monitor`           | `Actor`             | Swift Actor はより安全 |
+| **構造化並行性**       | ❌ なし                     | ✅ あり             | Swift は構造化並行性   |
 
 **Swift の優位性：**
 
@@ -741,13 +742,13 @@ func fetchData() async throws -> Data {
 
 **比較分析：**
 
-| 特性 | Rust | Swift | 説明 |
-|------|------|-------|------|
-| **メモリ安全性** | ✅ 所有権システム | ✅ ARC | 両方ともメモリ安全 |
-| **並行安全性** | ✅ Send + Sync | ✅ Sendable + Actor | 両方とも並行安全 |
-| **ゼロコスト抽象化** | ✅ はい | ⚠️ 部分的 | Rust はより徹底的 |
-| **エラーハンドリング** | `Result<T, E>` | `throws` | Rust は明示的、Swift は簡潔 |
-| **ランタイム** | 最小限のランタイム | Swift ランタイム | Swift ランタイムはより大規模 |
+| 特性                   | Rust               | Swift               | 説明                         |
+| ---------------------- | ------------------ | ------------------- | ---------------------------- |
+| **メモリ安全性**       | ✅ 所有権システム  | ✅ ARC              | 両方ともメモリ安全           |
+| **並行安全性**         | ✅ Send + Sync     | ✅ Sendable + Actor | 両方とも並行安全             |
+| **ゼロコスト抽象化**   | ✅ はい            | ⚠️ 部分的           | Rust はより徹底的            |
+| **エラーハンドリング** | `Result<T, E>`     | `throws`            | Rust は明示的、Swift は簡潔  |
+| **ランタイム**         | 最小限のランタイム | Swift ランタイム    | Swift ランタイムはより大規模 |
 
 **Swift の優位性：**
 
@@ -783,13 +784,13 @@ func fetchData() async throws -> Data {
 
 **比較分析：**
 
-| 特性 | Kotlin | Swift | 説明 |
-|------|--------|-------|------|
-| **キーワード** | `suspend` | `async` | 意味的に類似 |
-| **エラーハンドリング** | `Result<T>` / 例外 | `throws` | Swift はより統一的 |
-| **構造化並行性** | ✅ CoroutineScope | ✅ Task | 両方ともサポート |
-| **キャンセル** | `Job.cancel()` | `Task.cancel()` | 両方ともサポート |
-| **並行安全性** | `Mutex`, `Atomic` | `Actor` | Swift Actor はより安全 |
+| 特性                   | Kotlin             | Swift           | 説明                   |
+| ---------------------- | ------------------ | --------------- | ---------------------- |
+| **キーワード**         | `suspend`          | `async`         | 意味的に類似           |
+| **エラーハンドリング** | `Result<T>` / 例外 | `throws`        | Swift はより統一的     |
+| **構造化並行性**       | ✅ CoroutineScope  | ✅ Task         | 両方ともサポート       |
+| **キャンセル**         | `Job.cancel()`     | `Task.cancel()` | 両方ともサポート       |
+| **並行安全性**         | `Mutex`, `Atomic`  | `Actor`         | Swift Actor はより安全 |
 
 **類似点：**
 

@@ -3,9 +3,9 @@ title: 'アルゴリズム総合問題：Path With Minimum Effort'
 pubDate: 2023-10-25
 categories: [アルゴリズム]
 tags:
-    - グラフ
-    - LeetCode
-    - Dijkstra
+  - グラフ
+  - LeetCode
+  - Dijkstra
 
 toc: true
 description: 'LeetCode 1631を3つのアルゴリズム（二分探索+BFS/DFS、Union-Find、Dijkstra改造版）で解説。グリッド上のminimax経路問題を多角的に分析し、類似問題も紹介。'
@@ -36,11 +36,11 @@ This is better than the route of [1,2,2,2,5], where the maximum absolute differe
 
 この問題が優秀な総合問題である理由は、**少なくとも4つの異なるアルゴリズムパラダイム**で解くことができ、それぞれの解法が異なる思考の角度を示しているからです。
 
-| 手法 | 中心となる考え方 | 時間計算量 |
-|------|----------------|-----------|
-| 二分探索 + BFS/DFS | 最適化問題を判定問題に変換 | O(mn · log(maxHeight)) |
-| Union-Find (Kruskal) | 問題を最小ボトルネック経路としてモデル化 | O(mn · log(mn)) |
-| Dijkstra | 最短経路アルゴリズムを改造し、緩和条件を max に変更 | O(mn · log(mn)) |
+| 手法                 | 中心となる考え方                                    | 時間計算量             |
+| -------------------- | --------------------------------------------------- | ---------------------- |
+| 二分探索 + BFS/DFS   | 最適化問題を判定問題に変換                          | O(mn · log(maxHeight)) |
+| Union-Find (Kruskal) | 問題を最小ボトルネック経路としてモデル化            | O(mn · log(mn))        |
+| Dijkstra             | 最短経路アルゴリズムを改造し、緩和条件を max に変更 | O(mn · log(mn))        |
 
 **重要な観察**：この問題が求めているのは、経路上の全辺の重みの和の最小値（古典的な最短経路）ではなく、経路上の**単一の辺の重みの最大値**の最小値です。このような "minimax path" 問題は、グラフ理論では**最小ボトルネック経路 (Minimum Bottleneck Path)** と呼ばれます。
 
@@ -57,6 +57,7 @@ This is better than the route of [1,2,2,2,5], where the maximum absolute differe
 - **探索空間**：答えは `[0, maxHeight - minHeight]` の範囲にあります。この区間で二分探索を行い、毎回 BFS/DFS で実行可能性を検証します。
 
 ### BFS 実装
+
 ```c++
 class Solution {
 private:
@@ -104,12 +105,13 @@ public:
         }
         return false;
     }
-    
+
 }
 
 ```
 
 ### DFS 実装
+
 ```c++
 class Solution {
 private:
@@ -329,12 +331,12 @@ public:
 
 この「経路上の最大辺重みを最小化する」タイプの問題は、LeetCode や競技プログラミングで繰り返し登場します。
 
-| 問題 | 核心となる違い |
-|------|--------------|
-| [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/) | 辺重みが max(grid[nx][ny], grid[x][y]) になる。水位がセルの高さまで下がるのを待つ必要がある |
-| [1102. Path With Maximum Minimum Value](https://leetcode.com/problems/path-with-maximum-minimum-value/) | 逆問題：経路上の最小値を最大化する (maximin)。同じ3つの手法が使える |
-| [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/) | まず BFS で各セルから最も近い脅威までの距離を前計算し、その後 maximin path を求める |
-| [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/) | 辺重みが確率で、経路値は積の最大値。Dijkstra で max を取る変種 |
+| 問題                                                                                                    | 核心となる違い                                                                              |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water/)                        | 辺重みが max(grid[nx][ny], grid[x][y]) になる。水位がセルの高さまで下がるのを待つ必要がある |
+| [1102. Path With Maximum Minimum Value](https://leetcode.com/problems/path-with-maximum-minimum-value/) | 逆問題：経路上の最小値を最大化する (maximin)。同じ3つの手法が使える                         |
+| [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid/)   | まず BFS で各セルから最も近い脅威までの距離を前計算し、その後 maximin path を求める         |
+| [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/)     | 辺重みが確率で、経路値は積の最大値。Dijkstra で max を取る変種                              |
 
 ### より広い「二分探索＋判定」パターン
 
@@ -345,6 +347,7 @@ public:
 - 答えが与えられると、判定問題が元の問題よりはるかに簡単になる
 
 よくある応用例：
+
 - **二分探索 + グラフ探索**：本問題、Swim in Rising Water
 - **二分探索 + 貪欲法**：配列分割の最大値 ([410](https://leetcode.com/problems/split-array-largest-sum/))
 - **二分探索 + DP**：K 番目に小さい距離のペア ([719](https://leetcode.com/problems/find-k-th-smallest-pair-distance/))

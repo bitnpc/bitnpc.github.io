@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Quick Reference
 
-| Command | Action |
-|---------|--------|
-| `bun dev` | Start dev server at `http://localhost:4321` |
-| `bun run build` | Production build to `./dist/` (includes Pagefind index) |
-| `bun preview` | Preview production build locally |
-| `bun run lint` | ESLint (zero warnings enforced) |
-| `bun run lint:fix` | ESLint with auto-fix |
-| `bun run format` | Prettier format all sources |
-| `bun run format:check` | Prettier check only |
-| `bun run typecheck` | `astro check` for type errors |
-| `bun test` | Run Bun tests |
+| Command                | Action                                                  |
+| ---------------------- | ------------------------------------------------------- |
+| `bun dev`              | Start dev server at `http://localhost:4321`             |
+| `bun run build`        | Production build to `./dist/` (includes Pagefind index) |
+| `bun preview`          | Preview production build locally                        |
+| `bun run lint`         | ESLint (zero warnings enforced)                         |
+| `bun run lint:fix`     | ESLint with auto-fix                                    |
+| `bun run format`       | Prettier format all sources                             |
+| `bun run format:check` | Prettier check only                                     |
+| `bun run typecheck`    | `astro check` for type errors                           |
+| `bun test`             | Run Bun tests                                           |
 
 ## Architecture
 
@@ -72,7 +72,7 @@ Single source of truth for site identity (`SITE`), navigation (`NAV`), social li
 
 ### Plugins: `src/plugins/`
 
-- `remark-alert.ts` — Converts ```` ```alert ```` fenced blocks to daisyUI alert HTML (info/success/warning/error with optional icons).
+- `remark-alert.ts` — Converts ` ```alert ` fenced blocks to daisyUI alert HTML (info/success/warning/error with optional icons).
 - `remark-ashtml.ts` — Allows inline raw HTML through a remark pass-through.
 
 ### Styling

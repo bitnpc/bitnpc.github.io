@@ -136,8 +136,11 @@
 
   /* Fonts — loaded via @fontsource (Astro Fonts API in astro.config.mjs).
      Match Jekyll Chirpy: Lato for headings, Source Sans 3 for body. */
-  --font-sans: var(--font-source-sans-3), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-  --font-heading: var(--font-lato), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-sans:
+    var(--font-source-sans-3), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui,
+    -apple-system, sans-serif;
+  --font-heading:
+    var(--font-lato), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: var(--font-jetbrains-mono), 'SF Mono', 'Cascadia Code', ui-monospace, monospace;
 }
 
@@ -163,7 +166,12 @@
     line-height: 1.65;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
   }
 

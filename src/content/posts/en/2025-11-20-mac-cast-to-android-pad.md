@@ -3,9 +3,9 @@ title: 'Mac Screen Casting to Android Pad Architecture'
 pubDate: 2025-11-20
 categories: [Audio/Video]
 tags:
-    - Screen Mirroring
-    - VideoToolbox
-    - HID
+  - Screen Mirroring
+  - VideoToolbox
+  - HID
 
 toc: true
 description: 'Mac-to-Android Pad screen casting architecture: virtual display capture, VideoToolbox encoding, VBR strategy, and HID reverse control.'
@@ -111,6 +111,7 @@ CGDirectDisplayID displayID = virtualDisplay.displayID;
 ```
 
 Once created, a virtual display appears in System Settings, and users can drag windows onto the Pad's extended desktop.
+
 ```alert
 type: info
 description: `CGVirtualDisplay` is a private framework and is not suitable for App Store submission. Sidecar uses the lower-level SidecarCore framework + AirPlay transport, which is similar in principle but differs in implementation.
@@ -302,12 +303,12 @@ For 1080p H.265: `1920 × 1080 × 2.0 = 4,147,200 bps ≈ 4 Mbps`, dynamic range
 
 **Why VBR instead of CBR:**
 
-| Aspect | VBR | CBR |
-|--------|-----|-----|
-| Static scenes | Bitrate decreases, saves bandwidth | Pads with invalid data, wastes bandwidth |
-| Dynamic scenes | Bitrate peaks, quality first | Quality degrades noticeably |
-| Casting suitability | ✅ Best match (desktop is mostly static) | Not recommended |
-| Large GOP size | Bitrate fluctuates but stays within limits | Stable but wastes resources |
+| Aspect              | VBR                                        | CBR                                      |
+| ------------------- | ------------------------------------------ | ---------------------------------------- |
+| Static scenes       | Bitrate decreases, saves bandwidth         | Pads with invalid data, wastes bandwidth |
+| Dynamic scenes      | Bitrate peaks, quality first               | Quality degrades noticeably              |
+| Casting suitability | ✅ Best match (desktop is mostly static)   | Not recommended                          |
+| Large GOP size      | Bitrate fluctuates but stays within limits | Stable but wastes resources              |
 
 Screen casting content is dominated by static scenes (documents, desktop). VBR's bandwidth utilization far exceeds CBR. The upper and lower limits of `DataRateLimits` ensure the bitrate does not go out of control.
 
@@ -341,11 +342,11 @@ void adjustResolutionByCPU(int32_t& width, int32_t& height) {
 }
 ```
 
-| CPU | 1080p Scale | Actual Encoding Resolution | Reason |
-|-----|-------------|---------------------------|--------|
-| Intel i5 | 0.8 | 1536×864 | Quick Sync throughput limit |
-| Intel i7 | 0.9 | 1728×972 | |
-| Apple M1/M2/M3 series | 1.0 | 1920×1080 | Media Engine has no bottleneck for single-stream encoding |
+| CPU                   | 1080p Scale | Actual Encoding Resolution | Reason                                                    |
+| --------------------- | ----------- | -------------------------- | --------------------------------------------------------- |
+| Intel i5              | 0.8         | 1536×864                   | Quick Sync throughput limit                               |
+| Intel i7              | 0.9         | 1728×972                   |                                                           |
+| Apple M1/M2/M3 series | 1.0         | 1920×1080                  | Media Engine has no bottleneck for single-stream encoding |
 
 ### 3.7 AVCC to Annex-B Format Conversion
 
@@ -443,14 +444,15 @@ HIDDispatcher.handleHIDReport(report, displayID)
 
 TouchGestureRecognizer translates Pad touch gestures into Mac mouse operations:
 
-| Gesture | CGEvent Injection |
-|---------|-------------------|
-| Single / Double / Triple click | `kCGEventLeftMouseDown` + `kCGEventLeftMouseUp` + clickCount |
-| Right click | `kCGEventRightMouseDown` + `kCGEventRightMouseUp` |
-| Drag | `kCGEventLeftMouseDown` → `mouseMoved(isDrag: true)` → `kCGEventLeftMouseUp` |
-| Move (single point) | `kCGEventMouseMoved` |
-| Scroll | `CGEventCreateScrollWheelEvent` |
-| Two-finger pinch | `kVK_ANSI_Equal` / `kVK_ANSI_Minus` (Command +/-) |
+| Gesture                        | CGEvent Injection                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------- |
+| Single / Double / Triple click | `kCGEventLeftMouseDown` + `kCGEventLeftMouseUp` + clickCount                 |
+| Right click                    | `kCGEventRightMouseDown` + `kCGEventRightMouseUp`                            |
+| Drag                           | `kCGEventLeftMouseDown` → `mouseMoved(isDrag: true)` → `kCGEventLeftMouseUp` |
+| Move (single point)            | `kCGEventMouseMoved`                                                         |
+| Scroll                         | `CGEventCreateScrollWheelEvent`                                              |
+| Two-finger pinch               | `kVK_ANSI_Equal` / `kVK_ANSI_Minus` (Command +/-)                            |
+
 ```alert
 type: info
 description: **Limitation of two-finger pinch**: macOS 10.5+ provides the `NSEventTypeMagnify` gesture event and the `kCGGesturePhase` phase field. In theory, `CGEventCreateScrollWheelEvent` with gesture phase could simulate continuous trackpad zoom. However, in practice, programmatically constructed CGEvents undergo AppKit event source validation during conversion to `NSEvent` — behavior varies across apps, and continuous zoom cannot be triggered reliably in most apps. `Cmd +/-` as a **keyboard shortcut** behaves predictably across all apps and serves as a reliable fallback in this scenario.
@@ -462,14 +464,14 @@ Sidecar supports smooth trackpad-level gestures (two-finger zoom, rotation, scro
 
 Our approach is different — Pad touch data arrives at the Mac via Protobuf over the casting transport SDK, and can only be injected as mouse/keyboard events via `CGEventPost`. `NSTouch` has no public initializer, so it is impossible to construct valid touch objects externally. This is a gap at the OS permission level, not something the transport protocol can solve.
 
-| Aspect | Sidecar | This Solution |
-|--------|---------|---------------|
-| Touch data transport | SidecarCore private channel | Protobuf over casting transport SDK |
-| Mac-side event type | `NSTouch` (Direct) | `CGEvent` (Mouse/Keyboard) |
-| Two-finger zoom | `NSMagnificationGestureRecognizer` (continuous) | Cmd +/- shortcuts (stepped) |
-| Two-finger rotation | `NSRotateGestureRecognizer` | Not supported |
-| Gesture continuity | Discrete (single `.ended` callback) | N/A (non-gesture API) |
-| Code deployment target | Apps need gesture recognizers added | No app adaptation needed, system-wide |
+| Aspect                 | Sidecar                                         | This Solution                         |
+| ---------------------- | ----------------------------------------------- | ------------------------------------- |
+| Touch data transport   | SidecarCore private channel                     | Protobuf over casting transport SDK   |
+| Mac-side event type    | `NSTouch` (Direct)                              | `CGEvent` (Mouse/Keyboard)            |
+| Two-finger zoom        | `NSMagnificationGestureRecognizer` (continuous) | Cmd +/- shortcuts (stepped)           |
+| Two-finger rotation    | `NSRotateGestureRecognizer`                     | Not supported                         |
+| Gesture continuity     | Discrete (single `.ended` callback)             | N/A (non-gesture API)                 |
+| Code deployment target | Apps need gesture recognizers added             | No app adaptation needed, system-wide |
 
 ### 4.4 Coordinate Mapping
 
@@ -508,10 +510,10 @@ Reason for the limit: when switching apps on the Pad, an anomalous state of "mul
 
 There are two approaches to recording a virtual display on macOS:
 
-| Approach | API | Pros | Cons |
-|----------|-----|------|------|
-| AVCaptureScreenInput | `AVCaptureSession` + `AVCaptureScreenInput` | System-level capture, automatic color management | Forces mirror mode causing black screen |
-| CGDisplayStream | `CGDisplayStreamCreateWithDispatchQueue` | Zero-copy IOSurface, bypasses window compositor | Requires manual format conversion management |
+| Approach             | API                                         | Pros                                             | Cons                                         |
+| -------------------- | ------------------------------------------- | ------------------------------------------------ | -------------------------------------------- |
+| AVCaptureScreenInput | `AVCaptureSession` + `AVCaptureScreenInput` | System-level capture, automatic color management | Forces mirror mode causing black screen      |
+| CGDisplayStream      | `CGDisplayStreamCreateWithDispatchQueue`    | Zero-copy IOSurface, bypasses window compositor  | Requires manual format conversion management |
 
 The `AVCaptureScreenInput` approach was tried initially, but it was found that on some macOS versions, the virtual display would trigger a black screen — AVCapture internally tries to reconfigure the display mode. The final solution switched to `CGDisplayStream`, reading frames directly from IOSurface, avoiding the side effects of system-level capture and achieving lower latency (zero-copy).
 

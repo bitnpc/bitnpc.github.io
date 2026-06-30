@@ -3,8 +3,8 @@ title: 'Binary Search and Its Applications'
 pubDate: 2019-08-23
 categories: [Algorithms]
 tags:
-    - Binary Search
-    - LeetCode
+  - Binary Search
+  - LeetCode
 
 toc: true
 description: 'Binary Search locates targets in ordered or monotonic spaces in O(log n) time. Covers templates, rotated arrays, 2D matrices, BSTs, and answer-space search techniques.'
@@ -14,6 +14,7 @@ translationKey: 'binary_search'
 ## Overview
 
 Binary Search (`Binary Search`), also known as half-interval search or logarithmic search, is applicable to searching problems where "the answer lies within an ordered interval or monotonic space." The core idea is to compare the midpoint of the interval with the target, halving the search space with each step, ultimately locating the result in `O(log n)` time with `O(1)` extra space.
+
 ```alert
 type: success
 description: **Prerequisites**: To use binary search, the target space must exhibit monotonicity (strictly increasing, non-decreasing, or reducible to a monotonic boolean via a decision function). LeetCode offers a [binary search topic collection](https://leetcode.com/tag/binary-search/) and a [study card](https://leetcode.com/explore/learn/card/binary-search) that serve as great systematic training resources.
@@ -50,6 +51,7 @@ int binary_search(const vector<int>& nums, int target) {
     return -1;                               // Search interval is empty, not found
 }
 ```
+
 ```alert
 type: success
 description: **Key Techniques**:
@@ -138,6 +140,7 @@ int upper_bound(const vector<int>& nums, int target) {
     return (idx >= 0 && nums[idx] == target) ? idx : -1;
 }
 ```
+
 ```alert
 type: info
 description: **Boundary Search Techniques**:
@@ -149,6 +152,7 @@ description: **Boundary Search Techniques**:
 ## 3. Rotated Array Problems
 
 A rotated array is formed by taking a sorted array, breaking it at some pivot point, and swapping the two segments. For example, `[0,1,2,4,5,6,7]` rotated might become `[4,5,6,7,0,1,2]`. Such arrays maintain order within each of the two segments, so binary search can be used to locate a target or find the extremum.
+
 ```alert
 type: info
 description: **Rotated Array Property**: A rotated array consists of two segments, each internally sorted. By comparing `nums[left]` and `nums[mid]`, you can determine which segment is sorted, and thus decide the search direction.
@@ -193,6 +197,7 @@ int search(vector<int>& nums, int target) {
     return -1;
 }
 ```
+
 [LeetCode 81](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/) allows duplicate elements. When `nums[left] == nums[mid]`, it's impossible to determine which side is sorted, so we need to shrink the left boundary:
 
 ```cpp
@@ -234,6 +239,7 @@ int searchWithDuplicate(vector<int>& nums, int target) {
     return -1;
 }
 ```
+
 ### 3.2 Finding the Minimum Element
 
 [LeetCode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) requires finding the minimum value in a rotated array without duplicates. The idea is to check whether the interval is sorted via binary search; if `[left, right]` is already in ascending order, return `nums[left]` directly. Otherwise, continue narrowing down to the unsorted half.
@@ -268,6 +274,7 @@ int findMin(vector<int>& nums) {
     return nums[left];
 }
 ```
+
 If duplicates are allowed ([LeetCode 154](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/)), when it's impossible to determine which side to search, one end must be shrunk linearly:
 
 ```cpp
@@ -308,6 +315,7 @@ int findMin(vector<int>& nums) {
 ### 4.1 Median of Two Sorted Arrays
 
 [LeetCode 4](https://leetcode.com/problems/median-of-two-sorted-arrays/) requires finding the median of two sorted arrays. The naive merge approach has a complexity of `O(m+n)`, while binary search can solve it in `O(log(min(m,n)))` time: by binary searching over the shorter array's partition position such that the element counts on both sides satisfy the median condition. For a detailed derivation, see this [discussion thread](https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/2471/very-concise-ologminmn-iterative-solution-with-detailed-explanation).
+
 ```alert
 type: success
 description: **Complexity Optimization**: Binary search reduces the time complexity from `O(m+n)` to `O(log(min(m,n)))`, a classic application of binary search in complex problems.
@@ -316,6 +324,7 @@ description: **Complexity Optimization**: Binary search reduces the time complex
 ### 4.2 2D Matrix Search
 
 [LeetCode 74](https://leetcode.com/problems/search-a-2d-matrix/) requires searching for a target in a matrix. Two common approaches exist:
+
 - **Method 1**: Binary search on the first column to locate the row, then binary search within that row (two binary searches)
 - **Method 2**: Treat the matrix as a 1D array, using index mapping `row = mid / n`, `col = mid % n` for a single binary search
 
@@ -405,6 +414,7 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
     return false;
 }
 ```
+
 ```alert
 type: success
 description: **Index Mapping Technique**: For an `m x n` matrix, the 2D coordinates corresponding to 1D index `i` are `(i / n, i % n)`. This approach reduces a 2D problem to a 1D problem, simplifying implementation.
@@ -606,6 +616,7 @@ private:
     }
 };
 ```
+
 ```alert
 type: info
 description: **Complete Binary Tree Properties**: In a complete binary tree, nodes are numbered level by level. The left child of node `i` is numbered `2i`, the right child is `2i+1`, and the parent is numbered `⌊i/2⌋`. This property enables fast node location using binary path traversal.
@@ -614,6 +625,7 @@ description: **Complete Binary Tree Properties**: In a complete binary tree, nod
 ## 6. Binary Search on Answer Space
 
 When a result cannot be directly determined, but you can check whether a candidate answer is feasible, binary search can be applied over the answer space. The key is to design a decision function `check(mid)` that determines whether the answer `mid` satisfies the conditions.
+
 ```alert
 type: success
 description: **Answer Space Binary Search**: Instead of searching directly in an array, search within the range of possible answers. You need to design a decision function that determines whether a candidate answer is feasible, then narrow the search range based on the result.
@@ -712,6 +724,7 @@ double maximumAreaServingCake(const vector<int>& radii, int n) {
     return lo;  // Return the maximum feasible area
 }
 ```
+
 ```alert
 type: info
 description: **Floating-Point Binary Search Tips**: For floating-point answer spaces, use a fixed number of iterations instead of `while (left < right)`, since floating-point comparisons can lead to infinite loops. 60 iterations are typically sufficient for the required precision.

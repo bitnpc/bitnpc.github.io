@@ -39,16 +39,14 @@ export const messages = {
     'post.comments': '评论',
     'post.commentsDisabled': '本文已禁用评论。',
     'post.commentsSetupTitle': '评论功能需要配置',
-    'post.commentsSetupBody':
-      'Giscus 已启用但尚未配置。请添加以下仓库信息以启用评论。',
+    'post.commentsSetupBody': 'Giscus 已启用但尚未配置。请添加以下仓库信息以启用评论。',
     'post.commentsSetupStep1':
       '访问 `giscus.app` 并选择你的公开 GitHub 仓库（需启用 Discussions）。',
     'post.commentsSetupStep2':
       '复制生成的 `data-repo-id`、`data-category` 和 `data-category-id` 值。',
     'post.commentsSetupStep3':
       '在 `.env` 文件中设置 `PUBLIC_GISCUS_ENABLED`、`PUBLIC_GISCUS_REPO`、`PUBLIC_GISCUS_REPO_ID`、`PUBLIC_GISCUS_CATEGORY` 和 `PUBLIC_GISCUS_CATEGORY_ID` 环境变量。',
-    'post.commentsSetupStep4':
-      '重新构建站点 — 此提示将被实时评论区替代。',
+    'post.commentsSetupStep4': '重新构建站点 — 此提示将被实时评论区替代。',
     'post.commentsSetupDocs': '打开 giscus.app',
     'post.share': '分享',
     'post.copyLink': '复制链接',

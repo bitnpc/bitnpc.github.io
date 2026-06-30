@@ -3,8 +3,8 @@ title: 'Introduction to FFmpeg'
 pubDate: 2022-05-25
 categories: [Audio/Video]
 tags:
-    - FFmpeg
-    - Codec
+  - FFmpeg
+  - Codec
 
 toc: true
 description: 'An introduction to FFmpeg covering installation, command-line syntax, transcoding, stream selection, filtergraphs, and the architecture of its core library modules.'
@@ -17,6 +17,7 @@ description: 'An introduction to FFmpeg covering installation, command-line synt
 `FFmpeg` supports a wide range of protocols and provides rich features including multiplexing and demultiplexing of various multimedia formats, audio/video encoding and decoding, sample rate conversion, bitrate conversion, and color format conversion.
 
 Name breakdown:
+
 - **FF**: Fast Forward
 - **mpeg**: Moving Picture Experts Group
 
@@ -24,11 +25,11 @@ Name breakdown:
 
 Before understanding FFmpeg, it is important to clarify several core concepts in the audio/video processing pipeline:
 
-| Concept | Description | Examples |
-|---------|-------------|---------|
-| Protocol | Method of data transmission | HLS, RTSP, RTMP, SRT |
-| Container | Format that packages encoded streams into a file | MP4, MKV, FLV, MOV, AVI |
-| Codec | Algorithm for compressing audio/video data | H.264, H.265, VP9, AV1 (video); AAC, Opus, MP3 (audio) |
+| Concept   | Description                                      | Examples                                               |
+| --------- | ------------------------------------------------ | ------------------------------------------------------ |
+| Protocol  | Method of data transmission                      | HLS, RTSP, RTMP, SRT                                   |
+| Container | Format that packages encoded streams into a file | MP4, MKV, FLV, MOV, AVI                                |
+| Codec     | Algorithm for compressing audio/video data       | H.264, H.265, VP9, AV1 (video); AAC, Opus, MP3 (audio) |
 
 The hierarchical structure of a video file:
 
@@ -79,11 +80,13 @@ ffmpeg [global_options] {[input_file_options] -i input_url} ... {[output_file_op
 ```
 
 Important rules:
+
 - **Options apply to the file that follows them**: options placed before `-i` affect the input file; options placed before the output file affect the output
 - **Order-sensitive**: all inputs must be specified before any outputs
 - **Global options** go first, e.g., `-y` (overwrite output file), `-n` (do not overwrite), `-v` (log level)
 
 For example:
+
 ```bash
 # -ss before -i: input option, seeks to nearest keyframe (fast but imprecise)
 $ ffmpeg -ss 30 -i input.mp4 -c copy output.mp4
@@ -140,6 +143,7 @@ video:5221kB audio:120kB subtitle:0kB other streams:0kB global headers:0kB muxin
 This command uses the `-i` parameter to specify `input.mp4` as the input source, then performs transcoding and remuxing, and finally outputs to `output.avi`.
 
 From the output, we can see:
+
 - **Input**: container format `mp4`, video codec `H.264`, audio codec `AAC`
 - **Output**: container format `avi`, video codec `mpeg4`, audio codec `MP3`
 - The **Stream mapping** clearly shows the transcoding path
@@ -169,11 +173,13 @@ FFmpeg's core processing pipeline is illustrated below:
 ```
 
 Processing steps:
+
 1. **Demux**: Extract compressed data packets (audio, video, etc.) from the container
 2. **Decode**: Decompress the data packets into raw frames — YUV/RGB pixel data for video, PCM sample data for audio
 3. **Filter (optional)**: Process raw frames — scaling, cropping, watermarking, color grading, etc.
 4. **Encode**: Re-compress the processed raw frames
 5. **Mux**: Package the encoded data packets into the target container format
+
 ```alert
 type: success
 description: If you only need to remux (e.g., MP4 to MKV) without changing the codec, use `-c copy` to skip the decoding and encoding steps — extremely fast with no quality loss.
@@ -192,6 +198,7 @@ Stream copy is a special mode in FFmpeg enabled via `-c copy` or `-codec copy`. 
 ```
 
 Characteristics:
+
 - Extremely fast (no encoding/decoding computation)
 - No quality loss (data is not modified)
 - Cannot apply filters (filters only work on decoded raw frames)
@@ -208,13 +215,13 @@ Certain options target specific streams and require a stream specifier. The synt
 
 Common stream specifiers:
 
-| Specifier | Meaning | Example |
-|-----------|---------|---------|
-| `:v` | Video stream | `-c:v libx264` specifies the video encoder |
-| `:a` | Audio stream | `-c:a aac` specifies the audio encoder |
-| `:s` | Subtitle stream | `-c:s mov_text` specifies the subtitle encoder |
-| `:v:0` | First video stream | `-b:v:0 5M` bitrate of 5 Mbps for the first video stream |
-| `:a:1` | Second audio stream | `-c:a:1 ac3` use AC3 encoder for the second audio stream |
+| Specifier | Meaning             | Example                                                  |
+| --------- | ------------------- | -------------------------------------------------------- |
+| `:v`      | Video stream        | `-c:v libx264` specifies the video encoder               |
+| `:a`      | Audio stream        | `-c:a aac` specifies the audio encoder                   |
+| `:s`      | Subtitle stream     | `-c:s mov_text` specifies the subtitle encoder           |
+| `:v:0`    | First video stream  | `-b:v:0 5M` bitrate of 5 Mbps for the first video stream |
+| `:a:1`    | Second audio stream | `-c:a:1 ac3` use AC3 encoder for the second audio stream |
 
 An empty stream specifier matches all streams. For example, `-c copy` applies copy to all streams.
 
@@ -223,6 +230,7 @@ An empty stream specifier matches all streams. For example, `-c copy` applies co
 When the input file contains multiple streams, FFmpeg needs to decide which streams go into the output file.
 
 **Automatic selection rules** (when `-map` is not used):
+
 - Video: selects the video stream with the highest resolution
 - Audio: selects the audio stream with the most channels
 - Subtitle: selects the first subtitle stream (only for output formats that support subtitles)
@@ -269,6 +277,7 @@ $ ffmpeg -i input1.mp4 -i input2.mp4 \
 ```
 
 Label explanations in complex filtergraphs:
+
 - `[0:v]`: video stream from the first input file
 - `[1:a]`: audio stream from the second input file
 - `[outv]`, `[outa]`: custom output labels, referenced by `-map`
@@ -279,11 +288,11 @@ Label explanations in complex filtergraphs:
 
 `FFmpeg` provides three core command-line tools:
 
-| Tool | Purpose |
-|------|---------|
-| `ffmpeg` | Multimedia encoding, decoding, transcoding, and remuxing |
-| `ffprobe` | Multimedia content analysis and information extraction |
-| `ffplay` | SDL-based simple multimedia player |
+| Tool      | Purpose                                                  |
+| --------- | -------------------------------------------------------- |
+| `ffmpeg`  | Multimedia encoding, decoding, transcoding, and remuxing |
+| `ffprobe` | Multimedia content analysis and information extraction   |
+| `ffplay`  | SDL-based simple multimedia player                       |
 
 ### ffmpeg Common Commands
 
@@ -307,6 +316,7 @@ $ ffmpeg -i input.rmvb -vcodec mpeg4 -b:v 200k -r 15 -an output.mp4
 ```
 
 Parameter explanations:
+
 - `-vcodec mpeg4`: set the video codec to mpeg4
 - `-b:v 200k`: video bitrate of 200 kbit/s
 - `-r 15`: framerate of 15 fps
@@ -314,27 +324,27 @@ Parameter explanations:
 
 **Common video options:**
 
-| Option | Description | Example |
-|--------|-------------|---------|
-| `-c:v` / `-vcodec` | Video codec | `-c:v libx264` |
-| `-b:v` | Video bitrate | `-b:v 2M` |
-| `-r` | Framerate | `-r 30` |
-| `-s` | Resolution | `-s 1920x1080` |
-| `-vf` | Video filter | `-vf "scale=1280:720"` |
-| `-vn` | Remove video stream | |
-| `-pix_fmt` | Pixel format | `-pix_fmt yuv420p` |
-| `-crf` | Constant Rate Factor (H.264/H.265) | `-crf 23` |
+| Option             | Description                        | Example                |
+| ------------------ | ---------------------------------- | ---------------------- |
+| `-c:v` / `-vcodec` | Video codec                        | `-c:v libx264`         |
+| `-b:v`             | Video bitrate                      | `-b:v 2M`              |
+| `-r`               | Framerate                          | `-r 30`                |
+| `-s`               | Resolution                         | `-s 1920x1080`         |
+| `-vf`              | Video filter                       | `-vf "scale=1280:720"` |
+| `-vn`              | Remove video stream                |                        |
+| `-pix_fmt`         | Pixel format                       | `-pix_fmt yuv420p`     |
+| `-crf`             | Constant Rate Factor (H.264/H.265) | `-crf 23`              |
 
 **Common audio options:**
 
-| Option | Description | Example |
-|--------|-------------|---------|
-| `-c:a` / `-acodec` | Audio codec | `-c:a aac` |
-| `-b:a` | Audio bitrate | `-b:a 128k` |
-| `-ar` | Sample rate | `-ar 44100` |
-| `-ac` | Number of audio channels | `-ac 2` |
-| `-af` | Audio filter | `-af "volume=2.0"` |
-| `-an` | Remove audio stream | |
+| Option             | Description              | Example            |
+| ------------------ | ------------------------ | ------------------ |
+| `-c:a` / `-acodec` | Audio codec              | `-c:a aac`         |
+| `-b:a`             | Audio bitrate            | `-b:a 128k`        |
+| `-ar`              | Sample rate              | `-ar 44100`        |
+| `-ac`              | Number of audio channels | `-ac 2`            |
+| `-af`              | Audio filter             | `-af "volume=2.0"` |
+| `-an`              | Remove audio stream      |                    |
 
 **More common use cases:**
 
@@ -417,6 +427,7 @@ From the `ffmpeg -version` output, we can see that FFmpeg is primarily composed 
 │                   libavutil                       │
 └─────────────────────────────────────────────────┘
 ```
+
 ```alert
 type: info
 description: Older versions of FFmpeg also include the `libavresample` module for audio resampling, which is now deprecated. It is recommended to use `libswresample` instead.
@@ -451,6 +462,7 @@ Provides an audio/video filter processing framework that supports building filte
 > The libswscale library performs highly optimized image scaling and colorspace and pixel format conversion operations.
 
 A highly optimized image processing library focused on:
+
 - Image scaling (supports multiple interpolation algorithms: bilinear, bicubic, lanczos, etc.)
 - Color space conversion (e.g., YUV ↔ RGB)
 - Pixel format conversion (e.g., yuv420p → nv12)
@@ -460,6 +472,7 @@ A highly optimized image processing library focused on:
 > The libswresample library performs highly optimized audio resampling, rematrixing and sample format conversion operations.
 
 A highly optimized audio processing library focused on:
+
 - Sample rate conversion (e.g., 48kHz → 44.1kHz)
 - Channel layout conversion (e.g., 5.1 surround → stereo, also known as rematrixing)
 - Sample format conversion (e.g., float → s16)
@@ -469,6 +482,7 @@ A highly optimized audio processing library focused on:
 > The libavdevice library provides a generic framework for grabbing from and rendering to many common multimedia input/output devices, and supports several input and output devices, including Video4Linux2, VfW, DShow, and ALSA.
 
 Provides audio/video device capture and output capabilities, enabling FFmpeg to interact directly with hardware. Supported devices include:
+
 - Linux: Video4Linux2 (camera), ALSA (sound card), PulseAudio
 - Windows: DirectShow, WASAPI
 - macOS: AVFoundation
@@ -490,6 +504,7 @@ Understanding the responsibilities of these components helps in choosing the rig
 ---
 
 References
+
 - [FFmpeg Official Documentation](https://ffmpeg.org/ffmpeg.html)
 - [Lei Xiaohua's FFmpeg Blog](https://blog.csdn.net/leixiaohua1020)
 - [FFmpeg Wiki](https://trac.ffmpeg.org/wiki)

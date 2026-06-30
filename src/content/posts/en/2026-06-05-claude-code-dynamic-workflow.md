@@ -3,9 +3,9 @@ title: 'Claude Code Dynamic Workflow: A Deep Dive'
 pubDate: 2026-06-05
 categories: [AI]
 tags:
-    - Claude Code
-    - Agent
-    - Orchestration
+  - Claude Code
+  - Agent
+  - Orchestration
 
 translationKey: claude-code-dynamic-workflow
 toc: true
@@ -133,24 +133,23 @@ Claude Code is a Node.js/TypeScript application, naturally suited to async concu
 
 Dynamic Workflow's orchestration model is fundamentally **DAG (Directed Acyclic Graph) execution** — supporting dependency relationships and result propagation, with divide-and-conquer at its core.
 
-| Algorithmic concept | Applicability | Notes |
-|---------------------|---------------|-------|
-| Divide & conquer | ✅ Fully applicable | Break large tasks into independent sub-tasks, solve in parallel, merge results |
-| Memoization / caching | 🟡 Partially | Script variables are natural "memos"; on resume, completed agents return cached results without re-running |
-| Topological sort | 🟡 Can be implemented via script | Solve common dependencies first, then process independent tasks in parallel |
-| Dynamic programming | ❌ State transitions don't apply | But the "cache solved sub-problems" concept is naturally present via script variables |
+| Algorithmic concept   | Applicability                    | Notes                                                                                                      |
+| --------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Divide & conquer      | ✅ Fully applicable              | Break large tasks into independent sub-tasks, solve in parallel, merge results                             |
+| Memoization / caching | 🟡 Partially                     | Script variables are natural "memos"; on resume, completed agents return cached results without re-running |
+| Topological sort      | 🟡 Can be implemented via script | Solve common dependencies first, then process independent tasks in parallel                                |
+| Dynamic programming   | ❌ State transitions don't apply | But the "cache solved sub-problems" concept is naturally present via script variables                      |
 
 For scenarios with shared dependencies, the correct approach is to explicitly extract common steps in the script:
 
 ```javascript
 // Solve the common sub-problem first
-const sdkAnalysis = await agent("Analyze the SDK's public interface definitions and constraints")
+const sdkAnalysis = await agent("Analyze the SDK's public interface definitions and constraints");
 
 // Then solve independent sub-problems in parallel, passing the common result
-const results = await pipeline(
-  plugins,
-  plugin => agent(`Review ${plugin} based on the following constraints: ${sdkAnalysis}`)
-)
+const results = await pipeline(plugins, (plugin) =>
+  agent(`Review ${plugin} based on the following constraints: ${sdkAnalysis}`),
+);
 ```
 
 This is dependency handling (topological sort) within a DAG.
@@ -161,18 +160,19 @@ This is dependency handling (topological sort) within a DAG.
 
 The Claude Code documentation categorizes orchestration capabilities into four levels, distinguished by "who holds the plan":
 
-| Dimension | Original Subagent | Skills | Agent Teams | Dynamic Workflow |
-|-----------|-------------------|--------|-------------|------------------|
-| Essence | Workers dispatched by Claude | Behavior patterns Claude follows | Manually predefined role organization | JS script executed at runtime |
-| Orchestrator | Main Agent (Claude's reasoning) | Claude (guided by Skill) | Manual code | JS script (AI-generated) |
-| Decision method | Claude decides next step each turn | Claude decides per Skill template | Predefined fixed flow | Script holds loops and branches |
-| Intermediate results | Land in Claude's context | Land in Claude's context | Each agent's context | Script variables (not in context) |
-| Scale | A few per turn | A few per turn | Fixed role count | Tens to hundreds per run |
-| Structure lifetime | Re-decided each turn | Session-scoped | Fixed before deploy | Generated per task, destroyed after |
-| Applicable scale | Small task delegation | 10-20 step structured tasks | Medium-complexity fixed flows | Large-scale parallel (500+ files) |
-| Analogy | One person calling for temporary help | One person following SOPs | Fixed org chart | Project-based temporary team |
+| Dimension            | Original Subagent                     | Skills                            | Agent Teams                           | Dynamic Workflow                    |
+| -------------------- | ------------------------------------- | --------------------------------- | ------------------------------------- | ----------------------------------- |
+| Essence              | Workers dispatched by Claude          | Behavior patterns Claude follows  | Manually predefined role organization | JS script executed at runtime       |
+| Orchestrator         | Main Agent (Claude's reasoning)       | Claude (guided by Skill)          | Manual code                           | JS script (AI-generated)            |
+| Decision method      | Claude decides next step each turn    | Claude decides per Skill template | Predefined fixed flow                 | Script holds loops and branches     |
+| Intermediate results | Land in Claude's context              | Land in Claude's context          | Each agent's context                  | Script variables (not in context)   |
+| Scale                | A few per turn                        | A few per turn                    | Fixed role count                      | Tens to hundreds per run            |
+| Structure lifetime   | Re-decided each turn                  | Session-scoped                    | Fixed before deploy                   | Generated per task, destroyed after |
+| Applicable scale     | Small task delegation                 | 10-20 step structured tasks       | Medium-complexity fixed flows         | Large-scale parallel (500+ files)   |
+| Analogy              | One person calling for temporary help | One person following SOPs         | Fixed org chart                       | Project-based temporary team        |
 
 ## 3. Work Modes
+
 ```alert
 type: success
 description: Work modes are essentially the topological structure of the DAG corresponding to Dynamic Workflow execution.
@@ -271,6 +271,7 @@ Typical scenarios:
 - Continuously mine codebase for security vulnerabilities → 2 consecutive rounds with no new findings → Stop
 - Iteratively fix lint errors → Until lint command outputs 0 errors → Stop
 ```
+
 ```alert
 type: success
 description: Real-world workflows typically **combine multiple modes**. For example, large-scale Code Review = Fan-out-and-synthesize (by module) + Adversarial verification (each finding reviewed by skeptics) + Loop-until-done (keep discovering until no new issues) + Classify-and-act (categorize output by severity).
@@ -283,6 +284,7 @@ description: Real-world workflows typically **combine multiple modes**. For exam
 **Primary modes**: Fan-out-and-synthesize + Adversarial verification
 
 Break the task into units needing individual operations (call sites, failing tests, modules), launch an independent Agent in a worktree for each fix, then have another Agent perform adversarial review before merging.
+
 ```alert
 type: success
 description: Tell Agents not to use resource-intensive commands (like full builds) so you can maximize parallelism without exhausting machine resources.
@@ -348,6 +350,7 @@ When you find Claude repeatedly violating certain rules (even when written in CL
 Every team has backlogged support queues, bug reports, or other to-dos that can't be fully handled by humans.
 
 **Triage workflow in three steps**: Classify → Deduplicate against tracked items → Take action (auto-fix or escalate to human).
+
 ```alert
 type: warning
 description: **Quarantine mode**: Agents that read untrusted public content must not execute high-privilege operations (like writing to databases or sending notifications). High-privilege operations are handled by dedicated action Agents. This is the security principle of separation of concerns.
@@ -360,6 +363,7 @@ description: **Quarantine mode**: Agents that read untrusted public content must
 - **Fixing a single simple bug** — the overhead of launching a workflow far outweighs the benefit
 - **Strong sequential dependencies or shared state** — divide-and-conquer no longer applies
 - **Token-budget-conscious daily development** — official docs explicitly note "a single run can use meaningfully more tokens than working through the same task in conversation"
+
 ```alert
 type: warning
 description: **Guiding principle**: If the task can be completed with high quality by a single Claude in one context window, don't force a workflow. The value of workflows is in enabling Claude to do **things it couldn't do before**, not adding unnecessary complexity to simple tasks.
@@ -374,6 +378,7 @@ description: **Guiding principle**: If the task can be completed with high quali
 **Application**: Assign an independent Agent to each module for parallel review — device control/security, network communication/protocol compliance, UI components/consistency, data storage/privacy compliance, automation scenarios/logic integrity. Verifier Agents adversarially verify findings and filter false positives.
 
 **Expected benefits**: Large MR review time reduced from hours to minutes, with more comprehensive dimension coverage. Can be saved as a team-standard workflow (`.claude/workflows/`) and reused via `/<name>`.
+
 ```alert
 type: success
 description: Current AI Reviewer is essentially a single-Prompt review. Upgraded to Dynamic Workflow, you can dispatch specialized Agents by dimension (code style, architectural soundness, security, performance, concurrency safety, UI standards), with an Aggregator synthesizing a structured review report.

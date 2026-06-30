@@ -3,9 +3,9 @@ title: 'Mijia Camera Technology: A Complete Breakdown'
 pubDate: 2024-11-10
 categories: [Smart Home]
 tags:
-    - Audio/Video
-    - P2P
-    - Embedded
+  - Audio/Video
+  - P2P
+  - Embedded
 
 toc: true
 description: 'A systematic breakdown of building an industrial-grade Mijia smart camera from three angles: hardware design, software architecture, and cloud services. Uses the PTZ indoor camera as the main thread.'
@@ -14,6 +14,7 @@ description: 'A systematic breakdown of building an industrial-grade Mijia smart
 This article systematically walks through how to build an industrial-grade Mijia smart camera product from three perspectives: hardware design, software architecture, and cloud services. It uses the PTZ indoor camera as the main thread while covering the differences of other form factors such as the bullet-and-ball dual-lens camera.
 
 The technology stacks covered here have dedicated articles in previous blog posts — read them together for deeper understanding:
+
 - [Audio/Video Fundamentals and Digital Representation](https://bitnpc.github.io/posts/av_into/) — Sampling, encoding, color spaces, and other basic concepts
 - [Introduction to P2P Technology](https://bitnpc.github.io/posts/p2p_intro/) — NAT traversal and hole punching principles
 - [HLS and Cloud Storage](https://bitnpc.github.io/posts/hls_intro/) — Streaming media segmentation, storage, and playback
@@ -57,14 +58,15 @@ The main SoC is the camera's core, integrating the CPU, ISP (Image Signal Proces
 
 **Common solutions:**
 
-| Chip | Vendor | CPU | NPU Performance | Video Capability | Target Scenarios |
-|------|--------|-----|-----------------|------------------|------------------|
-| SSC337DE | SigmaStar | Cortex-A7 Dual-core | 0.5~1 TOPS | 3MP@30fps H.265 | Low-to-mid-range PTZ |
-| SSC377 | SigmaStar | Cortex-A7 Dual-core | ~2 TOPS | 5MP@30fps H.265 | Mid-to-high-end / Dual-cam |
-| T40XP | Ingenic | MIPS XBurst2 Dual-core | 3.2 TOPS | 5MP@30fps H.265/H.264 | High-end / AI-enhanced |
-| T31 | Ingenic | MIPS XBurst Single-core | Limited | 3MP@25fps | Low-cost / Low-power |
+| Chip     | Vendor    | CPU                     | NPU Performance | Video Capability      | Target Scenarios           |
+| -------- | --------- | ----------------------- | --------------- | --------------------- | -------------------------- |
+| SSC337DE | SigmaStar | Cortex-A7 Dual-core     | 0.5~1 TOPS      | 3MP@30fps H.265       | Low-to-mid-range PTZ       |
+| SSC377   | SigmaStar | Cortex-A7 Dual-core     | ~2 TOPS         | 5MP@30fps H.265       | Mid-to-high-end / Dual-cam |
+| T40XP    | Ingenic   | MIPS XBurst2 Dual-core  | 3.2 TOPS        | 5MP@30fps H.265/H.264 | High-end / AI-enhanced     |
+| T31      | Ingenic   | MIPS XBurst Single-core | Limited         | 3MP@25fps             | Low-cost / Low-power       |
 
 **Key selection criteria:**
+
 - **ISP quality**: Directly determines image quality (noise reduction, WDR, 3D-DNR)
 - **Encoder capability**: Must support simultaneous multi-stream encoding (main stream + substream + AI frames)
 - **NPU performance**: Determines how many AI models can run (human detection + face recognition requires ≥1 TOPS)
@@ -72,13 +74,14 @@ The main SoC is the camera's core, integrating the CPU, ISP (Image Signal Proces
 
 ### 1.3 DDR Memory
 
-| Type | Capacity | Notes |
-|------|----------|-------|
-| DDR2 | 64MB | Low-end models, barely enough for basic video |
+| Type       | Capacity  | Notes                                                |
+| ---------- | --------- | ---------------------------------------------------- |
+| DDR2       | 64MB      | Low-end models, barely enough for basic video        |
 | DDR3/DDR3L | 128~256MB | Mainstream solution, sufficient for video + AI + P2P |
-| LPDDR4 | 256~512MB | High-end dual-cam or multi-tasking scenarios |
+| LPDDR4     | 256~512MB | High-end dual-cam or multi-tasking scenarios         |
 
 Memory allocation example (128MB):
+
 - Linux kernel + userspace: ~30MB
 - Video encoding buffers (main/substream): ~40MB
 - ISP image pipeline buffers: ~20MB
@@ -88,12 +91,12 @@ Memory allocation example (128MB):
 
 ### 1.4 Storage (Flash)
 
-| Type | Capacity | Typical Use |
-|------|----------|-------------|
-| SPI NOR Flash | 8~32MB | Bootloader + kernel + rootfs (minimal system) |
-| SPI NAND Flash | 128~256MB | Full system + model files + recording cache |
-| eMMC | 512MB~8GB | High-end solution, supports local recording |
-| TF Card Slot | User-expandable | Local recording storage (up to 256GB) |
+| Type           | Capacity        | Typical Use                                   |
+| -------------- | --------------- | --------------------------------------------- |
+| SPI NOR Flash  | 8~32MB          | Bootloader + kernel + rootfs (minimal system) |
+| SPI NAND Flash | 128~256MB       | Full system + model files + recording cache   |
+| eMMC           | 512MB~8GB       | High-end solution, supports local recording   |
+| TF Card Slot   | User-expandable | Local recording storage (up to 256GB)         |
 
 **Partition layout (typical SPI NAND 128MB):**
 
@@ -110,14 +113,15 @@ Memory allocation example (128MB):
 
 ### 1.5 CMOS Image Sensor
 
-| Model | Vendor | Resolution | Pixel Size | Target Scenarios |
-|-------|--------|------------|------------|------------------|
-| SC3336 | SmartSens | 3MP (2304x1296) | 2.5μm | Mainstream home use |
-| SC5235 | SmartSens | 5MP (2592x1944) | 2.0μm | High-definition |
-| IMX307 | Sony | 2MP (1920x1080) | 2.9μm | Starlight night vision |
-| OS04A10 | OmniVision | 4MP (2560x1440) | 2.0μm | Mid-to-high-end |
+| Model   | Vendor     | Resolution      | Pixel Size | Target Scenarios       |
+| ------- | ---------- | --------------- | ---------- | ---------------------- |
+| SC3336  | SmartSens  | 3MP (2304x1296) | 2.5μm      | Mainstream home use    |
+| SC5235  | SmartSens  | 5MP (2592x1944) | 2.0μm      | High-definition        |
+| IMX307  | Sony       | 2MP (1920x1080) | 2.9μm      | Starlight night vision |
+| OS04A10 | OmniVision | 4MP (2560x1440) | 2.0μm      | Mid-to-high-end        |
 
 **Selection considerations:**
+
 - **Pixel size**: Larger means more light intake, better night vision
 - **Sensitivity**: Determines noise levels in low-light conditions
 - **Shutter mode**: Rolling shutter (lower cost) vs. Global shutter (no jelly effect on motion)
@@ -126,25 +130,26 @@ Memory allocation example (128MB):
 
 ### 1.6 Lens
 
-| Parameter | Typical Value | Notes |
-|-----------|---------------|-------|
-| Focal length | 3.6mm / 2.8mm | Shorter focal length = wider field of view |
-| Aperture | F2.0 / F1.6 | Wider aperture = more light, better night vision |
-| FOV | Horizontal 110°~130° | Home use generally requires ≥110° |
-| IR-CUT | Dual filter switching | Daytime: blocks IR for natural color; Nighttime: removes filter for IR sensitivity |
-| Focus | Fixed | PTZ indoor cameras generally use fixed focus to reduce cost |
+| Parameter    | Typical Value         | Notes                                                                              |
+| ------------ | --------------------- | ---------------------------------------------------------------------------------- |
+| Focal length | 3.6mm / 2.8mm         | Shorter focal length = wider field of view                                         |
+| Aperture     | F2.0 / F1.6           | Wider aperture = more light, better night vision                                   |
+| FOV          | Horizontal 110°~130°  | Home use generally requires ≥110°                                                  |
+| IR-CUT       | Dual filter switching | Daytime: blocks IR for natural color; Nighttime: removes filter for IR sensitivity |
+| Focus        | Fixed                 | PTZ indoor cameras generally use fixed focus to reduce cost                        |
 
 Lens mount: Typically M12 (S-Mount), secured with thread-locking adhesive after focus adjustment.
 
 ### 1.7 Wi-Fi Module
 
-| Solution | Band | Notes |
-|----------|------|-------|
-| RTL8189FTV | 2.4GHz | Low-cost SDIO interface, supports 802.11 b/g/n |
-| RTL8733BU | 2.4G + 5G + BLE | Dual-band + Bluetooth, USB interface, supports BLE provisioning |
-| SSW101B | 2.4GHz | SigmaStar companion solution, SDIO |
+| Solution   | Band            | Notes                                                           |
+| ---------- | --------------- | --------------------------------------------------------------- |
+| RTL8189FTV | 2.4GHz          | Low-cost SDIO interface, supports 802.11 b/g/n                  |
+| RTL8733BU  | 2.4G + 5G + BLE | Dual-band + Bluetooth, USB interface, supports BLE provisioning |
+| SSW101B    | 2.4GHz          | SigmaStar companion solution, SDIO                              |
 
 **Key selection criteria:**
+
 - **Throughput**: 1080P@30fps H.265 main stream is about 2~4Mbps, needs stable Wi-Fi bandwidth
 - **Interference resistance**: 2.4G band is crowded in homes; MIMO or 5G support recommended
 - **Power consumption**: Affects device temperature
@@ -154,16 +159,17 @@ Lens mount: Typically M12 (S-Mount), secured with thread-locking adhesive after 
 
 PTZ cameras use mechanical rotation for horizontal (Pan) and vertical (Tilt) movement:
 
-| Parameter | Pan | Tilt |
-|-----------|-----|------|
-| Motor type | Stepper motor | Stepper motor |
-| Rotation range | 360° | 90°~120° |
-| Step angle | Typically 1/16 microstep | Same |
-| Gear ratio | Gear reduction | Gear reduction |
-| Homing method | Optocoupler / Hall sensor | Same |
-| Driver IC | e.g. MS41929 | Same |
+| Parameter      | Pan                       | Tilt           |
+| -------------- | ------------------------- | -------------- |
+| Motor type     | Stepper motor             | Stepper motor  |
+| Rotation range | 360°                      | 90°~120°       |
+| Step angle     | Typically 1/16 microstep  | Same           |
+| Gear ratio     | Gear reduction            | Gear reduction |
+| Homing method  | Optocoupler / Hall sensor | Same           |
+| Driver IC      | e.g. MS41929              | Same           |
 
 **Control logic:**
+
 - On power-up, determine zero position via homing sensor
 - App sends rotation angle command, converted to step pulse count
 - Supports presets, patrol, tracking, and other advanced features
@@ -193,45 +199,47 @@ Day mode:                        Night mode:
 
 ### 1.10 Microphone and Speaker
 
-| Component | Specification | Notes |
-|-----------|---------------|-------|
-| Microphone | Electret / MEMS | Audio pickup, cry detection, two-way talk |
-| Speaker | 8Ω 1W~2W | Talkback playback, alarm siren |
-| Audio Codec | SoC-integrated / External e.g. ES8388 | ADC (MIC → digital) + DAC (digital → speaker) |
-| Echo Cancellation | Software AEC algorithm | Eliminates speaker crosstalk into microphone during two-way talk |
+| Component         | Specification                         | Notes                                                            |
+| ----------------- | ------------------------------------- | ---------------------------------------------------------------- |
+| Microphone        | Electret / MEMS                       | Audio pickup, cry detection, two-way talk                        |
+| Speaker           | 8Ω 1W~2W                              | Talkback playback, alarm siren                                   |
+| Audio Codec       | SoC-integrated / External e.g. ES8388 | ADC (MIC → digital) + DAC (digital → speaker)                    |
+| Echo Cancellation | Software AEC algorithm                | Eliminates speaker crosstalk into microphone during two-way talk |
 
 Talkback path: App voice → P2P → device decode → DAC → speaker; device MIC → ADC → AEC → encode → P2P → App
 
 ### 1.11 Power Supply Design
 
-| Solution | Input | Notes |
-|----------|-------|-------|
-| DC 5V/2A | Micro-USB / USB-C | Standard indoor PTZ camera power |
-| DC 12V/1A | DC barrel jack | Outdoor bullet camera, PoE power |
+| Solution        | Input             | Notes                                 |
+| --------------- | ----------------- | ------------------------------------- |
+| DC 5V/2A        | Micro-USB / USB-C | Standard indoor PTZ camera power      |
+| DC 12V/1A       | DC barrel jack    | Outdoor bullet camera, PoE power      |
 | Battery powered | 18650 Li-ion pack | Low-power battery camera, PIR wake-up |
 
 **Power path:**
+
 ```
 USB 5V → DCDC (3.3V/1.8V/1.2V) → SoC / DDR / Wi-Fi / Motor / IR LED
               └→ LDO (analog circuits: CMOS sensor, Audio Codec)
 ```
 
 Notes:
+
 - Motor startup draws high transient current — leave margin
 - IR LED high current → independent MOSFET switch control
 - Separate digital and analog grounds to avoid interference with audio and video
 
 ### 1.12 Enclosure and Mechanics
 
-| Element | Notes |
-|---------|-------|
-| Material | ABS / PC+ABS (flammability rating V0) |
-| Thermal management | SoC uses thermal paste + heatsink, or conducts heat through the housing |
-| Dust protection | Lens panel sealed to prevent dust adhesion |
-| Waterproof (outdoor) | IP65/IP66 rating, O-ring seals |
-| Antenna placement | Wi-Fi antenna away from motor and metal parts to avoid shielding |
-| TF card slot | Hidden slot with eject mechanism |
-| Indicator light | Status LED (blue/orange), can be turned off via command |
+| Element              | Notes                                                                   |
+| -------------------- | ----------------------------------------------------------------------- |
+| Material             | ABS / PC+ABS (flammability rating V0)                                   |
+| Thermal management   | SoC uses thermal paste + heatsink, or conducts heat through the housing |
+| Dust protection      | Lens panel sealed to prevent dust adhesion                              |
+| Waterproof (outdoor) | IP65/IP66 rating, O-ring seals                                          |
+| Antenna placement    | Wi-Fi antenna away from motor and metal parts to avoid shielding        |
+| TF card slot         | Hidden slot with eject mechanism                                        |
+| Indicator light      | Status LED (blue/orange), can be turned off via command                 |
 
 ---
 
@@ -277,6 +285,7 @@ Notes:
 ### 2.2 Operating System: Linux + Buildroot
 
 **Why Linux:**
+
 - Mature and stable, rich driver support
 - Strong community support, chip vendors provide BSP (Board Support Package)
 - Supports multi-threading/multi-processing, suitable for complex camera workloads
@@ -301,6 +310,7 @@ output/images/
 ```
 
 **System tuning tips:**
+
 - Remove unnecessary kernel modules (USB gadget, Bluetooth stack, etc.)
 - Use BusyBox instead of full coreutils
 - Choose musl libc over glibc (~2MB smaller)
@@ -316,6 +326,7 @@ Power-on → BootROM → U-Boot → Kernel → Init → Application
 ```
 
 **Fast boot optimizations:**
+
 - U-Boot: skip unnecessary device detection, load kernel directly
 - Kernel: trim unused drivers, use initramfs instead of init scripts
 - Userspace: start ISP + encoder first, defer AI/P2P module loading
@@ -325,19 +336,21 @@ Power-on → BootROM → U-Boot → Kernel → Init → Application
 
 Firmware flashing happens during factory production:
 
-| Method | Notes | Scenario |
-|--------|-------|----------|
-| USB flashing | PC connects via USB, uses chip vendor's tool | Mass production |
-| SD card flashing | Put firmware on TF card, auto-flashes on power-up | Small batch / R&D |
-| UART flashing | Serial + TFTP to download firmware | Debugging / brick recovery |
-| Network flashing | Batch firmware delivery over network | Large-scale production line |
+| Method           | Notes                                             | Scenario                    |
+| ---------------- | ------------------------------------------------- | --------------------------- |
+| USB flashing     | PC connects via USB, uses chip vendor's tool      | Mass production             |
+| SD card flashing | Put firmware on TF card, auto-flashes on power-up | Small batch / R&D           |
+| UART flashing    | Serial + TFTP to download firmware                | Debugging / brick recovery  |
+| Network flashing | Batch firmware delivery over network              | Large-scale production line |
 
 **Production flashing workflow:**
+
 ```
 Flash firmware → Write unique device info (DID/MAC/Key) → Functional self-test → Labeling and warehousing
 ```
 
 Each device is provisioned with:
+
 - **DID (Device ID)**: Unique device identifier on the Mijia platform
 - **MAC address**: Physical address of the Wi-Fi module
 - **Device key**: Used for secure communication with the Mijia cloud
@@ -370,20 +383,20 @@ Xiaomi provides a complete development kit **MIKE (Mi IPC Kit Environment)** for
 
 **MIKE module responsibilities:**
 
-| Module | Description |
-|--------|-------------|
-| MISS (P2P) | Streaming media transport SDK — handles audio/video and command channels between device and App |
-| OT Service | Device heartbeat, online status management |
-| Cloud Storage | Encrypted segmented upload of event recordings |
-| Provisioning | Wi-Fi AP scan / BLE provisioning flow |
-| Recording | Local TF card recording management (continuous / event-based) |
-| OTA | Firmware upgrade (A/B partition, delta OTA) |
-| Playback | Timeline playback of cloud / local recordings |
-| Codec | Audio/video encode/decode wrapper (H.265/Opus) |
-| Local AI | Human / face / pet / cry detection model inference scheduling |
-| NAS Storage | LAN NAS video storage (SMB/NFS) |
-| Chip Platform Adaptation | Abstracts ISP/encoder/NPU differences across SoCs, provides unified HAL |
-| Tools | Cross-layer dev/debug tools: Emulator (PC-side device sim), Monitor (runtime status), Auto Test (automation framework), Logger Debugger (log capture and analysis) |
+| Module                   | Description                                                                                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| MISS (P2P)               | Streaming media transport SDK — handles audio/video and command channels between device and App                                                                    |
+| OT Service               | Device heartbeat, online status management                                                                                                                         |
+| Cloud Storage            | Encrypted segmented upload of event recordings                                                                                                                     |
+| Provisioning             | Wi-Fi AP scan / BLE provisioning flow                                                                                                                              |
+| Recording                | Local TF card recording management (continuous / event-based)                                                                                                      |
+| OTA                      | Firmware upgrade (A/B partition, delta OTA)                                                                                                                        |
+| Playback                 | Timeline playback of cloud / local recordings                                                                                                                      |
+| Codec                    | Audio/video encode/decode wrapper (H.265/Opus)                                                                                                                     |
+| Local AI                 | Human / face / pet / cry detection model inference scheduling                                                                                                      |
+| NAS Storage              | LAN NAS video storage (SMB/NFS)                                                                                                                                    |
+| Chip Platform Adaptation | Abstracts ISP/encoder/NPU differences across SoCs, provides unified HAL                                                                                            |
+| Tools                    | Cross-layer dev/debug tools: Emulator (PC-side device sim), Monitor (runtime status), Auto Test (automation framework), Logger Debugger (log capture and analysis) |
 
 MIKE's design allows business developers to work without worrying about underlying chip differences — they use the upper-layer API for feature development. The Tools toolkit also supports emulating device operation on a PC, significantly improving development and debugging efficiency.
 
@@ -444,17 +457,18 @@ MIKE's design allows business developers to work without worrying about underlyi
 
 MISS SDK supports multiplexing multiple logical channels over a single P2P connection:
 
-| Channel | Purpose | Characteristics |
-|---------|---------|-----------------|
-| Video channel | Main / substream transport | High bandwidth, frame drops acceptable |
-| Audio channel | Two-way talk audio | Low latency priority |
-| Command channel | Control commands (PTZ, snapshot, etc.) | Reliable delivery |
-| File channel | Recording playback / download | Reliable, supports resumable transfer |
-| Alert channel | Event notifications | Low latency |
+| Channel         | Purpose                                | Characteristics                        |
+| --------------- | -------------------------------------- | -------------------------------------- |
+| Video channel   | Main / substream transport             | High bandwidth, frame drops acceptable |
+| Audio channel   | Two-way talk audio                     | Low latency priority                   |
+| Command channel | Control commands (PTZ, snapshot, etc.) | Reliable delivery                      |
+| File channel    | Recording playback / download          | Reliable, supports resumable transfer  |
+| Alert channel   | Event notifications                    | Low latency                            |
 
 #### Why Multiple P2P Engines
 
 The pluggable transport layer enables:
+
 - **TUTK (Kalay)**: Covers global nodes, high connectivity overseas
 - **Shangyun**: Dense node deployment in China, low latency
 - **Xiaomi Self-Dev**: Full control, continuous optimization
@@ -588,13 +602,13 @@ Playback flow:
 
 #### Algorithm Capability Matrix
 
-| Algorithm | Input | Inference Hardware | Frame Rate | Description |
-|-----------|-------|--------------------|------------|-------------|
-| Human detection | Video frame (substream 640x360) | NPU | 10~15fps | Detects if people are in the frame |
-| Face recognition | Cropped human region | NPU | On-demand | Recognizes strangers / family members |
-| Pet detection | Video frame | NPU | 10~15fps | Cat / dog detection |
-| Cry detection | Audio frame (16kHz PCM) | CPU/DSP | Real-time | Baby cry recognition |
-| Motion detection | Frame differencing | CPU | Main stream frame rate | Low-computation basic detection |
+| Algorithm        | Input                           | Inference Hardware | Frame Rate             | Description                           |
+| ---------------- | ------------------------------- | ------------------ | ---------------------- | ------------------------------------- |
+| Human detection  | Video frame (substream 640x360) | NPU                | 10~15fps               | Detects if people are in the frame    |
+| Face recognition | Cropped human region            | NPU                | On-demand              | Recognizes strangers / family members |
+| Pet detection    | Video frame                     | NPU                | 10~15fps               | Cat / dog detection                   |
+| Cry detection    | Audio frame (16kHz PCM)         | CPU/DSP            | Real-time              | Baby cry recognition                  |
+| Motion detection | Frame differencing              | CPU                | Main stream frame rate | Low-computation basic detection       |
 
 #### Deployment Pipeline
 
@@ -633,6 +647,7 @@ ISP outputs YUV frame
 ```
 
 **Audio AI (cry detection)** runs independently of the video pipeline in the audio thread:
+
 ```
 MIC → ADC → 16kHz PCM → Sliding window framing → Feature extraction (MFCC) → Classification model → Cry / not cry
 ```
@@ -678,17 +693,18 @@ OTA is the foundation for continuous iteration of smart devices, requiring both 
 
 #### Brick Prevention Strategy
 
-| Mechanism | Description |
-|-----------|-------------|
-| A/B dual partition | New firmware written to standby partition; switch occurs only after verification |
-| Watchdog | Hardware watchdog triggers rollback if system fails to run after boot |
-| Boot counter | Rollback to old partition after N consecutive boot failures |
-| Firmware signature | RSA/ECDSA signature verification prevents tampering |
-| Power-loss recovery | Power loss during write does not affect the currently running partition |
+| Mechanism           | Description                                                                      |
+| ------------------- | -------------------------------------------------------------------------------- |
+| A/B dual partition  | New firmware written to standby partition; switch occurs only after verification |
+| Watchdog            | Hardware watchdog triggers rollback if system fails to run after boot            |
+| Boot counter        | Rollback to old partition after N consecutive boot failures                      |
+| Firmware signature  | RSA/ECDSA signature verification prevents tampering                              |
+| Power-loss recovery | Power loss during write does not affect the currently running partition          |
 
 #### Delta OTA
 
 To save bandwidth and upgrade time, delta OTA is supported:
+
 - Server generates a delta package from old and new firmware using bsdiff (typically 10%~30% of full package size)
 - Device applies the delta against the current partition data to reconstruct the full new firmware
 - Verifies hash integrity, then writes
@@ -713,11 +729,11 @@ Mainstream Xiaomi cameras use **YUV420** color space (see [Audio/Video Fundament
 
 **Multi-stream design:**
 
-| Stream | Resolution | Color Space | Frame Rate | Codec | Bitrate | Purpose |
-|--------|------------|-------------|------------|-------|---------|---------|
-| Main stream | 1920x1080 / 2304x1296 | YUV420 | 20fps | H.265 | 1~4 Mbps | P2P HD viewing, cloud storage |
-| Substream | 640x360 | YUV420 | 15fps | H.265 | 200~500 Kbps | P2P smooth viewing (weak network), AI inference input |
-| JPEG stream | 1920x1080 | — | On-demand | JPEG | — | Snapshots, cover images |
+| Stream      | Resolution            | Color Space | Frame Rate | Codec | Bitrate      | Purpose                                               |
+| ----------- | --------------------- | ----------- | ---------- | ----- | ------------ | ----------------------------------------------------- |
+| Main stream | 1920x1080 / 2304x1296 | YUV420      | 20fps      | H.265 | 1~4 Mbps     | P2P HD viewing, cloud storage                         |
+| Substream   | 640x360               | YUV420      | 15fps      | H.265 | 200~500 Kbps | P2P smooth viewing (weak network), AI inference input |
+| JPEG stream | 1920x1080             | —           | On-demand  | JPEG  | —            | Snapshots, cover images                               |
 
 ### 3.2 Audio Capture and Processing
 
@@ -755,28 +771,28 @@ File organization:
 
 ### 4.1 Factory Test Items
 
-| Test | Method | Criteria |
-|------|--------|----------|
-| Video image | Align to standard color card, auto-analyze | Color/contrast/clarity meets spec |
-| IR night vision | Darkroom environment, check IR LED brightness | Even illumination, no dark corners |
-| PTZ movement | Full-range rotation, check step count | Positioning accuracy ≤1°, no jamming |
-| Microphone | Play standard audio source, check recording | SNR ≥ 40dB |
-| Speaker | Play test audio | No distortion, volume meets spec |
-| Wi-Fi | Connect to specified AP, test throughput | ≥ 10Mbps |
-| TF card slot | Insert test card, read/write verification | Speed ≥ 10MB/s |
-| Button / Reset | Press to test | GPIO level transitions correctly |
-| Power consumption | Measure current across scenarios | Standby <2W, active <5W |
+| Test              | Method                                        | Criteria                             |
+| ----------------- | --------------------------------------------- | ------------------------------------ |
+| Video image       | Align to standard color card, auto-analyze    | Color/contrast/clarity meets spec    |
+| IR night vision   | Darkroom environment, check IR LED brightness | Even illumination, no dark corners   |
+| PTZ movement      | Full-range rotation, check step count         | Positioning accuracy ≤1°, no jamming |
+| Microphone        | Play standard audio source, check recording   | SNR ≥ 40dB                           |
+| Speaker           | Play test audio                               | No distortion, volume meets spec     |
+| Wi-Fi             | Connect to specified AP, test throughput      | ≥ 10Mbps                             |
+| TF card slot      | Insert test card, read/write verification     | Speed ≥ 10MB/s                       |
+| Button / Reset    | Press to test                                 | GPIO level transitions correctly     |
+| Power consumption | Measure current across scenarios              | Standby <2W, active <5W              |
 
 ### 4.2 Reliability Testing
 
-| Test | Conditions | Requirements |
-|------|------------|-------------|
-| High-temperature aging | 50°C continuous operation for 48h | No crashes, no image anomalies |
-| Low-temperature startup | -10°C cold start | Normal image output |
-| Voltage fluctuation | 4.5V ~ 5.5V | Stable operation |
-| Power-loss test | Random power cuts 1000 times | System boots normally, filesystem undamaged |
-| Wi-Fi roaming | Signal attenuation / recovery | Auto-reconnect, P2P recovery |
-| Long-term run | Continuous operation for 30 days | No memory leaks, services stay alive |
+| Test                    | Conditions                        | Requirements                                |
+| ----------------------- | --------------------------------- | ------------------------------------------- |
+| High-temperature aging  | 50°C continuous operation for 48h | No crashes, no image anomalies              |
+| Low-temperature startup | -10°C cold start                  | Normal image output                         |
+| Voltage fluctuation     | 4.5V ~ 5.5V                       | Stable operation                            |
+| Power-loss test         | Random power cuts 1000 times      | System boots normally, filesystem undamaged |
+| Wi-Fi roaming           | Signal attenuation / recovery     | Auto-reconnect, P2P recovery                |
+| Long-term run           | Continuous operation for 30 days  | No memory leaks, services stay alive        |
 
 ---
 
@@ -794,6 +810,7 @@ Production: Flashing → Key writing → Automated testing → Burn-in → Packa
 The core challenge is: within limited hardware resources (a few hundred MHz CPU + ~100MB of RAM), simultaneously running video capture and encoding, AI inference, P2P transport, cloud storage upload, IoT communication, and other real-time tasks — all while maintaining 7x24 stable operation. This demands fine-grained resource scheduling, strict memory management, and robust exception recovery mechanisms.
 
 This article ties together the technical knowledge introduced across previous blog posts into a complete product scenario:
+
 - [Audio/Video Digitization](https://bitnpc.github.io/posts/av_into/) — Sampling, YUV420, H.265 encoding applied to the camera's video capture and encoding pipeline
 - [P2P Technology](https://bitnpc.github.io/posts/p2p_intro/) — NAT traversal applied to MISS SDK's multi-engine P2P architecture
 - [HLS Streaming](https://bitnpc.github.io/posts/hls_intro/) — Segment-based storage applied to cloud storage slice upload and timeline playback
@@ -802,6 +819,7 @@ This article ties together the technical knowledge introduced across previous bl
 ---
 
 References
+
 - [Xiaomi IoT Developer Platform](https://iot.mi.com/v2/new/doc/introduction/knowledge/spec)
 - [SigmaStar Official Site](https://www.sigmastar.com.cn)
 - [Ingenic Official Site](https://www.ingenic.com.cn)
