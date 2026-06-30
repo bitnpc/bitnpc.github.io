@@ -26,41 +26,30 @@ description: "Visionフレームワークにより、開発者はコンピュー
 
 Visionフレームワークは、各層が特定の最適化目標を達成するよう綿密に設計された階層型アーキテクチャを採用しています。
 
-```mermaid
-flowchart TD
-    subgraph A["Application Layer"]
-        A1[VNRequest]
-        A2[VNObservation]
-    end
-
-    subgraph B["Runtime Engine"]
-        B1[タスクスケジューリング]
-        B2[メモリ管理]
-        B3[パイプライン処理]
-    end
-
-    subgraph C["Hardware Abstraction Layer"]
-        C1[Metal]
-        C2[BNNS]
-        C3[ANE]
-        C4[CoreML]
-    end
-
-    subgraph D["Hardware Accelerators"]
-        D1[GPU]
-        D2[NPU]
-        D3[CPU]
-        D4[画像信号プロセッサ]
-    end
-
-    A --> B
-    B --> C
-    C --> D
-
-    style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style B fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
-    style C fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style D fill:#fbe9e7,stroke:#bf360c,stroke-width:2px
+```text
+┌────────────────────────────────────────────────┐
+│  Application Layer                              │
+│    VNRequest  →  VNObservation                  │
+└──────────────────────┬─────────────────────────┘
+                       │
+                       ▼
+┌────────────────────────────────────────────────┐
+│  Runtime Engine                                  │
+│    タスクスケジューリング → メモリ管理           │
+│    → パイプライン処理                           │
+└──────────────────────┬─────────────────────────┘
+                       │
+                       ▼
+┌────────────────────────────────────────────────┐
+│  Hardware Abstraction Layer                     │
+│    Metal  →  BNNS  →  ANE  →  CoreML           │
+└──────────────────────┬─────────────────────────┘
+                       │
+                       ▼
+┌────────────────────────────────────────────────┐
+│  Hardware Accelerators                          │
+│    GPU  →  NPU  →  CPU  →  ISP                  │
+└────────────────────────────────────────────────┘
 ```
 
 設計上の利点：
