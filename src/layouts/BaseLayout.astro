@@ -166,5 +166,20 @@ const meta: SeoMeta =
     </div>
 
     <BackToTop />
+
+    <script>
+      (function initMermaid() {
+        function render() {
+          var els = document.querySelectorAll('.mermaid');
+          if (els.length === 0) return;
+          import('mermaid').then(function (mermaid) {
+            mermaid.default.initialize({ startOnLoad: false, theme: 'neutral' });
+            mermaid.default.run({ nodes: els });
+          });
+        }
+        render();
+        document.addEventListener('astro:page-load', render);
+      })();
+    </script>
   </body>
 </html>

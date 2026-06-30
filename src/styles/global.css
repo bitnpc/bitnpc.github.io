@@ -584,6 +584,16 @@
   .prose-chirpy div[role='alert'] + div[role='alert'] {
     @apply mt-4;
   }
+
+  /* Mermaid diagrams: centered, scrollable on small screens. */
+  .prose-chirpy .mermaid {
+    @apply my-6 flex justify-center overflow-x-auto;
+    /* Ensure mermaid SVGs respect the diagram's intrinsic dimensions */
+  }
+  .prose-chirpy .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* ---------- Expressive Code -----------------------------

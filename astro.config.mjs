@@ -17,6 +17,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { remarkAsHtml } from './src/plugins/remark-ashtml.ts';
 import { remarkAlert } from './src/plugins/remark-alert.ts';
+import { remarkMermaid } from './src/plugins/remark-mermaid.ts';
 import { unified } from '@astrojs/markdown-remark';
 
 import { SITE } from './src/config';
@@ -180,7 +181,7 @@ export default defineConfig({
     // through `<MathStyles />` in the post / page layouts. This keeps the
     // CSS (~25kB gzipped) off pages that don't need it.
     processor: unified({
-      remarkPlugins: [remarkAlert, remarkAsHtml, remarkGfm, remarkMath],
+      remarkPlugins: [remarkAlert, remarkAsHtml, remarkGfm, remarkMath, remarkMermaid],
       rehypePlugins: [
         rehypeKatex,
         rehypeSlug,

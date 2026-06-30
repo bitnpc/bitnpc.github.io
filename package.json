@@ -28,9 +28,12 @@
     "@astrojs/mdx": "^6.0.1",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
+    "@types/mdast": "^4.0.4",
     "astro": "^6.4.3",
     "astro-expressive-code": "^0.42.0",
-    "astro-icon": "^1.1.5"
+    "astro-icon": "^1.1.5",
+    "mermaid": "^11.16.0",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
