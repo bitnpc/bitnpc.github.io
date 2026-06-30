@@ -37,36 +37,47 @@ description: "async/await is more than syntactic sugar — it's the core of Swif
 
 ### 1.1 Structured Concurrency Model
 
-Swift's async/await is built on the **Structured Concurrency** model, which is its core design philosophy:
+Swift's async/await is built on the **Structured Concurrency** model, which is its core design philosophy, composed of two independent mechanisms:
+
+**① Continuation state machine (async function lifecycle)**
 
 ```text
-async function call          Task creation
-     │                             │
-     ▼                             ▼
-Create Continuation           Task tree structure
-     │                             │
-     ▼                             ▼
-Suspend current task          Parent manages child tasks
-     │                             │
-     ▼                             ▼
-Save execution context        Automatic cancellation propagation
-     │                             │
-     ▼                             ▼
-Wait for async operation      Automatic resource cleanup
-     │
-     ▼
-Resume execution
-     │
-     ▼
-Return result
+      Execute ── await ──→ Suspend (yield thread)
+        ↑                          │
+        │                          ▼
+     Resume ←── complete ──── Wait for async op
 ```
+
+When an async function hits `await`, it suspends and returns the thread to the pool for other tasks; when the async operation completes, execution resumes. This is fundamentally a cyclic state machine, not a one-shot sequential flow.
+
+**② Task hierarchy tree (core of structured concurrency)**
+
+```text
+                ┌─────────┐
+                │  Task   │  ← root task
+                └────┬────┘
+           ┌─────────┼──────────┐
+           ▼         ▼          ▼
+       ┌──────┐ ┌──────┐ ┌──────┐
+       │Child │ │Child │ │Child │  ← child tasks
+       └──┬───┘ └──┬───┘ └──────┘
+          ▼         ▼
+      ┌────────┐ ┌────────┐
+      │Grand   │ │Grand   │
+      │Child   │ │Child   │      ← grandchild tasks
+      └────────┘ └────────┘
+```
+
+Key constraints between parent and child Tasks:
+- **Scope nesting**: Children cannot outlive the parent scope (compiler-enforced)
+- **Lifecycle management**: Parent awaits all children before exiting
+- **Auto-cancellation**: Parent cancel → all children cancel recursively
 
 **Core concepts:**
 
-1. **Continuation**: When an async function suspends, Swift creates a continuation to preserve the current execution state
-2. **Task tree**: All async tasks form a tree structure; parent tasks automatically manage the lifecycle of child tasks
-3. **Automatic cancellation propagation**: When a parent task cancels, all child tasks cancel automatically
-
+1. **Continuation**: When an async function suspends at an `await` point, Swift creates a continuation to preserve execution state, later resumed to continue execution
+2. **Task tree**: All async tasks form a tree structure; parent tasks manage child lifecycles through scope nesting; children cannot outlive the parent scope
+3. **Automatic cancellation propagation**: Cancel signals propagate recursively from parent to all children, no manual management needed
 ### 1.2 Compiler Transformation Mechanism
 
 The Swift compiler transforms async/await code into underlying continuation-passing style (CPS):
