@@ -1,5 +1,5 @@
 import process from 'node:process';
-import avatarImg from './assets/images/site/avatar.svg';
+import avatarImg from './assets/images/site/avatar.png';
 import ogDefaultImg from './assets/images/site/og-default.svg';
 import type { SiteConfig, NavItem, SocialLink, GiscusConfig } from './types/config';
 
