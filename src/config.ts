@@ -51,8 +51,12 @@ export const SITE: SiteConfig = {
 
   /** Default site title used as homepage <title> and meta. */
   title: 'Tony',
-  /** Site tagline / description. */
-  description: '热爱技术、音乐和美食',
+  /** Site tagline / description, localized per locale. */
+  descriptions: {
+    zh: '热爱技术、音乐和美食',
+    en: 'Passionate about technology, music, and good food',
+    ja: 'テクノロジー、音楽、美食を愛する',
+  },
   /** Author/handle shown in footer + meta. */
   author: {
     name: 'Tony',

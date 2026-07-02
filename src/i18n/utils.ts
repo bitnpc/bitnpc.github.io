@@ -14,6 +14,11 @@ import { messages, type UIKey } from './ui';
 
 const DEFAULT_LOCALE: Locale = SITE.defaultLocale;
 
+/** Get the site-wide description for the given locale, falling back to default. */
+export function getSiteDescription(locale: Locale): string {
+  return SITE.descriptions[locale] ?? SITE.descriptions[DEFAULT_LOCALE] ?? '';
+}
+
 /** Configured base path (no trailing slash). E.g. '/chirping-astro' or ''. */
 const BASE = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '');
 

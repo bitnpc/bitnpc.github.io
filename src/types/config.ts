@@ -3,7 +3,7 @@ import type { ImageMetadata } from 'astro';
 
 export interface SiteConfig {
   title: string;
-  description: string;
+  descriptions: Record<string, string>;
   author: {
     name: string;
     url?: string;

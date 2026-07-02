@@ -3,7 +3,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import PostList from '~/components/PostList.astro';
 import Pagination from '~/components/Pagination.astro';
 import { SITE } from '~/config';
-import { localizedPath } from '~/i18n/utils';
+import { localizedPath, getSiteDescription } from '~/i18n/utils';
 import { getPosts } from '~/utils/posts';
 
 export function getStaticPaths() {
@@ -23,7 +23,7 @@ const pagePosts = posts.slice(0, pageSize);
 const hrefForPage = (n: number) => localizedPath(n === 1 ? '/' : `/page/${n}/`, locale);
 ---
 
-<BaseLayout title={SITE.title} description={SITE.description} pathWithoutLocale="/">
+<BaseLayout title={SITE.title} description={getSiteDescription(locale)} pathWithoutLocale="/">
   <PostList posts={pagePosts} locale={locale} />
   <Pagination
     currentPage={currentPage}

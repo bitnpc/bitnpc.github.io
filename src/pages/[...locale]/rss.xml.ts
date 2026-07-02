@@ -2,6 +2,7 @@
 import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { SITE } from '~/config';
+import { getSiteDescription } from '~/i18n/utils';
 import { getPosts, postPath } from '~/utils/posts';
 
 export const GET: APIRoute = async (context) => {
@@ -11,7 +12,7 @@ export const GET: APIRoute = async (context) => {
     const siteWithBase = `${(context.site ?? new URL(SITE.url)).origin}${base}`;
     return rss({
       title: SITE.title,
-      description: SITE.description,
+      description: getSiteDescription(locale),
       site: siteWithBase,
       stylesheet: `${base}/rss/styles.xsl`,
       items: [],
@@ -26,7 +27,7 @@ export const GET: APIRoute = async (context) => {
   const siteWithBase = `${(context.site ?? new URL(SITE.url)).origin}${base}`;
   return rss({
     title: SITE.title,
-    description: SITE.description,
+    description: getSiteDescription(locale),
     site: siteWithBase,
     stylesheet: `${base}/rss/styles.xsl`,
     items: posts.map((post) => ({
