@@ -20,6 +20,8 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const home = localizedPath('/', locale);
 const avatar = SITE.author.avatar;
+const authorBio =
+  typeof SITE.author.bio === 'string' ? SITE.author.bio : (SITE.author.bio?.[locale] ?? SITE.author.bio?.[SITE.defaultLocale] ?? '');
 const isStringAvatar = typeof avatar === 'string';
 const avatarSrc = isStringAvatar ? avatar.trim() : '';
 
@@ -73,8 +75,8 @@ const navItems = NAV.map((item) => ({
       </span>
     </a>
     {
-      SITE.author.bio && (
-        <p class="text-base-content/70 mt-1 max-w-56 text-sm italic">{SITE.author.bio}</p>
+      authorBio && (
+        <p class="text-base-content/70 mt-1 max-w-56 text-sm italic">{authorBio}</p>
       )
     }
   </header>

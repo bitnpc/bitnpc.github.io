@@ -101,6 +101,9 @@ export const messages = {
     'footer.theme': '主题',
     'footer.privacy': '隐私政策',
     'footer.copyright': '保留所有权利。',
+
+    'panel.recently': '最近更新',
+    'panel.trending': '热门标签',
   },
 
   en: {
@@ -199,6 +202,9 @@ export const messages = {
     'footer.theme': 'Theme',
     'footer.privacy': 'Privacy Policy',
     'footer.copyright': 'All rights reserved.',
+
+    'panel.recently': 'Recently Updated',
+    'panel.trending': 'Trending Tags',
   },
 
   ja: {
@@ -297,6 +303,9 @@ export const messages = {
     'footer.theme': 'テーマ',
     'footer.privacy': 'プライバシーポリシー',
     'footer.copyright': 'All rights reserved.',
+
+    'panel.recently': '最近の更新',
+    'panel.trending': '人気のタグ',
   },
 } as const satisfies Record<Locale, Record<string, string>>;
 

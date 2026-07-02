@@ -8,7 +8,8 @@ export interface SiteConfig {
     name: string;
     url?: string;
     avatar?: string | ImageMetadata;
-    bio?: string;
+    /** Author bio shown in sidebar, localized. Falls back to the string value or default locale. */
+    bio?: string | Record<string, string>;
   };
   defaultOgImage: string;
   postsPerPage: number;

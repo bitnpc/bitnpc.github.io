@@ -62,7 +62,11 @@ export const SITE: SiteConfig = {
     name: 'Tony',
     url: GITHUB_HANDLE ? `https://github.com/${GITHUB_HANDLE}` : undefined,
     avatar: avatarImg,
-    bio: '热爱技术、音乐和美食',
+    bio: {
+      zh: '热爱技术、音乐和美食',
+      en: 'Passionate about technology, music, and good food',
+      ja: 'テクノロジー、音楽、美食を愛する',
+    },
   },
   /** Default OG image. */
   defaultOgImage: ogDefaultImg.src,
