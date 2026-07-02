@@ -1,120 +1,81 @@
 ---
-title: Privacy Policy
-description: How this site collects, uses, and protects personal data.
+title: 隐私政策
+description: 本网站收集、使用和保护个人信息的方式说明
 translationKey: privacy
 ---
 
-This Privacy Policy explains how **[SITE_NAME]** ("we", "us", or "our")
-collects, uses, and protects information when you visit **[SITE_URL]**.
+本隐私政策说明了 **Tony's Blog**（以下简称"我们"或"本网站"）在您访问
+**bitnpc.github.io** 时如何收集、使用和保护您的信息。
 
-> Replace values in [BRACKETS] to customize this policy for your site.
-> This template is informational and not legal advice.
+## 1. 运营者信息
 
-## 1. Who we are
+- 网站所有者：Tony
+- 联系邮箱：bitnpc@gmail.com
+- 生效日期：2026年1月1日
+- 最后更新：2026年6月29日
 
-- Website owner: **[OWNER_NAME / LEGAL_ENTITY]**
-- Contact email: **[CONTACT_EMAIL]**
-- Effective date: **[EFFECTIVE_DATE]**
-- Last updated: **[LAST_UPDATED_DATE]**
+## 2. 我们收集的信息
 
-## 2. Information we collect
+根据您使用本网站的方式，我们可能会处理以下信息：
 
-Depending on how you use this site, we may process:
+- 使用数据：浏览页面、来源网站、浏览器类型、设备类型和大致区域
+- 技术数据：IP地址、用户代理、性能和错误日志
+- 您主动提供的信息：联系时提供的邮箱地址或消息内容
+- 评论数据（如已启用）：Giscus/GitHub 处理的个人资料和评论元数据
 
-- Usage data: pages viewed, referrer, browser, device type, and approximate
-  region.
-- Technical data: IP address, user agent, and performance/error logs.
-- Information you provide directly: email or message content when you contact us.
-- Comment data (if enabled): profile and comment metadata handled by
-  **[COMMENT_PROVIDER, e.g., Giscus/GitHub]**.
+## 3. 信息使用目的
 
-## 3. How we use information
+我们将收集的数据用于：
 
-We use data to:
+- 网站的运营和安全保障
+- 流量分析和内容改进
+- 回复您的咨询或请求
+- 防止滥用、欺诈和恶意行为
+- 遵守法律义务
 
-- Operate and secure the site.
-- Understand traffic and improve content.
-- Respond to support or contact requests.
-- Prevent abuse, fraud, and malicious activity.
-- Comply with legal obligations.
+## 4. Cookie 及类似技术
 
-## 4. Cookies and similar technologies
+本网站可能使用 Cookie 或本地存储来实现：
 
-This site may use cookies or local storage for:
+- 基础功能（例如保存主题偏好）
+- 分析统计（如已启用）
+- 第三方嵌入或评论系统
 
-- Essential functionality (for example, saving theme preference).
-- Analytics (if enabled).
-- Third-party embeds or comment systems.
+您可以通过浏览器设置控制 Cookie。
 
-You can control cookies through your browser settings. If your region requires
-consent banners, add one and configure it to your legal requirements.
+## 5. 分析及第三方服务
 
-## 5. Analytics and third-party services
+我们可能使用以下第三方服务，它们在其隐私政策下独立收集信息：
 
-We may use third-party processors that collect information under their own
-privacy terms:
+- 托管/CDN：GitHub Pages
+- 分析：Google Analytics
+- 评论：Giscus（GitHub Discussions）
 
-- Hosting/CDN: **[HOSTING_PROVIDER]**
-- Analytics: **[ANALYTICS_PROVIDER or "Not used"]**
-- Comments: **[COMMENT_PROVIDER or "Not used"]**
-- Email/newsletter: **[EMAIL_PROVIDER or "Not used"]**
+## 6. 数据保留
 
-Please review each provider's privacy policy before using related features.
+我们仅在为实现上述目的（包括安全和法律合规）所必需的期限内保留数据。
 
-## 6. Legal basis (EEA/UK, if applicable)
+## 7. 您的隐私权利
 
-If GDPR or UK GDPR applies, we process data based on one or more of:
+根据您所在地区的法律法规，您可能有权访问、更正、删除、限制处理或反对处理您的个人数据。
 
-- Consent
-- Legitimate interests
-- Contract performance
-- Legal obligation
+如需行使权利，请联系：bitnpc@gmail.com
 
-Specify the legal basis in your data inventory for each processing activity.
+## 8. 儿童隐私
 
-## 7. Data retention
+本网站不面向未成年人。我们不会故意收集未成年人的个人信息。
 
-We retain data only as long as needed for the purposes above, including
-security and legal compliance.
+## 9. 安全保障
 
-- Analytics data retention: **[RETENTION_PERIOD]**
-- Contact messages retention: **[RETENTION_PERIOD]**
-- Server logs retention: **[RETENTION_PERIOD]**
+我们采取合理的技术和组织安全措施，但没有任何传输或存储方法是100%安全的。
 
-## 8. International transfers
+## 10. 政策变更
 
-If your providers process data outside your country, data transfer safeguards
-may apply (for example, Standard Contractual Clauses).
+本隐私政策可能会不时更新。变更内容在本页面发布并更新"最后更新"日期后生效。
 
-## 9. Your privacy rights
+## 11. 联系方式
 
-Depending on your location, you may have rights to access, correct, delete,
-restrict, or object to processing of your personal data.
+如有隐私相关问题，请联系：
 
-To make a request, contact: **[PRIVACY_CONTACT_EMAIL]**
-
-If you are in the EEA/UK, you may also lodge a complaint with your local data
-protection authority.
-
-## 10. Children's privacy
-
-This site is not directed to children under **[MINIMUM_AGE, e.g., 13 or 16]**.
-We do not knowingly collect personal data from children.
-
-## 11. Security
-
-We use reasonable technical and organizational safeguards, but no method of
-transmission or storage is 100% secure.
-
-## 12. Changes to this policy
-
-We may update this Privacy Policy from time to time. Changes are effective when
-posted on this page with an updated "Last updated" date.
-
-## 13. Contact
-
-For privacy questions, contact:
-
-- Name: **[PRIVACY_CONTACT_NAME]**
-- Email: **[PRIVACY_CONTACT_EMAIL]**
-- Address (optional): **[POSTAL_ADDRESS]**
+- 姓名：Tony
+- 邮箱：bitnpc@gmail.com
