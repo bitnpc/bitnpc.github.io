@@ -2,9 +2,9 @@
  * Tailwind CSS v4 + daisyUI v5 entry point.
  * See https://daisyui.com/docs/install/ for the canonical install steps.
  *
- * Theme palette closely matches the original Chirpy theme
- * (https://chirpy.cotes.page/) — light grey page background, indigo-blue
- * primary, white cards, generous typography.
+ * Theme palette matches Chirpy 7.x (https://chirpy.cotes.page/) — white page
+ * background, blue primary (#0056b2), Lato headings (weight 400), prompt-style
+ * alerts, generous typography.
  */
 
 @import 'tailwindcss';
@@ -26,14 +26,14 @@
   prefersdark: false;
   color-scheme: light;
 
-  /* Page bg / cards / dividers / body text */
+  /* Page bg / cards / dividers / body text — Chirpy 7.x uses white page bg */
   --color-base-100: oklch(100% 0 0); /* card bg (white)         */
-  --color-base-200: oklch(97% 0.0015 264); /* page bg #f6f7f8         */
-  --color-base-300: oklch(91% 0.0025 264); /* dividers #e8e8e8        */
-  --color-base-content: oklch(20% 0.012 264); /* near-black text         */
+  --color-base-200: oklch(100% 0 0); /* page bg (white)         */
+  --color-base-300: oklch(96.3% 0 0); /* dividers #f3f3f3        */
+  --color-base-content: oklch(37% 0.005 264); /* #34343c body text       */
 
-  /* Chirpy indigo-blue primary (~ #2a408e) */
-  --color-primary: oklch(45% 0.135 264);
+  /* Chirpy blue primary (#0056b2) */
+  --color-primary: oklch(48% 0.15 258);
   --color-primary-content: oklch(99% 0.003 264);
 
   --color-secondary: oklch(70% 0.11 200);
@@ -74,14 +74,14 @@
   prefersdark: true;
   color-scheme: dark;
 
-  /* Chirpy dark uses #1b1b1e for the page and #1e1e1f for cards */
-  --color-base-100: oklch(22% 0.005 264);
-  --color-base-200: oklch(20% 0.005 264);
-  --color-base-300: oklch(28% 0.008 264);
-  --color-base-content: oklch(86% 0.01 264);
+  /* Chirpy dark: page #1b1b1e, cards #1e1e1e, border #2c2d2d, text rgb(175 176 177) */
+  --color-base-100: oklch(22% 0.005 264); /* #1e1e1e card bg       */
+  --color-base-200: oklch(19% 0.005 264); /* #1b1b1e page bg      */
+  --color-base-300: oklch(26% 0.003 264); /* #2c2d2d dividers     */
+  --color-base-content: oklch(78% 0.003 250); /* rgb(175 176 177) text  */
 
-  /* Lighter indigo for dark mode contrast (~ #7895d4) */
-  --color-primary: oklch(72% 0.11 264);
+  /* Chirpy dark link blue rgb(138 180 248) */
+  --color-primary: oklch(79% 0.08 250);
   --color-primary-content: oklch(15% 0.015 264);
 
   --color-secondary: oklch(75% 0.09 200);
@@ -142,6 +142,32 @@
   --font-heading:
     var(--font-lato), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: var(--font-jetbrains-mono), 'SF Mono', 'Cascadia Code', ui-monospace, monospace;
+
+  /* ---- Chirpy 7.x typography tokens (light defaults) ---- */
+  --color-heading: oklch(29.5% 0 0); /* #2a2a2a heading color          */
+  --color-text-muted: oklch(57% 0 0); /* #757575 muted text             */
+  --color-link-underline: oklch(89% 0.005 250); /* #dee2e6 link underline    */
+  --color-link-hover: oklch(57% 0.16 42); /* #d2603a orange hover (both)  */
+  --color-card-hover: oklch(89% 0 0); /* #e2e2e2 card hover overlay      */
+  --color-card-shadow: oklch(46% 0 0 / 5%) 0 2px 6px 0, oklch(82% 0.005 264 / 15%) 0 0 0 1px;
+  --color-blockquote-border: oklch(94% 0 0); /* #eeeeee blockquote left    */
+  --color-blockquote-text: oklch(57% 0 0); /* #757575 blockquote text     */
+  --color-tb-border: oklch(92.5% 0 0); /* #eaeaea table row border       */
+  --color-tb-odd: oklch(99% 0.002 250); /* #fbfcfd odd row bg           */
+  --color-inline-code-text: oklch(39% 0 0); /* #3a3a3a inline code text   */
+  --color-inline-code-bg: oklch(20% 0.005 264 / 5%); /* rgb(25 25 28 / 5%)    */
+  --color-paginator-active: oklch(97% 0.003 250); /* #f6f8fa current page bg  */
+
+  /* ---- Chirpy 7.x prompt colors (light defaults) ---- */
+  --color-prompt-text: rgb(46 46 46 / 77%);
+  --color-prompt-tip-bg: rgb(123 247 144 / 20%);
+  --color-prompt-tip-icon: #03b303;
+  --color-prompt-info-bg: #e1f5fe;
+  --color-prompt-info-icon: #0070cb;
+  --color-prompt-warning-bg: rgb(255 243 205);
+  --color-prompt-warning-icon: #ef9c03;
+  --color-prompt-danger-bg: rgb(248 215 218 / 56%);
+  --color-prompt-danger-icon: #df3c30;
 }
 
 [data-theme='chirpy-dark'] {
@@ -149,6 +175,32 @@
   --color-sidebar-to: oklch(17% 0.005 264);
   --color-sidebar-text: oklch(75% 0.01 264);
   --color-sidebar-muted: oklch(55% 0.012 264);
+
+  /* ---- Chirpy 7.x typography tokens (dark overrides) ---- */
+  --color-heading: oklch(82% 0 0); /* #cccccc                       */
+  --color-text-muted: oklch(61% 0 0); /* #868686                     */
+  --color-link-underline: oklch(51% 0.06 250); /* rgb(82 108 150)      */
+  --color-link-hover: oklch(57% 0.16 42); /* #d2603a (same both)      */
+  --color-card-hover: oklch(40% 0.01 250); /* #464d51                 */
+  --color-card-shadow: oklch(14% 0 0 / 72%) 0 6px 18px 0, oklch(60% 0.005 264 / 24%) 0 0 0 1px;
+  --color-blockquote-border: oklch(43% 0 0); /* rgb(66 66 66)            */
+  --color-blockquote-text: oklch(61% 0 0); /* #868686                  */
+  --color-tb-border: oklch(20% 0.003 264); /* #252526                  */
+  --color-tb-odd: oklch(20% 0.003 264); /* #252526 odd row bg         */
+  --color-inline-code-text: oklch(72% 0 0); /* #b0b0b0                 */
+  --color-inline-code-bg: oklch(100% 0 0 / 5%); /* rgb(255 255 255 / 5%)   */
+  --color-paginator-active: oklch(28% 0.003 264); /* #2e2e2e              */
+
+  /* ---- Chirpy 7.x prompt colors (dark overrides) ---- */
+  --color-prompt-text: rgb(216 212 212 / 75%);
+  --color-prompt-tip-bg: rgb(22 60 36 / 64%);
+  --color-prompt-tip-icon: rgb(15 164 15 / 81%);
+  --color-prompt-info-bg: rgb(7 59 104 / 80%);
+  --color-prompt-info-icon: #0075d1;
+  --color-prompt-warning-bg: rgb(90 69 3 / 88%);
+  --color-prompt-warning-icon: rgb(255 165 0 / 80%);
+  --color-prompt-danger-bg: rgb(86 28 8 / 80%);
+  --color-prompt-danger-icon: #cd0202;
 }
 
 /* ---------- Base layer ---------- */
@@ -384,21 +436,39 @@
     border-left-color: var(--color-primary);
   }
 
-  /* Post card — horizontal Chirpy card */
+  /* Post card — Chirpy card: white bg + box-shadow (no border), hover grey overlay */
   .chirpy-card {
-    @apply border-base-300 bg-base-100 mb-5 overflow-hidden rounded-md border transition hover:-translate-y-0.5 hover:shadow-[0_2px_4px_-1px_rgba(0,0,0,0.05),0_4px_12px_rgba(0,0,0,0.08)];
+    @apply mb-5 overflow-hidden rounded-[0.625rem] transition;
+    background: var(--color-base-100);
+    box-shadow: var(--color-card-shadow);
+    border: 0;
   }
   .chirpy-card-link {
-    @apply grid grid-cols-1 gap-0 md:grid-cols-12;
+    @apply relative grid grid-cols-1 gap-0 md:grid-cols-12;
   }
   /* Image cards can be fixed-size (default Chirpy behavior) or dynamic
      based on `SITE.dynamicPostCardHeight`. */
   .chirpy-card-link.has-image {
     @apply md:grid-cols-12;
   }
+  /* Chirpy hover: semi-transparent grey overlay fades in (no translate) */
+  .chirpy-card-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.625rem;
+    background-color: var(--color-card-hover);
+    opacity: 0;
+    transition: opacity 0.35s ease-in-out;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .chirpy-card-link:hover::before {
+    opacity: 0.3;
+  }
 
   .chirpy-card-body {
-    @apply flex min-w-0 flex-col p-4 sm:p-5 md:col-span-7 md:p-6;
+    @apply relative z-[2] flex min-w-0 flex-col p-4 md:col-span-7 md:p-7;
   }
   .chirpy-card-body.full {
     @apply md:col-span-12;
@@ -406,12 +476,13 @@
   .chirpy-card-link.no-image .chirpy-card-body {
     @apply md:p-5;
   }
-  /* Title and description gain line-clamps so a very long title (or a
-     verbose description) cannot push the card past the fixed height. */
+  /* Chirpy card title: 1.25rem, weight 400, heading color */
   .chirpy-card-title {
-    @apply text-base-content/90 mt-0 text-lg leading-snug tracking-tight sm:text-[1.3rem];
+    @apply mt-0 leading-snug tracking-tight;
+    color: var(--color-heading);
     font-family: var(--font-heading);
     font-weight: 400;
+    font-size: 1.25rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -419,7 +490,18 @@
     overflow: hidden;
   }
   .chirpy-card-title.compact {
-    @apply md:text-[1.25rem];
+    font-size: 1.25rem;
+  }
+  /* Chirpy card description: muted color, 1.08rem, line-height 1.5 */
+  .chirpy-card-desc {
+    color: var(--color-text-muted);
+    font-size: 1.08rem;
+    line-height: 1.5;
+  }
+  /* Chirpy card meta: 0.85rem, muted color */
+  .chirpy-card-meta {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
   }
   @media (min-width: 768px) {
     .chirpy-card-link.has-image.dynamic-size .chirpy-card-title {
@@ -449,35 +531,64 @@
   .prose-chirpy {
     @apply text-base-content;
     line-height: 1.75;
-    font-size: 1.0625rem;
+    font-size: 1.08rem;
+    overflow-wrap: break-word;
+  }
+  @media (min-width: 1280px) {
+    .prose-chirpy {
+      font-size: 1.03rem;
+    }
   }
 
   .prose-chirpy h1,
   .prose-chirpy h2,
   .prose-chirpy h3,
-  .prose-chirpy h4 {
-    @apply text-base-content scroll-mt-24 font-semibold tracking-tight;
+  .prose-chirpy h4,
+  .prose-chirpy h5 {
+    @apply scroll-mt-24 tracking-tight;
+    color: var(--color-heading);
+    font-weight: 400; /* Chirpy: headings are NOT bold (Lato weight 400) */
   }
   .prose-chirpy h1 {
-    @apply mt-8 mb-4 text-3xl;
+    @apply mt-8 mb-4;
+    font-size: 2rem;
   }
   .prose-chirpy h2 {
-    @apply border-base-300 mt-10 mb-4 border-b pb-2 text-2xl;
+    @apply mt-10 mb-5;
+    font-size: 1.54rem;
   }
   .prose-chirpy h3 {
-    @apply mt-8 mb-3 text-xl;
+    @apply mt-8 mb-4;
+    font-size: 1.36rem;
   }
   .prose-chirpy h4 {
-    @apply mt-6 mb-2 text-lg;
+    @apply mt-8 mb-4;
+    font-size: 1.18rem;
+  }
+  .prose-chirpy h5 {
+    @apply mt-6 mb-3;
+    font-size: 1.05rem;
   }
   .prose-chirpy p {
     @apply my-4;
   }
+  /* Chirpy links: border-bottom (not underline), hover turns orange */
   .prose-chirpy a:not(.heading-anchor) {
-    @apply text-primary decoration-primary/30 hover:decoration-primary underline underline-offset-2;
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-link-underline);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .prose-chirpy a:not(.heading-anchor):hover {
+    color: var(--color-link-hover);
+    border-bottom-color: var(--color-link-hover);
   }
   .prose-chirpy a.heading-anchor {
-    @apply text-inherit no-underline;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: none;
   }
   .prose-chirpy ul {
     @apply my-4 list-disc pl-6;
@@ -485,25 +596,36 @@
   .prose-chirpy ol {
     @apply my-4 list-decimal pl-6;
   }
+  /* Chirpy blockquote: 2px left border, grey text, no background */
   .prose-chirpy blockquote {
-    @apply border-primary/50 bg-base-200 text-base-content/80 my-6 rounded-r-sm border-l-4 px-4 py-2 italic;
+    @apply mt-2 mb-4 pl-4;
+    border-left: 2px solid var(--color-blockquote-border);
+    color: var(--color-blockquote-text);
+  }
+  .prose-chirpy blockquote > p:last-child {
+    margin-bottom: 0;
   }
   .prose-chirpy hr {
-    @apply border-base-300 my-10;
+    @apply my-10;
+    border-color: var(--color-base-300);
+    opacity: 1;
   }
   .prose-chirpy code:not(pre code) {
-    @apply bg-base-200 text-accent rounded px-1.5 py-0.5 font-mono text-[0.92em];
+    color: var(--color-inline-code-text);
+    background-color: var(--color-inline-code-bg);
+    @apply rounded px-1 py-0.5 text-[0.85em];
     font-family: var(--font-mono);
   }
   .prose-chirpy pre {
-    @apply border-base-300 relative my-6 overflow-x-auto rounded-md border p-4 text-sm leading-relaxed;
+    @apply relative my-6 overflow-x-auto rounded-md p-4 text-sm leading-relaxed;
     font-family: var(--font-mono);
   }
   .prose-chirpy pre code {
     @apply bg-transparent p-0;
   }
+  /* Chirpy: images have NO border */
   .prose-chirpy img {
-    @apply border-base-300 mx-auto my-6 rounded-md border;
+    @apply mx-auto my-6 rounded-md;
     max-width: 100%;
     height: auto;
   }
@@ -515,7 +637,7 @@
   }
   .prose-chirpy figure > img,
   .prose-chirpy figure > picture > img {
-    @apply mx-auto rounded-md border-0;
+    @apply mx-auto rounded-md;
     margin-top: 0;
     margin-bottom: 0;
     max-width: 100%;
@@ -523,7 +645,8 @@
     display: block;
   }
   .prose-chirpy figcaption {
-    @apply text-base-content/70 mt-2 text-center text-xs italic;
+    @apply mt-2 text-center text-xs italic;
+    color: var(--color-text-muted);
   }
 
   /* Video embeds — responsive 16:9 iframe container */
@@ -552,20 +675,39 @@
     height: auto;
     object-fit: cover;
   }
-  .prose-chirpy table {
-    @apply my-6 w-full border-collapse text-left text-sm;
+  /* Chirpy tables: border-bottom only, striped rows, overflow wrapper */
+  .prose-chirpy .table-wrapper {
+    @apply my-6 overflow-x-auto;
   }
-  .prose-chirpy table th,
-  .prose-chirpy table td {
-    @apply border-base-300 border px-3 py-2;
+  .prose-chirpy table {
+    @apply w-full border-collapse text-left text-sm;
+    min-width: 100%;
+    border-spacing: 0;
   }
   .prose-chirpy table thead {
-    @apply bg-base-200;
+    border-bottom: 2px solid color-mix(in oklab, var(--color-base-content) 20%, transparent);
+  }
+  .prose-chirpy table th {
+    @apply px-3 py-2;
+  }
+  .prose-chirpy table td {
+    @apply px-3 py-2;
+    border-bottom: 1px solid var(--color-tb-border);
+  }
+  .prose-chirpy table tbody tr:nth-child(odd) {
+    background-color: var(--color-tb-odd);
+  }
+  .prose-chirpy table tbody tr:nth-child(even) {
+    background-color: transparent;
   }
 
-  /* Callouts (.callout.callout-info / -success / -warning / -error) */
+  /* Callouts (Callout.astro component — separate from remark-alert) */
   .callout {
-    @apply my-6 rounded-md border-l-4 px-4 py-3;
+    @apply my-6 rounded-[0.625rem] px-4 py-3;
+    border-left: 0;
+    position: relative;
+    padding-left: 3rem;
+    border-radius: 0.625rem;
   }
   .callout-info {
     @apply border-info bg-info/10;
@@ -580,15 +722,11 @@
     @apply border-error bg-error/10;
   }
 
-  /* Alert plugin: only add space when alerts are stacked together. */
-  .prose-chirpy div[role='alert'] + div[role='alert'] {
-    @apply mt-4;
-  }
-
-  /* Mermaid diagrams: centered, scrollable on small screens. */
+  /* Mermaid diagrams: centered (Chirpy uses text-align: center). */
   .prose-chirpy .mermaid {
-    @apply my-6 flex justify-center overflow-x-auto;
-    /* Ensure mermaid SVGs respect the diagram's intrinsic dimensions */
+    margin-block: 1.5rem;
+    text-align: center;
+    overflow-x: auto;
   }
   .prose-chirpy .mermaid svg {
     max-width: 100%;
@@ -613,7 +751,10 @@
     @apply bg-transparent p-0;
   }
   .prose-chirpy :not(pre) > code {
-    @apply text-primary bg-base-200 rounded px-1.5 py-0.5 text-[0.9em] font-medium;
+    color: var(--color-inline-code-text);
+    background-color: var(--color-inline-code-bg);
+    @apply rounded px-1 py-0.5 text-[0.9em];
+    font-family: var(--font-mono);
   }
 }
 
@@ -705,10 +846,18 @@
   }
 }
 
-/* ---------- Trending tag pill (Chirpy outline-primary) ---------- */
+/* ---------- Trending tag pill (Chirpy neutral outline) ---------- */
 @layer components {
   .post-tag {
-    @apply border-primary/60 bg-base-100 text-primary hover:bg-primary hover:text-primary-content inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition;
+    @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition;
+    border-color: var(--color-link-underline); /* #dee2e6 light */
+    color: var(--color-text-muted);
+    background-color: transparent;
+  }
+  .post-tag:hover {
+    background-color: var(--color-card-hover); /* #e2e2e2 light */
+    border-color: var(--color-card-hover);
+    color: var(--color-base-content);
   }
 }
 
@@ -750,6 +899,121 @@
   .back-to-top.is-visible {
     opacity: 1;
     pointer-events: auto;
+  }
+}
+
+/* ---------- Chirpy text-style pagination ---------- */
+@layer components {
+  .chirpy-pagination {
+    @apply flex items-center justify-center gap-2 py-8;
+    font-family: var(--font-heading);
+  }
+  .chirpy-pagination__item {
+    @apply inline-flex items-center justify-center rounded-lg px-2 py-1 text-sm transition;
+    color: var(--color-base-content);
+    background-color: transparent;
+    border: 0;
+  }
+  .chirpy-pagination__item:not(.is-active):not(:disabled):hover {
+    box-shadow: inset 0 0 0 1px var(--color-base-300);
+  }
+  .chirpy-pagination__item.is-active {
+    background-color: var(--color-paginator-active);
+    font-weight: 600;
+  }
+  .chirpy-pagination__item:disabled {
+    color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .chirpy-pagination__ellipsis {
+    @apply inline-flex items-center px-1 text-sm;
+    color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
+  }
+  /* Mobile: only show prev/next arrows + "1 / N" indicator */
+  .chirpy-pagination__index {
+    @apply text-sm;
+    color: color-mix(in oklab, var(--color-base-content) 65%, transparent);
+  }
+  @media (max-width: 849px) {
+    .chirpy-pagination__item:not(:first-child):not(:last-child) {
+      display: none;
+    }
+    .chirpy-pagination__index {
+      display: inline-flex;
+    }
+  }
+  @media (min-width: 850px) {
+    .chirpy-pagination__index {
+      display: none;
+    }
+  }
+}
+
+/* ---------- Post page title (outside .prose-chirpy) ---------- */
+@layer components {
+  .post-title {
+    color: var(--color-heading);
+    font-family: var(--font-heading);
+    font-weight: 400; /* Chirpy: headings are NOT bold */
+  }
+}
+
+/* ---------- Chirpy post navigation (prev/next pill) ---------- */
+@layer components {
+  .chirpy-post-nav {
+    @apply flex justify-between gap-0;
+  }
+  .chirpy-post-nav__btn {
+    @apply relative flex flex-col justify-center px-4 py-3;
+    width: 50%;
+    border: 1px solid var(--color-base-300);
+    color: var(--color-primary);
+    transition: all 0.35s ease-in-out;
+    background-color: transparent;
+  }
+  .chirpy-post-nav__btn:first-child {
+    border-radius: 0.625rem 0 0 0.625rem;
+    margin-right: -1px; /* collapse shared middle border */
+  }
+  .chirpy-post-nav__btn:last-child {
+    border-radius: 0 0.625rem 0.625rem 0;
+    @apply items-end text-right;
+  }
+  /* Chirpy hover: fill with primary bg + white text + white label */
+  .chirpy-post-nav__btn:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-content);
+    border-color: var(--color-primary);
+  }
+  .chirpy-post-nav__btn:hover::before {
+    color: var(--color-primary-content);
+  }
+  .chirpy-post-nav__btn.is-disabled {
+    color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+    cursor: not-allowed;
+    pointer-events: none;
+    background: none;
+    border-color: var(--color-base-300);
+  }
+  .chirpy-post-nav__btn.is-disabled::before {
+    color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+  }
+  /* Small uppercase label via ::before from data-label attr */
+  .chirpy-post-nav__btn::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-family: var(--font-heading);
+    letter-spacing: 0.05em;
+    transition: all 0.35s ease-in-out;
+  }
+  .chirpy-post-nav__title {
+    @apply mt-1 text-base leading-snug;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
   }
 }
 
@@ -863,4 +1127,93 @@
 [data-search-input]::-webkit-search-decoration {
   -webkit-appearance: none;
   appearance: none;
+}
+
+/* ---------- Chirpy prompt-style alerts (UNLAYERED — beats daisyUI .alert) ----------
+ * daisyUI's .alert component lives in a cascade layer that comes after our
+ * @layer components, so layered overrides lose. Placing these rules outside
+ * any @layer gives them higher priority than all layered styles.
+ * Mirrors Chirpy 7.x blockquote[class^='prompt-']: icon absolutely
+ * positioned in a 3rem left column, soft pastel bg, dark text.
+ */
+.prose-chirpy div[role='alert'] {
+  margin-block: 1.5rem;
+  border-radius: 0.625rem; /* 10px = $radius-lg */
+  position: relative;
+  display: block;
+  border: 0;
+  padding: 1rem 1rem 1rem 3rem;
+  color: var(--color-prompt-text);
+  font-size: 1rem;
+  line-height: 1.6;
+  gap: 0;
+}
+.prose-chirpy div[role='alert'] > svg {
+  position: absolute;
+  left: 0.75rem; /* center 1.5rem icon in 3rem left-padding area */
+  top: 1rem; /* align icon top with text content start (padding-top) */
+}
+/* Type-specific backgrounds + icon colors */
+.prose-chirpy div[role='alert'].alert-info {
+  background-color: var(--color-prompt-info-bg);
+}
+.prose-chirpy div[role='alert'].alert-info > svg {
+  color: var(--color-prompt-info-icon);
+}
+.prose-chirpy div[role='alert'].alert-success {
+  background-color: var(--color-prompt-tip-bg);
+}
+.prose-chirpy div[role='alert'].alert-success > svg {
+  color: var(--color-prompt-tip-icon);
+}
+.prose-chirpy div[role='alert'].alert-warning {
+  background-color: var(--color-prompt-warning-bg);
+}
+.prose-chirpy div[role='alert'].alert-warning > svg {
+  color: var(--color-prompt-warning-icon);
+}
+.prose-chirpy div[role='alert'].alert-error {
+  background-color: var(--color-prompt-danger-bg);
+}
+.prose-chirpy div[role='alert'].alert-error > svg {
+  color: var(--color-prompt-danger-icon);
+}
+/* Override daisyUI solid alert-content colors */
+.prose-chirpy div[role='alert'] h3,
+.prose-chirpy div[role='alert'] span,
+.prose-chirpy div[role='alert'] > div {
+  color: var(--color-prompt-text);
+  background: transparent;
+}
+.prose-chirpy div[role='alert'] h3 {
+  font-weight: 700;
+}
+/* Tighten paragraph spacing inside alerts */
+.prose-chirpy div[role='alert'] p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+.prose-chirpy div[role='alert'] p:last-child {
+  margin-bottom: 0;
+}
+.prose-chirpy div[role='alert'] ul,
+.prose-chirpy div[role='alert'] ol {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+.prose-chirpy div[role='alert'] li:last-child {
+  margin-bottom: 0;
+}
+/* alert-soft / alert-outline / alert-dash variants */
+.prose-chirpy div[role='alert'].alert-soft {
+  background-color: color-mix(in oklab, var(--color-prompt-info-bg) 50%, transparent);
+}
+.prose-chirpy div[role='alert'].alert-outline,
+.prose-chirpy div[role='alert'].alert-dash {
+  background-color: transparent;
+  border: 1px solid color-mix(in oklab, var(--color-base-content) 15%, transparent);
+}
+/* Alert plugin: only add space when alerts are stacked together. */
+.prose-chirpy div[role='alert'] + div[role='alert'] {
+  margin-top: 1rem;
 }

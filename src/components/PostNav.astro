@@ -2,7 +2,6 @@
 import type { Locale } from '../config';
 import { useTranslations } from '../i18n/utils';
 import { type Post, postPath } from '../utils/posts';
-import { Icon } from 'astro-icon/components';
 
 interface Props {
   prev?: Post;
@@ -12,59 +11,30 @@ interface Props {
 
 const { prev, next, locale } = Astro.props;
 const t = useTranslations(locale);
+
+// Chirpy semantics: "prev" = older post (left), "next" = newer post (right)
+const prevLabel = t('post.previous');
+const nextLabel = t('post.next');
 ---
 
-<nav
-  aria-label="Post navigation"
-  class="border-base-300 mt-10 grid gap-4 border-t pt-6 sm:grid-cols-2"
->
+<nav class="chirpy-post-nav mt-10" aria-label="Post navigation">
   {
     prev ? (
-      <a
-        href={postPath(prev)}
-        rel="prev"
-        class="card bg-base-200 hover:bg-base-300 transition-colors"
-      >
-        <div class="card-body">
-          <p class="text-base-content/70 text-xs tracking-wide uppercase">
-            <Icon
-              name="lucide:arrow-up"
-              width={12}
-              height={12}
-              class="inline -rotate-90 align-baseline"
-            />
-            {t('post.previous')}
-          </p>
-          <p class="font-semibold">{prev.data.title}</p>
-        </div>
+      <a href={postPath(prev)} rel="prev" class="chirpy-post-nav__btn" data-label={prevLabel}>
+        <span class="chirpy-post-nav__title">{prev.data.title}</span>
       </a>
     ) : (
-      <span aria-hidden="true" class="hidden sm:block" />
+      <span class="chirpy-post-nav__btn is-disabled" data-label={prevLabel} aria-hidden="true" />
     )
   }
 
   {
     next ? (
-      <a
-        href={postPath(next)}
-        rel="next"
-        class="card bg-base-200 hover:bg-base-300 transition-colors sm:text-right"
-      >
-        <div class="card-body">
-          <p class="text-base-content/70 text-xs tracking-wide uppercase">
-            {t('post.next')}
-            <Icon
-              name="lucide:arrow-up"
-              width={12}
-              height={12}
-              class="inline rotate-90 align-baseline"
-            />
-          </p>
-          <p class="font-semibold">{next.data.title}</p>
-        </div>
+      <a href={postPath(next)} rel="next" class="chirpy-post-nav__btn" data-label={nextLabel}>
+        <span class="chirpy-post-nav__title">{next.data.title}</span>
       </a>
     ) : (
-      <span aria-hidden="true" class="hidden sm:block" />
+      <span class="chirpy-post-nav__btn is-disabled" data-label={nextLabel} aria-hidden="true" />
     )
   }
 </nav>

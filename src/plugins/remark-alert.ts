@@ -41,6 +41,8 @@
 import { createRequire } from 'node:module';
 import { getIconData, iconToSVG } from '@iconify/utils';
 import type { IconifyJSON } from '@iconify/types';
+import { micromark } from 'micromark';
+import { gfm, gfmHtml } from 'micromark-extension-gfm';
 
 // createRequire lets us load JSON files (CJS-compatible) from an ESM module.
 const _require = createRequire(import.meta.url);
@@ -87,6 +89,17 @@ function escapeHtml(str: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+/** Parse a markdown string to HTML (block-level, supports GFM). */
+function markdownToHtml(str: string): string {
+  return micromark(str, { extensions: [gfm()], htmlExtensions: [gfmHtml()] });
+}
+
+/** Parse inline markdown (strips the outer <p> wrapper for inline use). */
+function markdownToInlineHtml(str: string): string {
+  const html = micromark(str, { extensions: [gfm()], htmlExtensions: [gfmHtml()] });
+  return html.replace(/^<p>([\s\S]*)<\/p>\s*$/, '$1');
 }
 
 /**
@@ -196,16 +209,11 @@ function buildAlertHtml(opts: AlertOptions): string {
   let content = '';
 
   if (hasTitle) {
-    // Title + optional description — use the daisyUI nested-div structure.
-    // Override .prose-chirpy h3 margins with inline styles so heading
-    // spacing from the theme does not bleed into the alert box.
-    const titleHtml = `<h3 class="font-bold" style="margin:0;font-size:1rem;font-weight:700;">${escapeHtml(opts.title!)}</h3>`;
-    const descHtml = opts.description
-      ? `<div class="text-xs">${escapeHtml(opts.description)}</div>`
-      : '';
+    const titleHtml = `<h3 style="margin:0 0 0.25rem;font-size:1rem;font-weight:700;">${markdownToInlineHtml(opts.title!)}</h3>`;
+    const descHtml = opts.description ? `<div>${markdownToHtml(opts.description)}</div>` : '';
     content = `<div>${titleHtml}${descHtml}</div>`;
   } else if (opts.description) {
-    content = `<span>${escapeHtml(opts.description)}</span>`;
+    content = `<div>${markdownToHtml(opts.description)}</div>`;
   }
 
   return `<div role="alert" class="${classes.join(' ')}">${iconSvg}${content}</div>`;
